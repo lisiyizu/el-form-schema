@@ -43,7 +43,7 @@ export default function(createElement, value, data) {
     createElement(
       "el-checkbox-group",
       {
-        style: { display: 'inline-flex', ...style },
+        style: { display: data.inline ? 'inline-flex' : '', ...style },
         props: {
           value,
           ...attrs,

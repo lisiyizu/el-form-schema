@@ -96,7 +96,7 @@ export default function(createElement, value, data) {
   // 设置 uuid_key 作为 rowKey
   listValues.forEach(item => {
     if (!item.uuid_key) {
-      this.$set(item, "uuid_key", `${data.name}_${Math.random() .toString(36)  .substring(2)}`);
+      this.$set(item, "uuid_key", Math.random().toString(36).substring(2));
     }
   });
 

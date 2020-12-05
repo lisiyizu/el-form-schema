@@ -1,0 +1,6 @@
+node_modules
+rollup.config.js
+.babelrc
+.vscode
+/docs/
+/vuepressdocs/

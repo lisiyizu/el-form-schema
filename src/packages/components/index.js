@@ -25,6 +25,10 @@ export const Component = (createElement, vm, key, item) => {
   // 新增 name 属性（目的：为了做给复杂类型(object|array)用来遍历嵌套 el-form-item 的时候设置 prop 值）
   item.name = key;
 
+  // 支持diabled的表达式
+  if (item.props && typeof item.props.disabled === 'string') item.props.disabledExpression = item.props.disabled;
+  if (item.attrs && typeof item.attrs.disabled === 'string') item.props.disabledExpression = item.attrs.disabled;
+
   // eslint-disable-next-line no-unused-vars
   const { formValues, model } = vm;
 
@@ -43,9 +47,9 @@ export const Component = (createElement, vm, key, item) => {
         );
         on.changeExt.call(vm, value, model);
       }
-      // on : { changeModel(val,item) { }
-      if (on.changeModel) {
-        on.changeModel.call(vm, { $item: eval(`vm.formValues.${item.name.slice(0,item.name.lastIndexOf("."))} || vm.formValues`), $index: item.$index });
+      // on : { changeUpdateModel(val,item) { }
+      if (on.changeUpdateModel) {
+        on.changeUpdateModel.call(vm, { $model: vm.formValues, $item: eval(`vm.formValues.${item.name.slice(0,item.name.lastIndexOf("."))}`), $index: item.$index });
       }
     }
   });
@@ -53,8 +57,7 @@ export const Component = (createElement, vm, key, item) => {
   // 开启debug模式
   if (
     vm.debug &&
-    typeof item.slot === "object" &&
-    !["$tab", "$array"].includes(tag)
+    typeof item.slot === "object" && !["tab", "array", "table"].includes(tag)
   ) {
     item.slot.after = key;
   }
@@ -95,12 +98,12 @@ export const Component = (createElement, vm, key, item) => {
     vifBool = compilerExpressionString(item.vif);
   }
   // 编译 props.disabled 表达式字符串
-  if (item.props && typeof item.props.disabled === "string") {
-    item.props.disabled = compilerExpressionString(item.props.disabled);
+  if (item.props && (typeof item.props.disabledExpression === "string")) {
+    item.props.disabled = compilerExpressionString(item.props.disabledExpression);
   }
   // 编译 attrs.disabled 表达式字符串
-  if (item.attrs && typeof item.attrs.disabled === "string") {
-    item.attrs.disabled = compilerExpressionString(item.attrs.disabled);
+  if (item.attrs && (typeof item.attrs.disabledExpression === "string")) {
+    item.attrs.disabled = compilerExpressionString(item.attrs.disabledExpression);
   }
 
   // 收集vif=false的隐藏字段（目的：后续为了用来移除验证）

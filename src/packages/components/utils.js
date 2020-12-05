@@ -28,6 +28,7 @@ const slotComponent = function(createElement, value, data) {
             props: slotItem.props,
             attrs: slotItem.props,
             style: slotItem.style,
+            class: slotItem.class,
             on: slotItem.on
           },
           typeof slotItem.slot === "string" ? slotItem.slot : ""

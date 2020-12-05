@@ -36,7 +36,7 @@ export default {
 		},
 		inline: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 		labelSuffix: {
 			type: String,
@@ -76,7 +76,6 @@ export default {
 	data () {
 		return {
 			isWatching: false,
-			prevNode: '',
 			validiteFieldSet: new Set(),
 			formValues: {}
 		}
@@ -173,6 +172,15 @@ export default {
 						component.default = component.default || '';
 					}
 					break;
+				case 'el-switch':
+					component.default = component.default || false;
+					break;
+				case 'el-cascader':
+					component.default = component.default || [];
+					break;
+				case 'el-slider':
+					component.default = component.default || 0;
+					break;
 				case 'el-time-picker':
 				case 'el-time-select':
 					component.props = Object.assign({ placeholder: '请选择时间', startPlaceholder: '开始时间', endPlaceholder: '结束时间', valueFormat: 'HH:mm:ss' }, component.props);
@@ -183,12 +191,12 @@ export default {
 					component.props.placeholder = component.props.placeholder || `请选择${component.label}`;
 					component.keys = Object.assign({ label: "label", value: "value" }, component.keys || {});
 					if (component.tag === 'el-checkbox') {
-						component.default = [];
+						component.default = component.default || [];
 						component.checkAll = component.checkAll || []
 						component.checkAllDisabled = component.checkAllDisabled || false
 					}
 					if (component.props.multiple) {
-						component.default = [];
+						component.default = component.default || [];
 					}
 					break;
 				case 'object':
@@ -214,7 +222,6 @@ export default {
 		*/
 		initComponentList (schema) {
 			if (schema.components) {
-				this.prevNode = ''
 				for (const _key in schema.components) {
 					if (!('inline' in schema.components[_key])) {
 						this.$set(schema.components[_key], 'inline', schema.inline);
@@ -224,12 +231,10 @@ export default {
 					} else {
 						this.initComponentDefaultProps(schema.components[_key]);
 					}
-					this.prevNode = schema.components[_key];
 				}
 			} else {
 				this.initComponentDefaultProps(schema);
 			}
-			this.prevNode = schema; 
 		},
 		/**
 		 * @description: 递归遍历schema下所有组件的v-model的key
@@ -261,24 +266,27 @@ export default {
 					break;
 				default:
 					if (schema.isInput) {
-						if (schema.tag === 'el-select' && schema.props && schema.props.multiple) {
-							values[key] = []
-						}
-						if (schema.tag === 'el-checkbox') {
-							values[key] = schema.default || []
-						} else {
-							values[key] = schema.default || ''
-						}
+						values[key] = this.setDefaultValue(schema);
 						// 判断slot的情况
 						if (typeof schema.slot === 'object') {
 							Object.keys(schema.slot).forEach(key => {
 								const obj = schema.slot[key];
 								if (obj instanceof Object && obj['vmodel']) {
-									values[obj.vmodel] = obj.default || ''
+									values[obj.vmodel] =  this.setDefaultValue(obj);
 								}
 							})
 						}
 					}
+			}
+		},
+		/**
+		 * @description: 设置默认值
+		*/
+		setDefaultValue (item) {
+			if (item.default!==undefined && item.default!==null) {
+				return  item.default;
+			} else  {
+				return "";
 			}
 		},
 		/**

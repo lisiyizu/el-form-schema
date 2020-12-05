@@ -1,16 +1,25 @@
 {
-  "name": "el-form-schema",
+  "name": "@lisiyizu/el-form-schema",
   "version": "0.1.0",
+  "main": "dist/index.js",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "docs:dev": "vuepress dev vuepressdocs",
+    "docs:build": "vuepress build vuepressdocs"
   },
   "dependencies": {
-    "core-js": "^3.7.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-runtime": "^6.26.0",
+    "core-js": "^2.6.12",
     "element-ui": "^2.14.1",
-    "vue": "^2.6.12"
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.0",
+    "vue": "^2.6.12",
+    "vuepress": "^1.7.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.8",

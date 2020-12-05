@@ -12,6 +12,7 @@ export default function(createElement, value, data) {
   const { model } = this;
   const componentsList = Object.keys(data.components);
   let isStartInline = false;
+  // data.style = data.style || { width: data.type ? '100%' : '', display: 'grid' }
   const allComponent = componentsList.map((key, index) => {
     data.components[key].$index = data.$index;
     data.components[key].labelWidth = data.labelWidthComponents || "0px";
@@ -59,7 +60,7 @@ export default function(createElement, value, data) {
       {
         props: { required: data.required },
         class: { "el-form--inline": data.inline },
-        style: { marginBottom: data.inline ? "-22px" : "", ...data.style }
+        style: { marginBottom: data.inline && !data.type ? "-22px" : "", ...data.style }
       },
       nodes
     ),

@@ -13,8 +13,15 @@ export default function(createElement, value, data) {
   // eslint-disable-next-line no-unused-vars
   const { formValues } = this;
   const listValues = eval(`formValues.${data.name}`);
-  data.style = data.style || { marginBottom: listValues.length > 0 || data.minLimit > 0 ? '0px' : '' };
-  if (listValues && listValues.length > 0) {
+  console.log(listValues.length, data);
+  data.style = data.style || { marginBottom: listValues.length ? '0x' : '' }; 
+  if(!data.type && listValues.length) {
+    data.style.marginBottom = "0px";
+  } else {
+    data.style.marginBottom = '';
+  }
+  console.log(data.name, data)
+  if (listValues && listValues.length) {
     const componentCount = Object.keys(data.components).length;
     data.list = listValues.map((item, index) => {
       return Object.keys(data.components).map((key, kIndex) => {
@@ -188,9 +195,7 @@ export default function(createElement, value, data) {
         this.$set(
           listValues[index],
           "uuid_key",
-          data.name +
-            "_" +
-            Math.random()
+              Math.random()
               .toString(36)
               .substring(2)
         );
