@@ -7,7 +7,7 @@ module.exports = {
   dest: path.resolve(__dirname, "../../docs/"),
   markdown: { lineNumbers: true },
   themeConfig: {
-    repo: "lisyizu/el-form-schema",
+    repo: "lisiyizu/el-form-schema",
     docsDir: "vuepress",
     nav: [
       {
