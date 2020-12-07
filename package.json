@@ -1,13 +1,9 @@
 {
   "name": "@kummy/el-form-schema",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "author": "kummy",
   "license": "MIT",
-  "keywords": [
-    "vue",
-    "element-ui"
-  ],
   "scripts": {
     "release": "npm run build && npm run pub",
     "pub": "npm publish --access public",

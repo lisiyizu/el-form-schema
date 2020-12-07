@@ -134,7 +134,7 @@ export default {
 					operator: { props: { fixed: 'right' } },
 					components: {
 						input: { tag: 'el-input', column: { label: '测试1' }, style:{ width: '100'}, required: true},
-					  switch: { tag: 'el-switch', column: { width: '80px', align: 'right', label: '测试2' }, style:{ width: '100'} },
+						switch: { tag: 'el-switch', column: { width: '80px', align: 'right', label: '测试2' }, style:{ width: '100'} },
 						select1: { tag: 'el-select', column: { label: '测试3' },  style:{ width: '100'}, required: true, items: ['测试1', '测试2' ] },
 						select2: { tag: 'el-select', column: { label: '测试4' },  style:{ width: '100'}, required: true, items: ['测试1', '测试2' ] },
 						select3: { tag: 'el-select', column: { label: '测试5' }, style:{ width: '100'}, required: true, items: ['测试1', '测试2' ] }

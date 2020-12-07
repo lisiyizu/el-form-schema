@@ -102,7 +102,6 @@ export default  {
     setTimeout(()=>{
       this.schema.select.items = this.arrayData(10);
       this.schema.radio.items = this.arrayData(2);
-      this.schema.checkbox.items = this.arrayData(3);
     })
   }
 }

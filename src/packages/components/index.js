@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   customTags,
   slotComponent,
@@ -24,7 +25,6 @@ export const Component = (createElement, vm, key, item) => {
   if (item.props && typeof item.props.disabled === 'string') item.props.disabledExpression = item.props.disabled;
   if (item.attrs && typeof item.attrs.disabled === 'string') item.attrs.disabledExpression = item.attrs.disabled;
 
-  // eslint-disable-next-line no-unused-vars
   const { formValues, model } = vm;
 
   // 获取value
@@ -59,6 +59,7 @@ export const Component = (createElement, vm, key, item) => {
 
   // 编译表达式字符串
   const compilerExpressionString = condition => {
+    const expCondition = condition;
     if (typeof condition === "boolean" || condition === undefined) {
       // bool值vif
       return condition;
@@ -70,7 +71,8 @@ export const Component = (createElement, vm, key, item) => {
           condition = condition.replace("$index", $index || 0);
         }
         // vif 包含 $item
-        if (condition.includes("$item") && item.$item) {
+        if (condition.includes("$item")) {
+          item.$item = item.$item || {};
           condition = condition.replace(/(\$item)/g, "item.$item");
         }
         // vif 包含 $model
@@ -80,9 +82,9 @@ export const Component = (createElement, vm, key, item) => {
         // 执行eval
         return eval(condition);
       } catch (e) {
-        console.log(e);
+        console.error(e);
         // 阻止多级报错的情况，比如："$model.a.b.c"
-        console.log(`[condition](${condition})，存在问题`);
+        console.error(`表达式字符串：${expCondition}，可能存在问题～`);
       }
     }
   };
