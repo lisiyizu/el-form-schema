@@ -1,14 +1,24 @@
 import { Component } from "./index";
+import ArrayComponent from './array';
+import ObjectComponent from './object';
+import TableComponent from './table';
+import CardComponent from './card';
+import SlotComponent from './slot';
+import ElRadioComponent from './el-radio';
+import ElCheckboxComponent from './el-checkbox';
+import ElSelectComponent from './el-select';
 
 // 初始化自定义组件
-const customTags = {};
-const requireContext = require.context("./", true, /index\.js$/);
-requireContext.keys().map(key => {
-  const customTagName = key.replace(/^\.\/(.*)\/(.+)$/g, "$1");
-  if (customTagName && key != customTagName) {
-    customTags[customTagName] = requireContext(key).default;
-  }
-});
+const customTags = {
+  'array': ArrayComponent,
+  'object': ObjectComponent,
+  'table': TableComponent,
+  'card': CardComponent,
+  'slot': SlotComponent,
+  'el-radio': ElRadioComponent,
+  'el-checkbox': ElCheckboxComponent,
+  'el-select': ElSelectComponent
+};
 
 // 动态 slot 占位组件
 const slotComponent = function(createElement, value, data) {

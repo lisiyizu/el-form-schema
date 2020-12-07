@@ -14,11 +14,11 @@ export default  {
         area: { tag: 'el-select',  vif: '$model.region', items: ["B"], slot: { after: ' ' } },
         district: { tag: 'el-select', vif: '$model.area',  items: ["C"], slot: { after: ' ' } },
         switch: { tag: 'el-switch', default: false, label: '复选框' },
-        daterange: { tag: 'el-date-picker', vif: '$model.switch', label: '日期范围', inline: true, props: { type: 'date' } },
+        date: { tag: 'el-date-picker', vif: '$model.switch', label: '日期范围', inline: true, props: { type: 'date' } },
         timeselect: { 
           tag: 'el-time-select', 
           label: '固定时间点', 
-          vif: '$model.daterange',
+          vif: '$model.date',
           inline: true, 
           props: { 
             pickerOptions: {

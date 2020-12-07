@@ -1,7 +1,7 @@
-
-# Table [内置组件]
+# Table[内置组件]
 
 ## 初级
+  
 
 <demo-block>
 <example-table-demo1 slot="source"/>
@@ -10,6 +10,7 @@
 
 
 ## 中级
+  
 
 <demo-block>
 <example-table-demo2 slot="source"/>
@@ -18,6 +19,7 @@
 
 
 ## 高级
+  
 
 <demo-block>
 <example-table-demo3 slot="source"/>

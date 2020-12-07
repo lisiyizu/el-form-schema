@@ -108,12 +108,11 @@
     color: #d3dce6;
     cursor: pointer;
     position: relative;
-
     &.is-fixed {
       position: fixed;
       bottom: 0;
-      width: 718px;
-      z-index: 1;
+      width: 1080px;
+      z-index: 1080;
     }
     i {
       font-size: 16px;
@@ -140,7 +139,6 @@
       opacity: 0;
       transform: translateX(10px);
     }
-
     .control-button {
       line-height: 26px;
       position: absolute;

@@ -1,6 +1,4 @@
 /*
- * @Author: liwei
- * @Date: 2020-11-11 19:54:06
  * @Description: 单选组件
  */
 import { createElementBySlot } from "../utils";

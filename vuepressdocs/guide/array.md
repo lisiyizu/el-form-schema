@@ -1,7 +1,8 @@
 
-# Array [内置组件]
+# Array[内置组件]
 
 ## 初级
+  
 
 <demo-block>
 <example-array-demo1 slot="source"/>
@@ -10,6 +11,7 @@
 
 
 ## 中级
+  
 
 <demo-block>
 <example-array-demo2 slot="source"/>
@@ -18,6 +20,7 @@
 
 
 ## 高级
+  
 
 <demo-block>
 <example-array-demo3 slot="source"/>

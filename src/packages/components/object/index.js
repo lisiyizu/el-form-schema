@@ -1,18 +1,15 @@
 /*
- * @Author: liwei
- * @Date: 2020-11-11 19:54:06
- * @Description: [object]复杂组件
+ * @Description: object 组件
  */
 import { Component } from "../index";
 import CardComponent from "../card";
 import { createElementBySlot, fieldsetComponent, deepClone } from "../utils";
 
 export default function(createElement, value, data) {
-  // eslint-disable-next-line no-unused-vars
-  const { model } = this;
   const componentsList = Object.keys(data.components);
+  // eslint-disable-next-line no-unused-vars
+  const  { model } = this;
   let isStartInline = false;
-  // data.style = data.style || { width: data.type ? '100%' : '', display: 'grid' }
   const allComponent = componentsList.map((key, index) => {
     data.components[key].$index = data.$index;
     data.components[key].labelWidth = data.labelWidthComponents || "0px";

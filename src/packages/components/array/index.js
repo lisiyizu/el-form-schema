@@ -1,26 +1,22 @@
 /*
- * @Author: liwei
- * @Date: 2020-11-11 19:54:06
- * @Description: [array]复杂组件
+ * @Description: array 组件
  */
 import { Component } from "../index";
 import CardComponent from "../card";
 import { createElementBySlot, deepClone } from "../utils";
 
 export default function(createElement, value, data) {
-  data.slot = data.slot || {};
-  data.operator =  data.operator || {};
   // eslint-disable-next-line no-unused-vars
   const { formValues } = this;
   const listValues = eval(`formValues.${data.name}`);
-  console.log(listValues.length, data);
+  data.slot = data.slot || {};
+  data.operator =  data.operator || {};
   data.style = data.style || { marginBottom: listValues.length ? '0x' : '' }; 
   if(!data.type && listValues.length) {
     data.style.marginBottom = "0px";
   } else {
     data.style.marginBottom = '';
   }
-  console.log(data.name, data)
   if (listValues && listValues.length) {
     const componentCount = Object.keys(data.components).length;
     data.list = listValues.map((item, index) => {
@@ -93,7 +89,7 @@ export default function(createElement, value, data) {
             marginLeft: data.list.length === 0 || !data.inline ? "0px" : "20px"
           },
           on: {
-            click() {
+            click: () => {
               eval(
                 `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`
               );
@@ -104,8 +100,7 @@ export default function(createElement, value, data) {
       )
     ];
   };
-
-  // eslint-disable-next-line no-unused-vars
+  
   const createComponent = (component, type, index) => {
     return (component.tag && component.tag === "slot") || (component.slot && type === 'operator')
       ? this.$scopedSlots[component.slot]({
@@ -127,7 +122,7 @@ export default function(createElement, value, data) {
               style: component.style,
               class: component.class,
               on: {
-                click() {
+                click: () => {
                   if (type === "add") {
                     eval(
                       `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`

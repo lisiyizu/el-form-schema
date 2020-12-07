@@ -1,17 +1,20 @@
+---
+pageClass: page-feature
+---
 # el-form-schema 介绍
 
 ## el-form-schema 是什么？  
-el-form-schema 是基于elemen-ui封装的中后台表单解决方案，旨在让表单开发这件事情变得简单高效！
+el-form-schema 是中后台表单解决方案，不仅覆盖了表单的布局、组件联动、校验等场景，还扩展支持 `object`、`array`、`table` 来满足更加复杂的业务场景，旨在让表单开发这件事情变的易用、简单、高效!
 
 ## el-form-schema 功能
-1. 支持 element-ui 所有的表单组件
-2. 内置支持 object、array、table，可以高效解决更多复杂的业务场景（此处应该有掌声👏）
-3. 内置支持 slot 的插槽方式
+1. 支持 `element-ui` 所有的表单组件
+2. 内置支持 `object`、`array`、`table`，可以高效解决更多复杂的业务场景（此处应该有掌声👏）
+3. 内置支持 `slot` 的插槽方式
 4. 内置支持给组件设置 inline 行内布局属性，让布局更加灵活
-5. 内置支持给 object、array 设置 inline 的方式
-6. object 组件内置支持 card 和 fieldset 的布局类型，array 内置支持 card 的布局方式。
-7. 支持组件之间的复杂联动，支持 vif: "字符串表达式" 和 props: { disabled: "字符串表达式" }
-8. 支持引入自定义组件，如果要实现双向绑定使用（注意：前提该组件实现了v-model的语法糖）
+5. 内置支持给 `object`、`array` 设置 `inline` 的方式
+6. `object` 组件内置支持 card 和 fieldset 的布局类型，`array` 内置支持 card 的布局方式。
+7. 支持组件之间的复杂联动，支持 `vif: "字符串表达式"` 和 `props: { disabled: "字符串表达式" }`
+8. 支持引入自定义组件，如果要实现双向绑定使用（注意：前提该组件实现了`v-model`的语法糖）
 9. 支持统一设置组件宽度
 
 ## el-form-schema 属性
@@ -26,7 +29,7 @@ inline|行内表单模式|boolean|false
 size|用于控制该表单内组件的尺寸|string|medium
 disabled|是否禁用该表单内的所有组件。若设置为 true，则表单内组件上的 disabled 属性不再生效|boolean|-
 isSearchForm|是否是查询表单|boolean|false
-componentsWidth|统一组件宽度|string|240px
+componentWidth|统一组件宽度|string|240px
 
 ## el-form-schema 事件
 isSearchForm属性值为true，查询表单会提供 submit 和 reset 2个事件

@@ -1,15 +1,10 @@
 /*
- * @Author: liwei
- * @Date: 2020-11-11 19:54:06
  * @Description: 复选组件
  */
 import { createElementBySlot } from "../utils";
 
 export default function(createElement, value, data) {
   const vm = this;
-
-  // eslint-disable-next-line no-unused-vars
-  const { formValues } = this;
 
   const {
     all = "",
@@ -86,7 +81,7 @@ export default function(createElement, value, data) {
                 data.checkAll = val;
               }
             }
-            eval(`formValues.${name} = val`);
+            eval(`vm.formValues.${name} = val`);
           }
         }
       },

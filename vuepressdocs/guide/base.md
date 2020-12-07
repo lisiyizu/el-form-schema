@@ -1,4 +1,4 @@
-# 基础篇
+# 组件篇
 
 ## 表单组件
 element-ui 表单组件演示: [表单组件](https://element.eleme.io/#/zh-CN/component/radio)
@@ -6,4 +6,12 @@ element-ui 表单组件演示: [表单组件](https://element.eleme.io/#/zh-CN/c
 <demo-block>
 <example-base-demo1 slot="source"/>
  <<< @/vuepressdocs/.vuepress/components/example/base/demo1.vue
+</demo-block>
+
+## 自定义组件
+  
+
+<demo-block>
+<example-base-demo2 slot="source"/>
+ <<< @/vuepressdocs/.vuepress/components/example/base/demo2.vue
 </demo-block>

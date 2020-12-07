@@ -18,8 +18,8 @@ export default  {
   data () {
     return {
       schema: {
-        input: { tag: 'el-input', required: true, label: '输入框' },
-        time: {  tag: 'el-time-select' },
+        time: {  tag: 'el-date-picker', label: '有效期', props: { type: 'daterange' }, inline: true, required: true, slot: { after: '-' } },
+        input: { tag: 'el-time-select', required: true, inline: true },
         table: {
           tag: 'table',
           title: 'Table-表单列表',
@@ -36,7 +36,7 @@ export default  {
 						obj: {
               tag: 'object',
               inline: true,
-              column: {  width: '400px', label: '有效期' }, 
+              column: {  width: '410px', label: '有效期' }, 
               components : {
                 date: {
                   tag: 'el-date-picker', 

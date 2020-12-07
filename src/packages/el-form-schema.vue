@@ -135,11 +135,7 @@ export default {
 			if (component.items) {
 				const list = JSON.parse(JSON.stringify(component.items));
 				component.items = list.map(item => {
-					if (typeof item === 'string') {
-						return { label: item, value: item };
-					} else {
-						return item;
-					}
+					return (typeof item === 'string') ? { label: item, value: item } : item;
 				})
 			}
 			switch (component.tag) {
@@ -272,6 +268,12 @@ export default {
 							Object.keys(schema.slot).forEach(key => {
 								const obj = schema.slot[key];
 								if (obj instanceof Object && obj['vmodel']) {
+									if (obj.items) {
+										const list = JSON.parse(JSON.stringify(obj.items));
+										schema.slot[key].items = list.map(item => {
+											return (typeof item === 'string') ? { label: item, value: item } : item;
+										})
+									}
 									values[obj.vmodel] =  this.setDefaultValue(obj);
 								}
 							})

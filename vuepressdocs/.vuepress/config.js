@@ -1,9 +1,9 @@
 const path = require("path");
 
 module.exports = {
-  base: "/el-form-schema/",
+  base: "/",
   title: "el-form-schema",
-  description: "基于element-ui二次封装，中后台表单解决方案",
+  description: "el-form-schema 中后台表单解决方案，旨在让表单开发这件事情变的易用、简单、高效!",
   dest: path.resolve(__dirname, "../../docs/"),
   markdown: { lineNumbers: true },
   themeConfig: {
@@ -31,7 +31,7 @@ module.exports = {
         {
           title: "指南",
           collapsable: false,
-          children: ["", "feature", "base", "layout", "expression", "array", "object", "table", "showcase"]
+          children: ["", "feature", "base", "layout", "expression", "array", "object", "table", "slot", "showcase"]
         }
       ]
     }

@@ -17,7 +17,10 @@ export default  {
         input: { tag: 'el-input', required: true, label: '输入框' },
         table: {
           tag: 'table',
-					title: 'Table-表单列表',
+          title: 'Table-表单列表',
+          slot: {  add: '新增数据', delete: '删除数据' },
+          operator: { column: {  width: '120px' } },
+          showValidate: true,
 					components: {
 						input: { 
               tag: 'el-input', 
@@ -34,7 +37,6 @@ export default  {
             },
 						checkbox: { 
               tag: 'el-checkbox', 
-              style: { width: '100px' }, 
               column: { label: '测试5' }, 
               required: true, 
               items: ['a', 'b', 'c'] 

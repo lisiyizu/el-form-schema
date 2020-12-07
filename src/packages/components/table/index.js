@@ -1,16 +1,14 @@
 /*
- * @Author: liwei
- * @Date: 2020-11-11 19:54:06
- * @Description: [table]复杂组件
+ * @Description: table 组件
  */
 import { Component } from "../index";
 import { createElementBySlot, deepClone } from "../utils";
 
 export default function(createElement, value, data) {
-  data.slot = data.slot || {};
   // eslint-disable-next-line no-unused-vars
   const { formValues } = this;
   const listValues = eval(`formValues.${data.name}`);
+  data.slot = data.slot || {};
   data.style = data.style || { marginBottom:  !data.showValidate ? '' : '22px' };
   data.operator = data.operator || {};
   const operatorColumnProps = Object.assign(
@@ -18,7 +16,7 @@ export default function(createElement, value, data) {
       label: "操作",
       width: "100px"
     },
-    data.operator.props || {}
+    data.operator.column || {}
   );
   const createTableColumns = () => {
     return Object.keys(data.components)
@@ -74,7 +72,7 @@ export default function(createElement, value, data) {
                           }
                         }
                       },
-                      "删除"
+                      typeof data.slot.delete === "string" ? data.slot.delete : "删除"
                     )
                   ]
               );

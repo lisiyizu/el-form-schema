@@ -20,7 +20,7 @@ export default  {
           label: '固定时间点', 
           inline: true,
           props: { 
-            disabled: '!$model.daterange',
+            disabled: '!$model.daterange.length',
             pickerOptions: {
               start: '08:30',
               step: '00:15',

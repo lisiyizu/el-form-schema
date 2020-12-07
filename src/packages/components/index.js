@@ -27,7 +27,7 @@ export const Component = (createElement, vm, key, item) => {
 
   // 支持diabled的表达式
   if (item.props && typeof item.props.disabled === 'string') item.props.disabledExpression = item.props.disabled;
-  if (item.attrs && typeof item.attrs.disabled === 'string') item.props.disabledExpression = item.attrs.disabled;
+  if (item.attrs && typeof item.attrs.disabled === 'string') item.attrs.disabledExpression = item.attrs.disabled;
 
   // eslint-disable-next-line no-unused-vars
   const { formValues, model } = vm;
@@ -39,7 +39,7 @@ export const Component = (createElement, vm, key, item) => {
   item.on = Object.assign(on, {
     input: function(value) {
       // 解决对象的问题 object: { test: '' }, name = object.test
-      eval(`vm.formValues.${name} = value`);
+      eval(`formValues.${name} = value`);
       // on : { changeExt(val,item) { }
       if (["el-select", "el-radio", "el-checkbox"].includes(tag) && on.changeExt) {
         const model = items.find(
@@ -49,7 +49,7 @@ export const Component = (createElement, vm, key, item) => {
       }
       // on : { changeUpdateModel(val,item) { }
       if (on.changeUpdateModel) {
-        on.changeUpdateModel.call(vm, { $model: vm.formValues, $item: eval(`vm.formValues.${item.name.slice(0,item.name.lastIndexOf("."))}`), $index: item.$index });
+        on.changeUpdateModel.call(vm, { $model: vm.formValues, $item: eval(`formValues.${item.name.slice(0,item.name.lastIndexOf("."))}`), $index: item.$index });
       }
     }
   });
@@ -75,7 +75,7 @@ export const Component = (createElement, vm, key, item) => {
           condition = condition.replace("$index", $index || 0);
         }
         // vif 包含 $item
-        if (condition.includes("$item")) {
+        if (condition.includes("$item") && item.$item) {
           condition = condition.replace(/(\$item)/g, "item.$item");
         }
         // vif 包含 $model

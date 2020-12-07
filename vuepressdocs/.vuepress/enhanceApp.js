@@ -1,5 +1,5 @@
 import elementUI from 'element-ui';
-import elFormSchema from '../../src'
+import elFormSchema from '../../dist'
 import 'element-ui/lib/theme-chalk/index.css'
 import DemoBlock from './components/demo-block'
 

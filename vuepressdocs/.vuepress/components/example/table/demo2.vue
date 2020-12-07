@@ -30,7 +30,7 @@ export default  {
 						obj: {
               tag: 'object',
               inline: true,
-              column: {  width: '400px', label: '有效期' }, 
+              column: {  width: '410px', label: '有效期' }, 
               components : {
                 date: {
                   tag: 'el-date-picker', 
