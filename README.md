@@ -3,7 +3,7 @@
 <p align="center">el-form-schema 是中后台表单解决方案，不仅覆盖了表单的布局、组件联动、校验等场景，还扩展支持 `object`、`array`、`table` 来满足更加复杂的业务场景，旨在让表单开发这件事情变的易用、简单、高效!</p>
 
 <p align="center">
-    <img src="https://img.shields.io/npm/v/vant.svg?style=flat-square" alt="npm version" />
+    <img src="https://img.shields.io/npm/v/@kummy/el-form-schema.svg?style=flat-square" alt="npm version" />
 </p>
 
 ## 文档演示地址
