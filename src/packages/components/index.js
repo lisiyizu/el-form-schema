@@ -1,8 +1,3 @@
-/*
- * @Author: liwei
- * @Date: 2020-11-10 10:17:52
- * @Description: In User Settings Edit
- */
 import {
   customTags,
   slotComponent,

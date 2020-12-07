@@ -56,8 +56,67 @@ style|样式|vue render（style对象）|-
 on|事件|vue render（on对象）|-
 
 ## 内置组件
-组件|说明|使用方式 
--|-|-
-object|对象组件|-
-array|数组组件|-
-table|列表组件|-
+table 组件属性
+```js
+    table: {
+      tag: 'table',
+      slot: { add: '新增数据', delete: '删除数据' },
+      operator: { column: { width: '120px' } },
+      // operator: { slot: '占位名称' },
+      // showValidate: true, 是否显示验证信息
+      components: {
+        input: { 
+          tag: 'el-input', 
+          style: { width: '150px' }, 
+          column: { width: '180px', label: '测试1' }, 
+          required: true
+        },
+        select1: {
+          tag: 'el-select', 
+          style: { width: '150px' },  
+          column: { width: '180px', label: '测试4' }, 
+          required: true, 
+          items: ['测试1', '测试2'] 
+        },
+        checkbox: { 
+          tag: 'el-checkbox', 
+          column: { label: '测试5' }, 
+          required: true, 
+          items: ['a', 'b', 'c'] 
+        },
+      }
+    }
+```
+
+object 组件属性
+```js
+    object: {
+      tag: 'object',
+      inline: true,
+      label: '对象',
+      required: true,
+      // title: '标题',
+      // type: 'card | fieldset',
+      components: {
+        input: { tag: 'el-input', required: true },
+        radio: { tag: 'el-radio', items: ['A','B','C'] }
+      }
+    }
+```
+
+array 组件属性
+```js
+    array: {
+      tag: 'array',
+      label: '数组',
+      required: true,
+      // title: '测试-$index',
+      // type: "card",
+      inline: true,
+      labelWidthComponents: '100px',
+      components: {
+        input: { tag: 'el-input', required: true },
+        select: { tag: 'el-select', items: ["蛋壳公寓", "原油宝", "优胜教育"] }
+      }
+    }
+```

@@ -1,6 +1,3 @@
-/*
- * @Description: 复选组件
- */
 import { createElementBySlot } from "../utils";
 
 export default function(createElement, value, data) {

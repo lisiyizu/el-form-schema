@@ -1,6 +1,3 @@
-/*
- * @Description: object 组件
- */
 import { Component } from "../index";
 import CardComponent from "../card";
 import { createElementBySlot, fieldsetComponent, deepClone } from "../utils";

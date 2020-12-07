@@ -1,6 +1,3 @@
-/*
- * @Description: 下拉组件
- */
 import { createElementBySlot } from "../utils";
 
 export default function(createElement, value, data) {

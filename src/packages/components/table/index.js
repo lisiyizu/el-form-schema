@@ -1,6 +1,3 @@
-/*
- * @Description: table 组件
- */
 import { Component } from "../index";
 import { createElementBySlot, deepClone } from "../utils";
 

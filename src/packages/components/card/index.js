@@ -1,8 +1,3 @@
-/*
- * @Author: liwei
- * @Date: 2020-11-11 19:54:06
- * @Description: [card]卡片组件
- */
 export default function (createElement, value, data, style = {}) {
     return createElement(
       "div",
