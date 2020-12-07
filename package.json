@@ -1,7 +1,9 @@
 {
-  "name": "@lisiyizu/el-form-schema",
+  "name": "@kummy/el-form-schema",
   "version": "1.0.0",
   "main": "dist/index.js",
+  "author": "kummy",
+  "license": "MIT",
   "keywords": [
     "vue",
     "element-ui"
@@ -58,9 +60,9 @@
     "last 2 versions",
     "not dead"
   ],
-  "license": "MIT",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lisiyizu/el-form-schema.git"
   },
   "homepage": "https://github.com/lisiyizu/el-form-schema"
 }
