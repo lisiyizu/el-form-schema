@@ -45,6 +45,7 @@ reset|重置表单
 tag|组件名字|el-*(表单组件)、内置组件、自定义组件|-
 label|标签文本|string|-
 default|默认值|bool/string/number/object/array|-
+items|数据项（专门为el-select/el-radio/el-checkbox的属性）|string| []
 inline|是否行内布局|boolean|false
 vif|是否显示|字符串表达式，比如: vif: "$model.id === 2" |-
 rules|验证规范|el-form-item（rules）|-
