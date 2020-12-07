@@ -6,6 +6,9 @@
     <img src="https://img.shields.io/npm/v/vant.svg?style=flat-square" alt="npm version" />
 </p>
 
+## 文档演示地址
+vuepress地址：[http://efs.apidevelop.com](http://efs.apidevelop.com)
+
 ## Features
 
 - 支持 element-ui 所有的表单组件
