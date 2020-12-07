@@ -26,13 +26,13 @@ vuepress地址：[http://efs.apidevelop.com](http://efs.apidevelop.com)
 
 # el-form-schema 安装
 ```bash
-  npm install @lisiyizu/el-form-schema
+  npm install @kummy/el-form-schema
 ```
 
 ```js
 import Vue from 'vue'
 import elementUI from 'element-ui'
-import elFormSchema from '@lisiyizu/el-form-schema'
+import elFormSchema from '@kummy/el-form-schema'
 
 Vue.use(elementUI)
 Vue.use(elFormSchema)
