@@ -1,6 +1,6 @@
 {
   "name": "@kummy/el-form-schema",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "main": "dist/index.js",
   "author": "kummy",
   "license": "MIT",
@@ -59,10 +59,5 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lisiyizu/el-form-schema.git"
-  },
-  "homepage": "https://github.com/lisiyizu/el-form-schema"
+  ]
 }
