@@ -52,9 +52,10 @@ rules|验证规范|el-form-item（rules）|-
 required|是否必填|el-form-item（required）|-
 tip|文字提示|string|-
 slot|占位|对象|-
-props|属性值|vue render（props对象）|-
-style|样式|vue render（style对象）|-
-on|事件|vue render（on对象）|-
+props|属性值|[vue render](https://cn.vuejs.org/v2/guide/render-function.html#%E6%B7%B1%E5%85%A5%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1)（props对象）|-
+style|样式|[vue render](https://cn.vuejs.org/v2/guide/render-function.html#%E6%B7%B1%E5%85%A5%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1)（style对象）|-
+class|类名class|[vue render](https://cn.vuejs.org/v2/guide/render-function.html#%E6%B7%B1%E5%85%A5%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1)（class对象）|-
+on|事件|[vue render](https://cn.vuejs.org/v2/guide/render-function.html#%E6%B7%B1%E5%85%A5%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1)（on对象）|-
 
 ## 内置组件
 table 组件属性

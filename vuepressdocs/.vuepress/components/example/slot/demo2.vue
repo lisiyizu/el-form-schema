@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <p>{{model}}</p>
 		<el-form-schema v-model="model" ref="el-form-schema" :debug="false" type="card" label-suffix=":" :inline="false" :schema="schema" label-width="150px">
 			<template slot="test" slot-scope="scope">
 				<el-form-item :prop="scope.prop" :rules="{ required: true, message: '必填!' }">
@@ -27,6 +29,7 @@
 				<el-button @click="reset">重置</el-button>
 			</el-form-item>
 		</el-form-schema>
+  </div>
 </template>
 <script>
 const cascaderOptions = [{
