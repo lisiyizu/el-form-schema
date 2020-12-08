@@ -354,7 +354,7 @@ export default {
 		},
 		/**
 		 * @description: 部分表单校验
-		 * @param {*} field 
+		 * @param {*} props 
 		 * @param {*} cb
 		*/
 		validateField (props, cb) {
@@ -363,7 +363,7 @@ export default {
 		},
 		/**
 		 * @description: 部分表单校验
-		 * @param {*} field 
+		 * @param {*} props 
 		 * @param {*} cb
 		*/
 		validateFieldPromise (props) {

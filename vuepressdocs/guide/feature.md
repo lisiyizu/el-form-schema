@@ -31,6 +31,16 @@ disabled|是否禁用该表单内的所有组件。若设置为 true，则表单
 isSearchForm|是否是查询表单|boolean|false
 componentWidth|统一组件宽度|string|240px
 
+## el-form-schema 方法
+方法名|说明|参数
+-|-|-
+validate|对整个表单进行校验的方法，参数为一个回调函数。该回调函数会在校验结束后被调用，并传入两个参数：是否校验成功和未通过校验的字段。若不传入回调函数，则会返回一个 promise｜Function(callback: Function(boolean, object))
+validateField|对部分表单字段进行校验的方法|Function(props: array | string, callback: Function(errorMessage: string))
+resetFields|对整个表单进行重置，将所有字段值重置为初始值并移除校验结果|—
+clearValidate|移除表单项的校验结果。传入待移除的表单项的 prop 属性或者 prop 组成的数组，如不传则移除整个表单的校验结果|Function(props: array | string)
+
+除了以上el-form的方法，内部还扩展了一个 `validateFieldPromise` 方法，来弥补 validateField 的问题。
+
 ## el-form-schema 事件
 isSearchForm属性值为true，查询表单会提供 submit 和 reset 2个事件
 
