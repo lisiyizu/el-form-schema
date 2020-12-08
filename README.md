@@ -1,13 +1,13 @@
 <h1 align="center">el-form-schema</h1>
 
-<p align="center">el-form-schema 是中后台表单解决方案，不仅覆盖了表单的布局、组件联动、校验等场景，还扩展支持 `object`、`array`、`table` 来满足更加复杂的业务场景，旨在让表单开发这件事情变的易用、简单、高效!</p>
+<p align="center">el-form-schema 是中后台表单解决方案，不仅覆盖了表单的布局、组件联动、校验等场景，还扩展支持 object、array、table 来满足更加复杂的业务场景，旨在让表单开发这件事情变的易用、简单、高效!</p>
 
 <p align="center">
   <img src="https://img.shields.io/npm/v/@kummy/el-form-schema.svg?style=flat" alt="npm version" />
   <img src="https://img.shields.io/npm/dt/@kummy/el-form-schema.svg?style=flat&color=63ba83" alt="npm download" />
 </p>
 
-## 文档演示地址
+## Document
 vuepress地址：[http://efs.apidevelop.com](http://efs.apidevelop.com)
 
 ## Features
@@ -21,6 +21,10 @@ vuepress地址：[http://efs.apidevelop.com](http://efs.apidevelop.com)
 - 支持组件之间的复杂联动，支持 vif: "字符串表达式" 和 props: { disabled: "字符串表达式" }
 - 支持引入自定义组件，如果要实现双向绑定使用（注意：前提该组件实现了v-model的语法糖）
 - 支持统一设置组件宽度
+
+## Todo Fix Bugs
+- 🐛 目前发现 `el-cascader` 组件在el-form-schema下会存在选让的bug (温馨提示: 可以用（自定义组件 或 slot ） 的备选方案来实现)
+- 🐛 目前发现 `el-time-select` 在多层级(比如在 array、table 里) 的情况下，如果调用表单的重置，发现会出现报数据类型的错误。
 
 ## Install
 
