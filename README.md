@@ -4,6 +4,7 @@
 
 <p align="center">
     <img src="https://img.shields.io/npm/v/@kummy/el-form-schema.svg?style=flat-square" alt="npm version" />
+    <img src="https://img.shields.io/npm/dt/@kummy/el-form-schema.svg?style=flat-square" alt="npm download" />
 </p>
 
 ## 文档演示地址
