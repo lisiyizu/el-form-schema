@@ -14,5 +14,7 @@ Vue.use(elementUI)
 Vue.use(elFormSchema)
 ```
 
-<img src="https://img.shields.io/npm/v/@kummy/el-form-schema.svg?style=flat-square" alt="npm version" />
-<img src="https://img.shields.io/npm/dt/@kummy/el-form-schema.svg?style=flat-square" alt="npm download" />
+<img src="https://img.shields.io/npm/v/@kummy/el-form-schema.svg?style=flat" alt="npm version" />
+<img src="https://img.shields.io/npm/dt/@kummy/el-form-schema.svg?style=flat&color=63ba83" alt="npm download" />
+
+
