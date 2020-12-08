@@ -23,13 +23,11 @@ vuepress地址：[http://efs.apidevelop.com](http://efs.apidevelop.com)
 - 支持统一设置组件宽度
 
 ## Todo Fix Bugs
-- 🐛 目前发现 `el-cascader` 组件在el-form-schema下会存在选让的bug (温馨提示: 可以用（自定义组件 或 slot ） 的备选方案来实现)
-- 🐛 目前发现 `el-time-select` 在多层级(比如在 array、table 里) 的情况下，如果调用表单的重置，发现会出现报数据类型的错误。
+- 🐛 目前发现 `el-cascader` 组件在el-form-schema下会存在一些的bug (温馨提示: 可以用（自定义组件 或 slot ） 的备选方案来实现)
+- 🐛 目前发现 `el-time-select` 组件在多层级(比如在 array、table 里) 的情况下，如果调用表单resetFields方法，会报数据类型的错误。
 
 ## Install
 
-
-# el-form-schema 安装
 ```bash
   npm install @kummy/el-form-schema
 ```

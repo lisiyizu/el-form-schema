@@ -48,11 +48,7 @@ export default {
 		},
 		componentWidth: {
 			type: String,
-			default: '260px'
-		},
-		css: {
-			type: Object,
-			default: () => ({})
+			default: '240px'
 		},
 		type: {
 			type: String,
@@ -67,10 +63,6 @@ export default {
 		debug: {
 			type: Boolean,
 			default: false
-		},
-		ui: {
-			type: String,
-			default: 'el'
 		}
 	},
 	data () {
@@ -299,8 +291,6 @@ export default {
 		},
 		/**
 		 * @description: 通过 schema 定义渲染 el-form-item
-		 * @param {*} h
-		 * @return {*}
 		*/
 		renderFormItems (h) {
 			return Object.keys(this.schema).map((key, index) => {
@@ -320,16 +310,12 @@ export default {
 		},
 		/**
 		 * @description: 整体表单校验
-		 * @param {*} cb
-		 * @return {*}
 		*/
 		validate (cb) {
 			return this.$refs[this.refName].validate(cb);
 		},
 		/**
 		 * @description: 获取节点的所有字段域
-		 * @param {*} field
-		 * @return {*}
 		*/
 		getValidateProps (field) {
 			const val = eval(`this.formValues.${field}`);
@@ -354,8 +340,6 @@ export default {
 		},
 		/**
 		 * @description: 部分表单校验
-		 * @param {*} props 
-		 * @param {*} cb
 		*/
 		validateField (props, cb) {
 			props = this.getValidateProps(props);
@@ -363,8 +347,6 @@ export default {
 		},
 		/**
 		 * @description: 部分表单校验
-		 * @param {*} props 
-		 * @param {*} cb
 		*/
 		validateFieldPromise (props) {
 			props = this.getValidateProps(props);
