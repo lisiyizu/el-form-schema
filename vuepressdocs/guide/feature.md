@@ -39,10 +39,10 @@ validateField|对部分表单字段进行校验的方法|Function(props: array |
 resetFields|对整个表单进行重置，将所有字段值重置为初始值并移除校验结果|—
 clearValidate|移除表单项的校验结果。传入待移除的表单项的 prop 属性或者 prop 组成的数组，如不传则移除整个表单的校验结果|Function(props: array | string)
 
-除了以上el-form的方法，内部还扩展了一个 `validateFieldPromise` 方法，来弥补 validateField 的问题。
+除了以上el-form的方法，内部还扩展了一个 `validateFieldPromise` 方法(详见用法：[场景篇->高级](http://efs.apidevelop.com/guide/showcase.html#高级))，来弥补 validateField 的问题。
 
 ## el-form-schema 事件
-isSearchForm属性值为true，查询表单会提供 submit 和 reset 2个事件
+isSearchForm属性值为true，查询表单会提供 submit 和 reset 2个事件 (详见用法：[布局篇->查询表单布局](http://efs.apidevelop.com/guide/layout.html#查询表单布局)
 
 字段|说明
 -|-
