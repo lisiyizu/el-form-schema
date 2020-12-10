@@ -298,10 +298,9 @@ export default {
 				this.schema[key].name = key
 				// 是否展开/收起
 				if (this.isExpand) this.schema[key].expand = (index === 0 || index === 1)
-				//
+				//  渲染占位slot
 				if (this.schema[key].tag === 'slot') {
-					// 渲染占位slot
-					return this.$slots[this.schema[key].slot]
+					return this.$slots[this.schema[key].slot];
 				} else {
 					// 渲染formItem
 					return this.renderFormItem(h, this.schema[key], key)

@@ -22,9 +22,8 @@ vuepress地址：[http://efs.apidevelop.com](http://efs.apidevelop.com)
 - 支持引入自定义组件，如果要实现双向绑定使用（注意：前提该组件实现了v-model的语法糖）
 - 支持统一设置组件宽度
 
-## Todo Fix Bugs
-- 🐛 目前发现 `el-cascader` 组件在el-form-schema下会存在一些的bug (温馨提示: 可以用（自定义组件 或 slot ） 的备选方案来实现)
-- 🐛 目前发现 `el-time-select` 组件在多层级(比如在 array、table 里) 的情况下，如果调用表单resetFields方法，会报数据类型的错误。
+## Bug
+- 🐛 目前发现 `el-cascader` 组件在el-form-schema下会存在bug (温馨提示: 可以采用（自定义组件 或 slot ）的备选方案来实现【[参考地址](http://efs.apidevelop.com/guide/base.html#自定义组件)】)
 
 ## Install
 

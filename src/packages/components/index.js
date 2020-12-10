@@ -7,6 +7,7 @@ import {
 } from "./utils";
 
 export const Component = (createElement, vm, key, item) => {
+
   let {
     rules = null,
     labelWidth = "",
@@ -130,15 +131,10 @@ export const Component = (createElement, vm, key, item) => {
             value,
             ...item.props
           },
-          attrs: item.attrs,
-          style: item.style,
-          class: item.class,
-          on: {
-            ...item.on,
-            click() {
-              item.on && item.on.click.call(item, item.$item, item.$index);
-            }
-          }
+          attrs: { ...item.attrs },
+          style: { ...item.style },
+          class: { ...item.class },
+          on: { ...item.on }
         },
         typeof item.slot === "object"
           ? Object.keys(item.slot).length === 0
@@ -167,7 +163,8 @@ export const Component = (createElement, vm, key, item) => {
         },
         props: {
           rules,
-          prop: key,
+          required: item.required,
+          prop: item.tag === 'object' ? '' : key,
           labelWidth: labelWidth || vm.labelWidth,
           label: item.label
         },

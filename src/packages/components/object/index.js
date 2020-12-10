@@ -50,9 +50,8 @@ export default function(createElement, value, data) {
   nodes = [
     createElementBySlot(createElement, data, "before"),
     createElement(
-      "el-form-item",
+      "div",
       {
-        props: { required: data.required },
         class: { "el-form--inline": data.inline },
         style: { marginBottom: data.inline && !data.type ? "-22px" : "", ...data.style }
       },
