@@ -1,7 +1,6 @@
 {
   "name": "@kummy/el-form-schema",
-  "version": "1.0.7",
-  "main": "dist/index.js",
+  "version": "1.0.8",
   "author": "kummy",
   "license": "MIT",
   "scripts": {

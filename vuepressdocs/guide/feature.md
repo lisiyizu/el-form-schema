@@ -25,6 +25,7 @@ v-model|表单数据对象|el-form-schema 自动收集|-
 labelWidth|表单域标签的宽度，例如 '50px'。作为 Form 直接子元素的 form-item 会继承该值。支持 auto。|string|-
 labelPosition|表单域标签的位置，如果值为 left 或者 right 时，则需要设置 label-width|string|right
 labelSuffix|表单域标签的后缀|string|-
+expandNumber|[展开/收起]数量,主要用于查询表单的场景|number|-
 inline|行内表单模式|boolean|false
 size|用于控制该表单内组件的尺寸|string|medium
 disabled|是否禁用该表单内的所有组件。若设置为 true，则表单内组件上的 disabled 属性不再生效|boolean|-

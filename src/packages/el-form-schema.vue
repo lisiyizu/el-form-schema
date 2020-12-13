@@ -69,7 +69,7 @@ export default {
 	},
 	data () {
 		return {
-			expandAll: true,
+			expandAll: false,
 			isWatching: false,
 			validiteFieldSet: new Set(),
 			formValues: {}
@@ -419,7 +419,7 @@ export default {
 					}
 				}
 			}, '重置'),
-			vm.expandNumber ? h(
+			vm.expandNumber? h(
 					'el-button',
 					{
 						style: { display: !vm.expandAll ? '' : 'none'},
@@ -435,7 +435,7 @@ export default {
 							})
 					]
 			) : null,
-			vm.expandNumber ? h(
+			vm.expandNumber? h(
 					'el-button',
 					{
 						style: { display: vm.expandAll ? '' : 'none'},
