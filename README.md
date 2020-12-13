@@ -21,10 +21,6 @@ vuepress地址：[http://efs.apidevelop.com](http://efs.apidevelop.com)
 - 支持组件之间的复杂联动，支持 vif: "字符串表达式" 和 props: { disabled: "字符串表达式" }
 - 支持引入自定义组件，如果要实现双向绑定使用（注意：前提该组件实现了v-model的语法糖）
 - 支持统一设置组件宽度
-
-## Bug
-- 🐛 目前发现 `el-cascader` 组件在el-form-schema下会存在bug (温馨提示: 可以采用（自定义组件 或 slot ）的备选方案来实现【[参考地址](http://efs.apidevelop.com/guide/base.html#自定义组件)】)
-
 ## Install
 
 ```bash

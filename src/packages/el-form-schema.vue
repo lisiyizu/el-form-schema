@@ -8,6 +8,7 @@ export default {
 	props: {
 		model: {
 			type: Object,
+			required: true,
 			default: () => ({})
 		},
 		disabled: {
@@ -16,15 +17,16 @@ export default {
 		},
 		schema: {
 			type: Object,
+			required: true,
 			default: () => ({})
 		},
 		isSearchForm: {
 			type: Boolean,
 			default: false
 		},
-		isExpand: {
-			type: Boolean,
-			default: false
+		expandNumber: {
+			type: Number,
+			default: 0
 		},
 		labelPosition: {
 			type: String,
@@ -67,6 +69,7 @@ export default {
 	},
 	data () {
 		return {
+			expandAll: true,
 			isWatching: false,
 			validiteFieldSet: new Set(),
 			formValues: {}
@@ -297,9 +300,10 @@ export default {
 				// key当作name来处理
 				this.schema[key].name = key
 				// 是否展开/收起
-				if (this.isExpand) this.schema[key].expand = (index === 0 || index === 1)
-				//  渲染占位slot
+				this.schema[key].expand = this.expandNumber > 0 ? index < this.expandNumber : true;
+
 				if (this.schema[key].tag === 'slot') {
+					//  渲染占位slot
 					return this.$slots[this.schema[key].slot];
 				} else {
 					// 渲染formItem
@@ -414,7 +418,39 @@ export default {
 						vm.$emit('reset');
 					}
 				}
-			}, '重置')
+			}, '重置'),
+			vm.expandNumber ? h(
+					'el-button',
+					{
+						style: { display: !vm.expandAll ? '' : 'none'},
+						props: {size: vm.size},
+						on: { click: ()=> vm.expandAll = !vm.expandAll }
+					},
+					[
+							'更多',
+							h('i', {
+									class: {
+											'el-icon-caret-bottom': true
+									}
+							})
+					]
+			) : null,
+			vm.expandNumber ? h(
+					'el-button',
+					{
+						style: { display: vm.expandAll ? '' : 'none'},
+						props: {size: vm.size},
+						on: { click: ()=> vm.expandAll = !vm.expandAll }
+					},
+					[
+							'收起',
+							h('i', {
+									class: {
+											'el-icon-caret-top': true
+									}
+							})
+					]
+			) : null
 		])
 
 		const FormRender = h('el-form', {

@@ -5,12 +5,7 @@
       <el-form-item>
 				<el-button type="primary" @click="submit">提交</el-button>
 				<el-button @click="reset">重置</el-button>
-			</el-form-item>
-      <template slot="cascader.slot">
-        <el-form-item label="cascader的slot方案" prop="cascader" :rules="{required:true,message:'必填!'}">
-          <el-cascader v-model="model.cascader" :options="cascaderOptions"/>
-        </el-form-item>
-      </template>
+			</el-form-item> 
     </el-form-schema>
   </div>
 </template>
@@ -30,7 +25,17 @@ export default  {
       this.schema = {
         inputTrim: { tag: inputTrim, required: true, attrs: { placeholder: '我是el-input-trim' } },
         input: { tag: Input, required: true, attrs: { placeholder: '自定义组件' } },
-        cascader: { tag: 'slot', slot: 'cascader.slot' },
+        cascader: { 
+          tag: 'el-cascader', 
+          required: true,
+          props: { 
+            props: {
+              label: 'label',
+              value: 'value'
+            },
+            options :[]
+          } 
+        },
         timeselect: { tag: 'el-time-select' },
         arr: {
           tag: 'object',
@@ -60,7 +65,7 @@ export default  {
   mounted() {
     this.initForm();
     setTimeout(() => {
-      this.cascaderOptions = [{
+      this.schema.cascader.props.options = [{
         value: 'zhinan',
         label: '指南',
         children: [{
@@ -91,7 +96,7 @@ export default  {
           }]
         }]
       }];
-    },5000)
+    },3000)
   }
 }
 </script>

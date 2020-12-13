@@ -129,7 +129,7 @@ export const Component = (createElement, vm, key, item) => {
         {
           props: {
             value,
-            ...item.props
+            ...Object.freeze(item.props)
           },
           attrs: { ...item.attrs },
           style: { ...item.style },
@@ -138,9 +138,9 @@ export const Component = (createElement, vm, key, item) => {
         },
         typeof item.slot === "object"
           ? Object.keys(item.slot).length === 0
-            ? value || item.default
+            ? null
             : slotComponent.call(vm, createElement, value, item)
-          : item.slot
+          : item.slot || item.default || value
       ),
       createElementBySlot(createElement, item, "after"),
       createTipComponent(createElement, item)
@@ -169,7 +169,7 @@ export const Component = (createElement, vm, key, item) => {
           label: item.label
         },
         style: {
-          display: vifBool
+          display: vifBool && (item.expand || vm.expandAll)
             ? !["object", "array", "table"].includes(item.tag) && item.inline
               ? "inline-flex"
               : ""
