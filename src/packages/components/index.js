@@ -169,7 +169,7 @@ export const Component = (createElement, vm, key, item) => {
           label: item.label
         },
         style: {
-          display: vifBool && ((item.expand || vm.expandAll) && vm.isSearchForm) || !vm.isSearchForm
+          display: vifBool && ((item.expand || vm.expandAll && vm.isSearchForm) || !vm.isSearchForm)
             ? !["object", "array", "table"].includes(item.tag) && item.inline
               ? "inline-flex"
               : ""

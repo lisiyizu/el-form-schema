@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>{{schema}}</p>
+    <p>{{model}}</p>
     <el-form-schema 
       :schema="schema" 
       v-model="model" 
