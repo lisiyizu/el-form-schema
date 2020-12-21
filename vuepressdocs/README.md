@@ -2,6 +2,7 @@
 home: true
 actionText: 快速上手 →
 actionLink: /guide/
+heroImage: /logo.jpg
 features:
 - title: 易用
   details: 熟悉的 element-ui 表单组件，同时支持（自定义组件 和 slot）方案

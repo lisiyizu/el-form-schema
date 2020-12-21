@@ -152,6 +152,9 @@ export const Component = (createElement, vm, key, item) => {
       ? customTags[tag].call(vm, createElement, value, item)
       : nodes;
   }
+
+  // 复杂组件
+  const COMPFLEX_COMPONENTS = ["object", "array", "table"];
   
   return [
     createElement(
@@ -159,18 +162,18 @@ export const Component = (createElement, vm, key, item) => {
       {
         class: {
           "el-form-item-inline is-set-inline":
-            !["object", "array", "table"].includes(item.tag) && item.inline && !vm.inline
+            !COMPFLEX_COMPONENTS.includes(item.tag) && item.inline && !vm.inline
         },
         props: {
           rules,
           required: item.required,
-          prop: item.tag === 'object' ? '' : key,
+          prop: COMPFLEX_COMPONENTS.includes(item.tag) && item.rules && !item.rules.required ? '' : key,
           labelWidth: labelWidth || vm.labelWidth,
           label: item.label
         },
         style: {
           display: vifBool && ((item.expand || vm.expandAll && vm.isSearchForm) || !vm.isSearchForm)
-            ? !["object", "array", "table"].includes(item.tag) && item.inline
+            ? !COMPFLEX_COMPONENTS.includes(item.tag) && item.inline
               ? "inline-flex"
               : ""
             : "none",

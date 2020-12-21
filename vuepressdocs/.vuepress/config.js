@@ -7,6 +7,7 @@ module.exports = {
   dest: path.resolve(__dirname, "../../docs/"),
   markdown: { lineNumbers: true },
   themeConfig: {
+    logo: '/logo.jpg', // 左上角logo
     repo: "lisiyizu/el-form-schema",
     docsDir: "vuepress",
     nav: [

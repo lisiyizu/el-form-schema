@@ -25,7 +25,7 @@ export default  {
             delete: 'Delete'
           },
           components: {
-              input: { tag: 'el-input', required: true },
+            input: { tag: 'el-input', required: true },
           }
         }
       },
