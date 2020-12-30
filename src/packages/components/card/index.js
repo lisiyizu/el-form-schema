@@ -15,7 +15,7 @@ export default function (createElement, value, data, style = {}) {
       [
         createElement("span", {
           style: {
-            borderLeft: `4px solid ${data.color || "#5584FF"}`,
+            borderLeft: `4px solid ${data.color || "#409FFF"}`,
             width: "0px",
             height: "20px",
             lineHeight: "20px"

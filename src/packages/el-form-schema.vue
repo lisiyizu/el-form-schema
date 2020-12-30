@@ -30,11 +30,15 @@ export default {
 		},
 		labelPosition: {
 			type: String,
-			default: 'right'
+			default() {
+				return this.$EFS.size || 'right'
+			}
 		},
 		size: {
 			type: String,
-			default: 'medium'
+			default() {
+				return this.$EFS.size || 'small'
+			}
 		},
 		inline: {
 			type: Boolean,
@@ -42,7 +46,9 @@ export default {
 		},
 		labelSuffix: {
 			type: String,
-			default: ''
+			default() {
+				return this.$EFS.labelSuffix || ''
+			}
 		},
 		labelWidth: {
 			type: String,
@@ -50,7 +56,9 @@ export default {
 		},
 		componentWidth: {
 			type: String,
-			default: '240px'
+			default() {
+				return this.$EFS.componentWidth || '220px'
+			}
 		},
 		type: {
 			type: String,

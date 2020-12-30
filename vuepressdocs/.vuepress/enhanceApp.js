@@ -1,10 +1,10 @@
 import elementUI from 'element-ui';
-import elFormSchema from '../../src'
+import elFormSchema from '../../npm/dist'
 import 'element-ui/lib/theme-chalk/index.css'
 import DemoBlock from './components/demo-block'
 
 export default ({Vue}) => {
-  Vue.use(elementUI, { size: 'medium' })
-  Vue.use(elFormSchema)
+  Vue.use(elementUI)
+  Vue.use(elFormSchema, { size: 'small', componentWidth: '240px' })
   Vue.component('demo-block', DemoBlock)
 }
