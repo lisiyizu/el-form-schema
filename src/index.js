@@ -4,6 +4,9 @@ const install = function (Vue, opts = {}) {
     size: opts.size || 'small',
     componentWidth:  opts.componentWidth || '220px',
     labelSuffix: opts.labelSuffix || '',
+    submitProps: opts.submitProps || {},
+    resetProps: opts.resetProps || {},
+    expandProps: opts.expandProps || {},
   };
   if (install.installed) return
   if (!Vue.prototype.$ELEMENT) {

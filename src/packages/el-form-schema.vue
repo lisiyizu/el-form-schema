@@ -70,6 +70,24 @@ export default {
 				return `el-form-schema-${Math.random().toString(36).substring(2)}`
 			}
 		},
+		submitProps: {
+			type: Object,
+			default () {
+				return {  type: 'primary', ...this.$EFS.submitProps }
+			}
+		},
+		resetProps: {
+			type: Object,
+			default () {
+				return {  type: 'default', ...this.$EFS.resetProps }
+			}
+		},
+		expandProps: {
+			type: Object,
+			default () {
+				return {  type: 'default', ...this.$EFS.expandProps }
+			}
+		},
 		debug: {
 			type: Boolean,
 			default: false
@@ -405,9 +423,7 @@ export default {
 			}
 		}, [
 			h('el-button', {
-				props: {
-					type: 'primary'
-				},
+				props: { ...vm.submitProps },
 				on: {
 					click () {
 						vm.$refs[vm.refName].validate((valid) => {
@@ -417,9 +433,7 @@ export default {
 				}
 			}, '查询'),
 			h('el-button', {
-				props: {
-					type: 'warning'
-				},
+				props: { ...vm.resetProps },
 				on: {
 					click () {
 						vm.resetFields();
@@ -431,7 +445,7 @@ export default {
 					'el-button',
 					{
 						style: { display: !vm.expandAll ? '' : 'none'},
-						props: {size: vm.size},
+						props: { size: vm.size, ...vm.expandProps },
 						on: { click: ()=> vm.expandAll = !vm.expandAll }
 					},
 					[
@@ -447,7 +461,7 @@ export default {
 					'el-button',
 					{
 						style: { display: vm.expandAll ? '' : 'none'},
-						props: {size: vm.size},
+						props: { size: vm.size, ...vm.expandProps },
 						on: { click: ()=> vm.expandAll = !vm.expandAll }
 					},
 					[
