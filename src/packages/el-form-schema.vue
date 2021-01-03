@@ -446,7 +446,12 @@ export default {
 					{
 						style: { display: !vm.expandAll ? '' : 'none'},
 						props: { size: vm.size, ...vm.expandProps },
-						on: { click: ()=> vm.expandAll = !vm.expandAll }
+						on: { 
+							click () {
+								vm.expandAll = !vm.expandAll;
+								vm.$emit("expand", vm.expandAll);
+							}
+						}
 					},
 					[
 							'更多',
@@ -462,7 +467,12 @@ export default {
 					{
 						style: { display: vm.expandAll ? '' : 'none'},
 						props: { size: vm.size, ...vm.expandProps },
-						on: { click: ()=> vm.expandAll = !vm.expandAll }
+						on: { 
+							click () {
+								vm.expandAll = !vm.expandAll;
+								vm.$emit("expand", vm.expandAll);
+							}
+						}
 					},
 					[
 							'收起',

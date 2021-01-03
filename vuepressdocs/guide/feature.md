@@ -49,6 +49,7 @@ isSearchForm属性值为true，查询表单会提供 submit 和 reset 2个事件
 -|-
 submit|提交表单
 reset|重置表单
+expand|展开/收起
 
 ## schema 属性值
 字段|说明|类型|默认值  
