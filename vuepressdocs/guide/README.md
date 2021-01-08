@@ -16,6 +16,7 @@
   // 统一选项设置
   // Vue.use(elFormSchema, { 
   //   size: 'small', 
+  //   isExpand: false, 
   //   componentWidth: '240px',
   //   submitProps: { type: 'primary', icon: 'el-icon-search' },
   //   resetProps: { type: 'warning', icon: 'el-icon-refresh-left' }

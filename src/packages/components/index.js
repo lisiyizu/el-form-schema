@@ -30,6 +30,11 @@ export const Component = (createElement, vm, key, item) => {
 
   // 获取value
   const value = eval(`formValues.${key}`);
+  
+  // 组件default如果是动态, 需要重新设置该组件的value
+  if(!value && item.default) {
+    eval(`formValues.${name} = item.default`);
+  }
 
   // 合并事件
   item.on = Object.assign(on, {

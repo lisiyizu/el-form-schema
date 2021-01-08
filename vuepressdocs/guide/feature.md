@@ -30,6 +30,7 @@ inline|行内表单模式|boolean|false
 size|用于控制该表单内组件的尺寸|string|medium
 disabled|是否禁用该表单内的所有组件。若设置为 true，则表单内组件上的 disabled 属性不再生效|boolean|-
 isSearchForm|是否是查询表单|boolean|false
+isExpand|是否展开|boolean|false
 componentWidth|统一组件宽度|string|240px
 
 ## el-form-schema 方法

@@ -88,6 +88,12 @@ export default {
 				return {  type: 'default', ...this.$EFS.expandProps }
 			}
 		},
+		isExpand: {
+			type: Boolean,
+			default() {
+				return this.$EFS.isExpand
+			}
+		},
 		debug: {
 			type: Boolean,
 			default: false
@@ -95,7 +101,7 @@ export default {
 	},
 	data () {
 		return {
-			expandAll: false,
+			expandAll: this.isExpand,
 			isWatching: false,
 			validiteFieldSet: new Set(),
 			formValues: {}
@@ -427,7 +433,9 @@ export default {
 				on: {
 					click () {
 						vm.$refs[vm.refName].validate((valid) => {
-							vm.$emit('submit', valid);
+							if(valid) {
+								vm.$emit('submit', valid);
+							}
 						});
 					}
 				}

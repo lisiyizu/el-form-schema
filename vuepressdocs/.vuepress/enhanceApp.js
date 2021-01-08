@@ -7,6 +7,7 @@ export default ({Vue}) => {
   Vue.use(elementUI)
   Vue.use(elFormSchema, { 
     size: 'small', 
+    isExpand: true,
     componentWidth: '240px',
     submitProps: { type: 'primary', icon: 'el-icon-search' },
     resetProps: { type: 'warning', icon: 'el-icon-refresh-left' }

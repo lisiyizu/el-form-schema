@@ -2,6 +2,7 @@ import elFormSchema from './packages/el-form-schema.vue'
 const install = function (Vue, opts = {}) {
   Vue.prototype.$EFS = {
     size: opts.size || 'small',
+    isExpand: opts.isExpand,
     componentWidth:  opts.componentWidth || '220px',
     labelSuffix: opts.labelSuffix || '',
     submitProps: opts.submitProps || {},
