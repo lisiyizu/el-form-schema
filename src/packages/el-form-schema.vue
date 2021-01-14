@@ -289,7 +289,11 @@ export default {
 					break;
 				default:
 					if (schema.isInput) {
-						values[key] = this.setDefaultValue(schema);
+						if (this.model[key]) {
+              values[key] = this.model[key];
+            } else {
+              values[key] = this.setDefaultValue(schema);
+            }
 						// 判断slot的情况
 						if (typeof schema.slot === 'object') {
 							Object.keys(schema.slot).forEach(key => {
