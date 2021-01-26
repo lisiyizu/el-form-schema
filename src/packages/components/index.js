@@ -96,6 +96,10 @@ export const Component = (createElement, vm, key, item) => {
   };
 
   let vifBool = true;
+  // 解决vif:false的问题
+  if (typeof item.vif === "boolean") {
+    vifBool = item.vif;
+  }
   // 编译 vif 表达式字符串
   if (item.vif && typeof item.vif === "string") {
     vifBool = compilerExpressionString(item.vif);
