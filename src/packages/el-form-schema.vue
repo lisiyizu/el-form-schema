@@ -188,11 +188,17 @@ export default {
 					component.attrs.placeholder = component.props.placeholder || `请输入${component.label}`;
 					break;
 				case 'el-date-picker':
-					component.props = Object.assign({ placeholder: '请选择日期', startPlaceholder: '开始日期', endPlaceholder: '结束日期', valueFormat: 'yyyy-MM-dd', unlinkPanels: true }, component.props);
+					component.props = Object.assign({}, { placeholder: '请选择日期', startPlaceholder: '开始日期', endPlaceholder: '结束日期', unlinkPanels: true }, component.props);
 					if (component.props.type === 'daterange') {
 						component.default = component.default || [];
+						component.props.valueFormat = component.props.valueFormat || 'yyyy-MM-dd';
+					} else if (component.props.type === 'datetimerange') {
+						component.default = component.default || [];
+						component.props.valueFormat = component.props.valueFormat || 'yyyy-MM-dd HH:mm:ss';
+						component.props.defaultTime = component.props.defaultTime || ['00:00:00', '23:59:59'];
 					} else {
 						component.default = component.default || '';
+						component.props.valueFormat = component.props.valueFormat || 'yyyy-MM-dd';
 					}
 					break;
 				case 'el-switch':
@@ -289,7 +295,7 @@ export default {
 					break;
 				default:
 					if (schema.isInput) {
-						if (this.model[key]) {
+						if (this.model[key] || typeof this.model[key] === 'boolean') {
               values[key] = this.model[key];
             } else {
               values[key] = this.setDefaultValue(schema);

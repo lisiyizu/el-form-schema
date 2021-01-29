@@ -9,10 +9,12 @@ export default  {
   data () {
     return {
       schema: {
+        text: { tag: 'text', label: '文字', default: "hello world!" },
         input1: { tag: 'el-input', label: '输入框' },
         input2: { tag: 'el-input', label: '输入框', slot: { append: '测试' } },
         input3: { tag: 'el-input', label: '输入框', slot: { prepend: '测试' }, },
         radio: { tag: 'el-radio', label: '单选框', items: this.arrayData(5) },
+        bool: { tag: 'el-radio', label: 'bool单选', items: [{ label: '是', value: true }, { label: '否', value: false }]},
         select: { tag: 'el-select', label: '下拉框', items: ["蛋壳公寓", "原油宝", "优胜教育"] },
         checkbox: { tag: 'el-checkbox', label: '复选框', items: ["a", "b", "c"] },
         cascader: { tag: 'el-cascader', label: '级联选择器', props: { options: [], filterable: true } },
@@ -20,6 +22,7 @@ export default  {
         slider: { tag: 'el-slider', label: '滑块', props: { step: 10, showStops: true } },
         date: { tag: 'el-date-picker', label: '日期', props: { type: 'date' } },
         daterange: { tag: 'el-date-picker', label: '日期范围', props: { type: 'daterange' } },
+        datetimerange: { tag: 'el-date-picker', label: '日期时间范围', props: { type: 'datetimerange' } },
         timeselect: { 
           tag: 'el-time-select', 
           label: '固定时间点', 
@@ -45,7 +48,9 @@ export default  {
           }
         }
       },
-      model: {}
+      model: {
+        bool: true
+      }
     }
   },
   methods: {

@@ -1,4 +1,5 @@
 import { Component } from "./index";
+import TextComponent from './text';
 import ArrayComponent from './array';
 import ObjectComponent from './object';
 import TableComponent from './table';
@@ -10,6 +11,7 @@ import ElSelectComponent from './el-select';
 
 // 初始化自定义组件
 const customTags = {
+  'text': TextComponent,
   'array': ArrayComponent,
   'object': ObjectComponent,
   'table': TableComponent,
