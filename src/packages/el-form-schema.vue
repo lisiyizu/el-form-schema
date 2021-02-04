@@ -128,6 +128,11 @@ export default {
 			immediate: true
 		}
 	},
+	computed: {
+		isCanExpand() {
+			return  (this.expandNumber > 0 && Object.keys(this.schema).length > this.expandNumber);
+		}
+	},
 	methods: {
 		/**
 		 * @description: 初始化解析schema
@@ -196,6 +201,9 @@ export default {
 						component.default = component.default || [];
 						component.props.valueFormat = component.props.valueFormat || 'yyyy-MM-dd HH:mm:ss';
 						component.props.defaultTime = component.props.defaultTime || ['00:00:00', '23:59:59'];
+					} else if(component.props.type === 'datetime') {
+						component.default = component.default || "";
+						component.props.valueFormat = component.props.valueFormat || 'yyyy-MM-dd HH:mm:ss';
 					} else {
 						component.default = component.default || '';
 						component.props.valueFormat = component.props.valueFormat || 'yyyy-MM-dd';
@@ -459,7 +467,7 @@ export default {
 					}
 				}
 			}, '重置'),
-			vm.expandNumber? h(
+			vm.isCanExpand ? h(
 					'el-button',
 					{
 						style: { display: !vm.expandAll ? '' : 'none'},
@@ -480,7 +488,7 @@ export default {
 							})
 					]
 			) : null,
-			vm.expandNumber? h(
+			vm.isCanExpand ? h(
 					'el-button',
 					{
 						style: { display: vm.expandAll ? '' : 'none'},
