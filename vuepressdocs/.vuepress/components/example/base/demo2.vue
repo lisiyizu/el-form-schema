@@ -37,7 +37,7 @@ export default  {
           } 
         },
         timeselect: { tag: 'el-time-select' },
-        arr: {
+        obj: {
           tag: 'object',
           inline: true,
           required: true,

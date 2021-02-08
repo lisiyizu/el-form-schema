@@ -146,7 +146,7 @@ export default {
 				this.initComponentList(schemaComponent);
 				this.setValueKey(values, key, schemaComponent)
 			}
-			this.formValues = values;
+			this.formValues = Object.assign(values, this.model);
 			this.$emit('input', values);
 		},
 		/**

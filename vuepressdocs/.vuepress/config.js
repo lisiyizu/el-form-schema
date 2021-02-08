@@ -32,7 +32,7 @@ module.exports = {
         {
           title: "指南",
           collapsable: false,
-          children: ["", "feature", "base", "layout", "expression", "data", "array", "object", "table", "slot", "showcase"]
+          children: ["", "feature", "base", "layout", "dialog", "expression", "data", "array", "object", "table", "slot", "showcase"]
         }
       ]
     }
