@@ -13,7 +13,12 @@
         v-model="form" 
         :inline="false" 
         label-width="100px"
-      ></el-form-schema>
+      >
+        <el-form-item>
+          <el-button @click="dialogVisible=false">取消</el-button>
+          <el-button type="primary" @click="submit">提交</el-button>
+        </el-form-item>
+      </el-form-schema>
     </el-dialog>
    
   </div>
@@ -32,6 +37,7 @@ export default  {
         input: {
           tag: 'el-input', 
           label: '输入框', 
+          required: true,
           props: { disabled: "$model.type !== 'add'" }  
         },
         province: { 
@@ -39,6 +45,7 @@ export default  {
           inline: true,  
           label: '联动类型', 
           items: ["A"], 
+          required: true,
           props: { disabled: "$model.type !== 'add'" },
           slot: { after: ' ' } 
         },
@@ -46,19 +53,21 @@ export default  {
           tag: 'el-select', 
           inline: true, 
           items: ["B"], 
-          slot: { after: ' ' }, 
-          props: { disabled: "$model.type !== 'add'" }  
+          slot: { after: ' ' },
+          required: true,
+          props: { disabled: "$model.type !== 'add'  || !$model.province" }  
         },
         county: { 
           tag: 'el-select', 
           inline: true, 
-          items: ["C"], 
-          props: { disabled: "$model.type !== 'add'" }  
+          items: ["C"],
+          required: true,
+          props: { disabled: "$model.type !== 'add' || !$model.city" }  
         },
         daterange: { 
           tag: 'el-date-picker', 
-          label: '日期范围', 
-          inline: true
+          label: '日期范围',
+          required: true,
         },
       },
       form: { type: "" }
@@ -83,6 +92,13 @@ export default  {
     },
     closedDialog() {
       this.$refs.efs.resetFields();
+    },
+    submit() {
+      this.$refs.efs.validate((valid)=>{
+        if (valid) {
+          alert("提交");
+        }
+      })
     }
   }
 }
