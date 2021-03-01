@@ -10,9 +10,9 @@ export default  {
     return {
       schema: {
         input1: { tag: 'el-input', label: '输入框' },
-        region: { tag: 'el-select', label: '地址', items: ["A"] },
-        area: { tag: 'el-select',  vif: '$model.region', items: ["B"], slot: { after: ' ' } },
-        district: { tag: 'el-select', vif: '$model.area',  items: ["C"], slot: { after: ' ' } },
+        region: { tag: 'el-select', label: '地址', items: ["A", "湖南"] },
+        area: { tag: 'el-select',  vif: '$model.region === "湖南"', items: ["C", "长沙市"], slot: { after: ' ' } },
+        district: { tag: 'el-select', vif: '$model.area === "长沙市"',  items: ["E", "岳麓区"], slot: { after: ' ' } },
         switch: { tag: 'el-switch', default: false, label: '复选框' },
         date: { tag: 'el-date-picker', vif: '$model.switch', label: '日期范围', inline: true, props: { type: 'date' } },
         timeselect: { 

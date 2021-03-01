@@ -114,7 +114,13 @@ export const Component = (createElement, vm, key, item) => {
   }
 
   // 收集vif=false的隐藏字段（目的：后续为了用来移除验证）
-  vifBool ? vm.validiteFieldSet.delete(name) : vm.validiteFieldSet.add(name);
+  if(vifBool) {
+    vm.validiteFieldSet.delete(name);
+  }  else {
+    // 修复联动 vif=false，清空数值
+    eval(`formValues.${name} = item.default || ''`);
+    vm.validiteFieldSet.add(name);
+  }
 
   // 通过 vifBool 设置 rules 的 required 值
   if (item.rules) rules.required = vifBool;
