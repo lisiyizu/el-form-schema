@@ -32,7 +32,7 @@ export const Component = (createElement, vm, key, item) => {
   const value = eval(`formValues.${key}`);
   
   // 组件default如果是动态, 需要重新设置该组件的value
-  if(!value && item.default) {
+  if(!value && typeof value !== 'boolean' && item.default) {
     eval(`formValues.${name} = item.default`);
   }
 
