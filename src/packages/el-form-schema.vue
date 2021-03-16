@@ -1,5 +1,6 @@
 <script>
 import { Component } from './components/index.js'
+import { getObjectByPath } from './components/utils';
 export default {
 	model: {
 		prop: 'model',
@@ -371,7 +372,7 @@ export default {
 		 * @description: 获取节点的所有字段域
 		*/
 		getValidateProps (field) {
-			const val = eval(`this.formValues.${field}`);
+			const val = getObjectByPath(this.formValues, field);
 			if (typeof val !== 'object' && !Array.isArray(val)) {
 				return [field];
 			} else if (Array.isArray(val)) {

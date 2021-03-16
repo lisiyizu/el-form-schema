@@ -14,12 +14,12 @@ export default  {
   data () {
     return {
       schema: {
-        input: { tag: 'el-input', required: true, label: '输入框' },
-        arr: {
+        arr1: {
           tag: 'array',
-          inline: true,
           label: '数组',
           required: true,
+          type: "card",
+          labelWidthComponents: '100px',
           slot: {
             add: 'Add',
             delete: 'Delete'
@@ -28,12 +28,30 @@ export default  {
             radio: { 
               tag: 'el-radio', 
               required: true,
-              items: [{ label:'必填', value: true }, { label: '非必填', value: false }]   
+              label: '是否必填',
+              items: [{ label:'显示', value: true }, { label: '隐藏', value: false }]   
             },
             input: { 
               tag: 'el-input', 
-              required: '$item.radio' 
+              label: '输入框',
+              required: '$item.radio'
             },
+            arr2: {
+              tag: 'array',
+              inline: true,
+              components: {
+                radio: {
+                  tag: 'el-radio',
+                  items: [{ label:'显示(下拉框)', value: true }, { label: '隐藏(下拉框)', value: false }]
+                },
+                select: {
+                  tag: 'el-select',
+                  items: ['A','B','C'],
+                  required: true,
+                  vif: 'arr1_$index === 0 && $item.radio'
+                }
+              }
+            }
           }
         }
       },

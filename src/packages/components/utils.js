@@ -120,6 +120,14 @@ const fieldsetComponent = (createElement, dataItem, nodes) => {
   ]
 };
 
+//
+const getObjectByPath = (obj, path) => {
+    const pathArr = path.split('.');
+    return pathArr.reduce((prev, next) => {
+        return prev ? prev[next] : undefined;  
+    }, obj);
+}
+
 // 简单深度拷贝
 const deepClone = obj => {
   if (obj === null) return null;
@@ -139,6 +147,7 @@ const deepClone = obj => {
 export {
   customTags,
   deepClone,
+  getObjectByPath,
   fieldsetComponent,
   slotComponent,
   createTipComponent,

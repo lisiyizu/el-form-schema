@@ -7,6 +7,7 @@
       :visible.sync="dialogVisible"
       width="900px"
       @closed="closedDialog">
+      {{form}}
       <el-form-schema 
         ref="efs"
         :schema="schema" 

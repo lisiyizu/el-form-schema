@@ -23,15 +23,27 @@ export default  {
           type: "card",
           labelWidthComponents: '100px',
           components: {
-            input: { tag: 'el-input', required: true },
+            radio: {
+              tag: 'el-radio', 
+              required: true,
+              items: [{ label:'必填', value: true }, { label: '非必填', value: false }] 
+            },
             arr2: {
               tag: 'array',
               inline: true,
-              label: '数组',
-              labelWidthComponents: '100px',
+              labelWidthComponents: '70px',
               components: {
-                input: { tag: 'el-input', required: true },
-                select: { tag: 'el-select', label: '下拉框', items: ["蛋壳公寓", "原油宝", "优胜教育"] },
+                input: { 
+                  tag: 'el-input',
+                  required: 'arr1_$index === 0 && arr2_$index === 0', 
+                  label: '输入框' 
+                },
+                select: { 
+                  tag: 'el-select',
+                  required: '$model.arr1[arr1_$index].radio',
+                  label: '下拉框', 
+                  items: ["蛋壳公寓", "原油宝", "优胜教育"] 
+                },
               }
             }
           }

@@ -18,7 +18,7 @@ vuepress地址：[http://efs.apidevelop.com](http://efs.apidevelop.com)
 - 内置支持给组件设置 inline 行内布局属性，让布局更加灵活
 - 内置支持给 object、array 设置 inline 的方式
 - object 组件内置支持 card 和 fieldset 的布局类型，array 内置支持 card 的布局方式。
-- 支持组件之间的复杂联动，支持 vif: "字符串表达式" 和 props: { disabled: "字符串表达式" }
+- 支持组件之间的复杂联动，支持 vif: "字符串表达式"、props: { disabled: "字符串表达式" }、required: '字符串表达式' 和 rules: { required: '字符串表达式', message:'必填'}
 - 支持引入自定义组件，如果要实现双向绑定使用（注意：前提该组件实现了v-model的语法糖）
 - 支持统一设置组件宽度
 ## Install

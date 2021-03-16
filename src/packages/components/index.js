@@ -25,6 +25,10 @@ export const Component = (createElement, vm, key, item) => {
   // 支持diabled的表达式
   if (item.props && typeof item.props.disabled === 'string') item.props.disabledExpression = item.props.disabled;
   if (item.attrs && typeof item.attrs.disabled === 'string') item.attrs.disabledExpression = item.attrs.disabled;
+  // 支持 required: '$model.a'
+  if (item.required && typeof item.required === 'string') item.requiredExpression = item.required;
+  // 支持 rules: { required: '$model.a', message: '必填' }
+  if (!Array.isArray(item.rules) && item.rules && (typeof item.rules.required === 'string')) item.requiredExpression = item.rules.required;
 
   const { formValues, model } = vm;
 
@@ -73,8 +77,15 @@ export const Component = (createElement, vm, key, item) => {
       // 复杂vif: "test.length>0" || "arr[$index].test"
       try {
         // vif 包含 $index
-        if (condition.includes("[$index]") && $index > -1) {
-          condition = condition.replace("$index", $index || 0);
+        if (/\[\$index\]/g.test(condition)) {
+          condition = condition.replaceAll('[$index]', `[${$index || 0}]`);
+        } 
+        // 是否包含 arr_$index 的情况
+        if (/\w+_\$index/g.test(condition)) {
+          key.replace(/(\w+)\[(\d)\]/g,function(findItem, $1, $2) {
+            condition = condition.replaceAll(`${$1}_$index`, $2);
+            return findItem;
+          })
         }
         // vif 包含 $item
         if (condition.includes("$item")) {
@@ -86,7 +97,7 @@ export const Component = (createElement, vm, key, item) => {
           condition = condition.replace(/(\$model)/g, "formValues");
         }
         // 执行eval
-        return eval(condition);
+        return !!eval(condition);
       } catch (e) {
         console.error(e);
         // 阻止多级报错的情况，比如："$model.a.b.c"
@@ -95,7 +106,7 @@ export const Component = (createElement, vm, key, item) => {
     }
   };
 
-  let vifBool = true;
+  let vifBool = true, isRequiredBool = false;
   // 解决vif:false的问题
   if (typeof item.vif === "boolean") {
     vifBool = item.vif;
@@ -112,6 +123,10 @@ export const Component = (createElement, vm, key, item) => {
   if (item.attrs && (typeof item.attrs.disabledExpression === "string")) {
     item.attrs.disabled = compilerExpressionString(item.attrs.disabledExpression);
   }
+  // 编译 required 表达式字符串
+  if (item.requiredExpression && (typeof item.requiredExpression === "string")) {
+    item.required = compilerExpressionString(item.requiredExpression);
+  }
 
   // 收集vif=false的隐藏字段（目的：后续为了用来移除验证）
   if(vifBool) {
@@ -121,9 +136,15 @@ export const Component = (createElement, vm, key, item) => {
     eval(`formValues.${name} = item.default || ''`);
     vm.validiteFieldSet.add(name);
   }
-
-  // 通过 vifBool 设置 rules 的 required 值
-  if (item.rules) rules.required = vifBool;
+  
+  // 增加联动 required 验证
+  if(typeof item.required  === 'boolean' && !item.required) {
+    vm.validiteFieldSet.add(name);
+    item.rules.required = false;
+    rules.required = false;
+  } else if (item.rules) {
+    item.rules.required = vifBool;
+  }
 
   let nodes = [];
 
