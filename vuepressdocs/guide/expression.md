@@ -29,11 +29,6 @@ $item| $item是复杂对象(object、array、table)所具有的， 对于object�
  <<< @/vuepressdocs/.vuepress/components/example/expression/disabled.vue
 </demo-block>
 
-<demo-block>
-<example-expression-disabled slot="source"/>
- <<< @/vuepressdocs/.vuepress/components/example/expression/disabled.vue
-</demo-block>
-
 ## 复杂联动
   
 

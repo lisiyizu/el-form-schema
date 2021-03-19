@@ -255,7 +255,7 @@ export default function(createElement, value, data) {
                   disabled: listValues.length === data.maxLimit
                 },
                 on: {
-                  click() {
+                  click: () => {
                     eval(
                       `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`
                     );

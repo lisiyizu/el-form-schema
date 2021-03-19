@@ -1,5 +1,5 @@
 <script>
-import { Component } from './components/index.js'
+import { Component } from './components/index'
 import { getObjectByPath } from './components/utils';
 export default {
 	model: {
@@ -119,7 +119,7 @@ export default {
 		schema: {
 			handler (val) {
 				if (!this.isWatching && Object.keys(val).length) {
-					this.initSchemasValues()
+					this.initSchemas()
 				} else {
 					this.isWatching = false
 				}
@@ -138,7 +138,7 @@ export default {
 		/**
 		 * @description: 初始化解析schema
 		*/
-		initSchemasValues () {
+		initSchemas () {
 			const values = {}
 			const lastKey = Object.keys(this.schema).pop();
 			for (const key in this.schema) {
@@ -148,7 +148,6 @@ export default {
 				this.setValueKey(values, key, schemaComponent)
 			}
 			this.formValues = Object.assign(values, this.model);
-			this.$emit('input', values);
 		},
 		/**
 		 * @description: 设置组件默认值
@@ -372,7 +371,7 @@ export default {
 		 * @description: 获取节点的所有字段域
 		*/
 		getValidateProps (field) {
-			const val = getObjectByPath(this.formValues, field);
+			const val = field.includes('.') ? getObjectByPath(this.formValues, field) : eval(`this.formValues.${field}`);
 			if (typeof val !== 'object' && !Array.isArray(val)) {
 				return [field];
 			} else if (Array.isArray(val)) {

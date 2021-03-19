@@ -8,12 +8,21 @@ $item| $item是复杂对象(object、array、table)所具有的， 对于object�
 ${key}_$index| 用于 (table、array) 的嵌套场景下，需要用到索引值的逻辑, 比如: arr\_$index
 
 ## 数组索引: ${key}_$index
+  
 
 <demo-block>
 <example-array-index slot="source"/>
 <<< @/vuepressdocs/.vuepress/components/example/array/index.vue
 </demo-block>
 
+
+## 自定义: 增加、删除
+  
+
+<demo-block>
+<example-array-custom slot="source"/>
+<<< @/vuepressdocs/.vuepress/components/example/array/custom.vue
+</demo-block>
 
 ## 初级
   

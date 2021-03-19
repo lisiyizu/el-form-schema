@@ -106,7 +106,7 @@ export const Component = (createElement, vm, key, item) => {
     }
   };
 
-  let vifBool = true, isRequiredBool = false;
+  let vifBool = true;
   // 解决vif:false的问题
   if (typeof item.vif === "boolean") {
     vifBool = item.vif;
@@ -139,6 +139,8 @@ export const Component = (createElement, vm, key, item) => {
   
   // 增加联动 required 验证
   if(typeof item.required  === 'boolean' && !item.required) {
+    item.rules = item.rules || {};
+    rules = rules || {};
     vm.validiteFieldSet.add(name);
     item.rules.required = false;
     rules.required = false;
@@ -192,6 +194,14 @@ export const Component = (createElement, vm, key, item) => {
   // 复杂组件
   const COMPFLEX_COMPONENTS = ["object", "array", "table"];
   
+  // 复杂类型 required: true 的情况
+  if(COMPFLEX_COMPONENTS.includes(item.tag) && typeof item.required === 'boolean') {
+    rules = { required: item.required, message: '必填' };
+    vm.$watch(`formValues.${key}`, (val) => {
+      if (val.length === 1) vm.$refs[key].clearValidate();
+    });
+  }                
+  
   return [
     createElement(
       "el-form-item",
@@ -203,7 +213,7 @@ export const Component = (createElement, vm, key, item) => {
         props: {
           rules,
           required: item.required,
-          prop: COMPFLEX_COMPONENTS.includes(item.tag) && item.rules && !item.rules.required ? '' : key,
+          prop: key,
           labelWidth: labelWidth || vm.labelWidth,
           label: item.label
         },
