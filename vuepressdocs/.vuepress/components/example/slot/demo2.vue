@@ -49,21 +49,6 @@
           >
         </el-form-item>
       </template>
-      <template slot="arr.components.arr2.operator" slot-scope="scope">
-        <el-form-item label="">
-          <el-button
-            :disabled="scope.delDisabled"
-            @click="deleteArrItem2(scope)"
-            >删除-slot</el-button
-          >
-          <el-button
-            type="primary"
-            :disabled="scope.addDisabled"
-            @click="addArrItem2(scope)"
-            >新增-slot</el-button
-          >
-        </el-form-item>
-      </template>
       <el-form-item>
         <el-button @click="submit" type="primary">提交</el-button>
         <el-button @click="reset">重置</el-button>
@@ -441,28 +426,9 @@ export default {
     },
     addArrItem({ get, prop, keys, row, index }) {
       console.log(prop, keys, row, index);
-      this.$refs["el-form-schema"].validateField(`${prop}[${index}]`, valid => {
-        if (!valid) {
-          get(prop).push(keys);
-        }
+      this.$refs["el-form-schema"].validateFieldPromise(`${prop}[${index}]`).then(valid => {
+        if(valid)  get(prop).push(keys);
       });
-    },
-    deleteArrItem2({ get, prop, keys, row, index }) {
-      console.log(prop, keys, row, index);
-      get(prop).splice(index, 1);
-    },
-    addArrItem2({ get, prop, keys, row, index }) {
-      console.log(prop, keys, row, index);
-      this.$refs["el-form-schema"]
-        .validateFieldPromise(`${prop}[${index}]`)
-        .then(valid => {
-          if (valid) {
-            get(prop).push(keys);
-            this.$message.success("新增成功！");
-          } else {
-            this.$message.warning("请先完成必填项～");
-          }
-        });
     },
     arrayData(count) {
       return Array(count)

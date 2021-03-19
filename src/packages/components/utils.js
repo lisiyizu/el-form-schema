@@ -120,12 +120,14 @@ const fieldsetComponent = (createElement, dataItem, nodes) => {
   ]
 };
 
-//
+// 优化解决 a.arr[0].c 的等复杂情况
 const getObjectByPath = (obj, path) => {
-    const pathArr = path.split('.');
-    return pathArr.reduce((prev, next) => {
-        return prev ? prev[next] : undefined;  
-    }, obj);
+  const pathArr = path.split('.').map(item => {
+      return (item.includes('[')) ? item.replace(']','').split('[') : item;
+  }).flat(true);
+  return pathArr.reduce((prev, next) => {
+    return prev ? prev[next] : undefined;  
+  }, obj);
 }
 
 // 简单深度拷贝
