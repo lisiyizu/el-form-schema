@@ -98,14 +98,27 @@ export default {
 		debug: {
 			type: Boolean,
 			default: false
+		},
+		apiConfig: {
+			type: Function
 		}
 	},
 	data () {
 		return {
+			configData: {},
 			expandAll: this.isExpand,
 			isWatching: false,
 			validiteFieldSet: new Set(),
 			formValues: {}
+		}
+	},
+	created() {
+		if(typeof this.apiConfig === 'function') {
+			this.apiConfig().then(data => {
+				Object.keys(data).map(key => {
+					this.$set(this.configData, key, data[key]);
+				});
+			});
 		}
 	},
 	watch: {
@@ -149,6 +162,25 @@ export default {
 			}
 			this.formValues = Object.assign(values, this.model);
 		},
+		/** 
+		 * 监听表达式组件
+		*/
+		watchExpComponent(component) {
+			// 是否包含表达式
+			const isExp = key => (typeof key === 'string' && key.includes('$configData'));
+			// 监听目录对象
+			const watchTarget = (target, key) => {
+				if(isExp(target[key])) {
+					const targetExp = target[key];
+					target[key] = [];
+					this.$watch(targetExp.replace(/\$configData/g, 'configData'), (val) => {
+						target[key] = val;
+					});
+				}
+			} 
+			// (el-checkbox、el-select、el-radio) 设置 items: '$configData.test' 会主动发起watch监听 
+			watchTarget(component, 'items');
+		},
 		/**
 		 * @description: 设置组件默认值
 		*/
@@ -164,6 +196,7 @@ export default {
 			component.props = component.props || {};
 			component.attrs = component.attrs || {};
 			component.rules = component.rules || (component.required ? { required: true, message: "必填" } : null);
+			this.watchExpComponent(component);
 			if (component.items) {
 				const list = JSON.parse(JSON.stringify(component.items));
 				component.items = list.map(item => {

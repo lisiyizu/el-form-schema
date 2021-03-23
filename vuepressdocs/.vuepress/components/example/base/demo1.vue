@@ -6,6 +6,7 @@
       v-model="model"
       :inline="false"
       label-width="120px"
+      :api-config="getApiConfig"
     ></el-form-schema>
   </div>
 </template>
@@ -36,7 +37,8 @@ export default {
         radio: {
           tag: "el-radio",
           label: "单选框",
-          items: this.arrayData(5)
+          keys: { label: 'name', value: 'id' },
+          items: "$configData.foo"
         },
         bool: {
           tag: "el-radio",
@@ -49,17 +51,14 @@ export default {
         select1: {
           tag: "el-select",
           label: "下拉框1",
-          items: ["蛋壳公寓", "原油宝", "优胜教育"]
+          keys: { label: 'name', value: 'id' },
+          items: "$configData.bar"
         },
         select2: {
           tag: "el-select",
           label: "下拉框2",
           keys: { label: "name", value: "id" },
-          items: [
-            { id: 1, name: "蛋壳公寓" },
-            { id: 2, name: "原油宝" },
-            { id: 3, name: "优胜教育" }
-          ]
+          items:  ["蛋壳公寓", "原油宝", "优胜教育"]
         },
         checkbox: {
           tag: "el-checkbox",
@@ -134,6 +133,19 @@ export default {
       return new Array(num)
         .fill({})
         .map((item, index) => ({ label: `测试-${index}`, value: index + 1 }));
+    },
+    async getApiConfig() {
+      const foo = await new Promise(r => {
+        setTimeout(() => 
+          r([{ id: 1, name: '动态数据1' }, { id: 2, name: '动态数据2' }])
+        , 500);
+      });
+      const bar = await new Promise(r => {
+        setTimeout(() => 
+          r([{ id: 1, name: 'bar1' }, { id: 2, name: 'bar2' }])
+        , 500);
+      });
+      return { foo, bar };
     }
   }
 };

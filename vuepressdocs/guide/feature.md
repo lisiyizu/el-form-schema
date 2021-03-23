@@ -32,6 +32,7 @@ disabled|是否禁用该表单内的所有组件。若设置为 true，则表单
 isSearchForm|是否是查询表单|boolean|false
 isExpand|是否展开|boolean|false
 componentWidth|统一组件宽度|string|240px
+apiConfig|配置接口（专门为 el-select、el-radio、el-checkbox 组件的items数据源配置，详见：[动态数据](http://efs.apidevelop.com/guide/apiConfig.html#apiconfig-%E6%96%B9%E6%B3%95) ）|Function|-
 
 ## el-form-schema 方法
 方法名|说明|参数
@@ -41,7 +42,7 @@ validateField|对部分表单字段进行校验的方法|Function(props: array |
 resetFields|对整个表单进行重置，将所有字段值重置为初始值并移除校验结果|—
 clearValidate|移除表单项的校验结果。传入待移除的表单项的 prop 属性或者 prop 组成的数组，如不传则移除整个表单的校验结果|Function(props: array | string)
 
-除了以上el-form的方法，内部还扩展了一个 `validateFieldPromise` 方法(详见用法：[场景篇->高级](http://efs.apidevelop.com/guide/showcase.html#高级))，来弥补 validateField 的问题。
+除了以上el-form的方法，内部还扩展了一个 `validateFieldPromise` 方法(详见用法：[Array->自定义](http://efs.apidevelop.com/guide/array.html#%E8%87%AA%E5%AE%9A%E4%B9%89-%E5%A2%9E%E5%8A%A0%E3%80%81%E5%88%A0%E9%99%A4)，来弥补 validateField 的问题。
 
 ## el-form-schema 事件
 isSearchForm属性值为true，查询表单会提供 submit 和 reset 2个事件 (详见用法：[布局篇->查询表单布局](http://efs.apidevelop.com/guide/layout.html#查询表单布局)
@@ -72,7 +73,7 @@ class|类名class|[vue render](https://cn.vuejs.org/v2/guide/render-function.htm
 on|事件|[vue render](https://cn.vuejs.org/v2/guide/render-function.html#%E6%B7%B1%E5%85%A5%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1)（on对象）|-
 
 ## 内置组件
-table 组件属性
+table 组件属性 ([详见](http://efs.apidevelop.com/guide/table.html))
 ```js
     table: {
       tag: 'table',
@@ -104,7 +105,7 @@ table 组件属性
     }
 ```
 
-object 组件属性
+object 组件属性 ([详见](http://efs.apidevelop.com/guide/object.html))
 ```js
     object: {
       tag: 'object',
@@ -120,7 +121,7 @@ object 组件属性
     }
 ```
 
-array 组件属性
+array 组件属性 ([详见](http://efs.apidevelop.com/guide/array.html))
 ```js
     array: {
       tag: 'array',

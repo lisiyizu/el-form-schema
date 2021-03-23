@@ -173,7 +173,7 @@ export default function(createElement, value, data) {
               $index
             )
           },
-          title: (data.title || "标题").replace(/\$index/gi, $index + 1)
+          title: (data.title || "标题").replace(/\$index/gi, $index + 1).replace(/\$index/gi, $index + 1)
         }),
         list
       ]

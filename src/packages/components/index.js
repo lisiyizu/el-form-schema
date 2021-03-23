@@ -200,7 +200,7 @@ export const Component = (createElement, vm, key, item) => {
     vm.$watch(`formValues.${key}`, (val) => {
       if (val.length === 1) vm.$refs[key].clearValidate();
     });
-  }                
+  } 
   
   return [
     createElement(
