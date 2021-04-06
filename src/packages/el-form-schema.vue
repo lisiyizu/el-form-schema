@@ -32,7 +32,7 @@ export default {
 		labelPosition: {
 			type: String,
 			default() {
-				return this.$EFS.size || 'right'
+				return this.$EFS.labelPosition || 'right'
 			}
 		},
 		size: {
@@ -163,17 +163,37 @@ export default {
 			this.formValues = Object.assign(values, this.model);
 		},
 		/** 
-		 * 监听表达式组件
+		 * 监听表达式组件: $watchModel
 		*/
-		watchExpComponent(component) {
-			// 是否包含表达式
-			const isExp = key => (typeof key === 'string' && key.includes('$configData'));
-			// 监听目录对象
+		// eslint-disable-next-line no-unused-vars
+		watchModelExp(component, formValues = {}) {
+			// 监听目标对象：$watchConfig 和 $watchModel
 			const watchTarget = (target, key) => {
-				if(isExp(target[key])) {
-					const targetExp = target[key];
+				let targetExp = target[key];
+				if (/\$watchModel\./g.test(targetExp)) {
+					const watchModel = targetExp.replace(/\$watchModel/g, 'formValues');
+					target[key] = eval(watchModel);
+					this.$watch(watchModel, (val) => 	{
+						target[key] = val
+					});
+				}
+			} 
+			// watch props: $model.* 的情况
+			Object.keys(component.props).map(key => {
+				watchTarget(component.props, key);
+			})
+		},
+		/** 
+		 * 监听表达式组件: $watchConfig
+		*/
+		watchConfigExp(component) {
+			// 监听目标对象：$watchConfig 和 $watchModel
+			const watchTarget = (target, key) => {
+				let targetExp = target[key];
+				if(/\$watchConfig\./g.test(targetExp)) {
+					const watchModel = targetExp.replace(/\$watchConfig/g, 'configData');
 					target[key] = [];
-					this.$watch(targetExp.replace(/\$configData/g, 'configData'), (val) => {
+					this.$watch(watchModel, (val) => {
 						target[key] = val;
 					});
 				}
@@ -196,7 +216,7 @@ export default {
 			component.props = component.props || {};
 			component.attrs = component.attrs || {};
 			component.rules = component.rules || (component.required ? { required: true, message: "必填" } : null);
-			this.watchExpComponent(component);
+			this.watchConfigExp(component)
 			if (component.items) {
 				const list = JSON.parse(JSON.stringify(component.items));
 				component.items = list.map(item => {
@@ -341,6 +361,8 @@ export default {
             } else {
               values[key] = this.setDefaultValue(schema);
             }
+						// watch 表达式组件
+						this.watchModelExp(schema, values);
 						// 判断slot的情况
 						if (typeof schema.slot === 'object') {
 							Object.keys(schema.slot).forEach(key => {

@@ -26,7 +26,7 @@ export default {
           required: true,
           label: "测试",
           keys: {label: 'name', value: 'id'},
-          items: "$configData.foo"
+          items: "$watchConfig.foo"
         },
         arr1: {
           tag: "array",
@@ -40,7 +40,7 @@ export default {
               tag: "el-radio",
               required: true,
               keys: { label: 'name', value: 'id' },
-              items: "$configData.obj"
+              items: "$watchConfig.obj"
             },
             arr2: {
               tag: "array",
@@ -57,7 +57,7 @@ export default {
                   required: "$model.arr1[arr1_$index].radio",
                   label: "下拉框",
                   keys: { label: 'name', value: 'id' },
-                  items: "$configData.test"
+                  items: "$watchConfig.test"
                 }
               }
             }
