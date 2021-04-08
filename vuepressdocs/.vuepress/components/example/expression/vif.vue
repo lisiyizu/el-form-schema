@@ -21,7 +21,8 @@ export default {
         region: {
           tag: "el-select",
           label: "地址",
-          items: ["A", "湖南"]
+          items: ["A", "湖南"],
+          props: { clearable: true }
         },
         area: {
           tag: "el-select",

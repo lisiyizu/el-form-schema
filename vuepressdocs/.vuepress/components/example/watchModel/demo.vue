@@ -26,13 +26,19 @@ export default {
           required: true,
           label: "select是否显示清除",
           keys: {label: 'name', value: 'val'},
-          items: "$watchConfig.foo"
+          items: "$config.foo"
         },
-        select: {
-          label: '测试',
+        select1: {
+          label: '测试1',
           tag: 'el-select',
-          items: [{ label: '测试$watchModel', value: 1 }],
-          props: { clearable: '$watchModel.radio' }
+          items: [{ label: '测试$model', value: 1 }],
+          props: { clearable: '$model.radio' }
+        },
+        select2: {
+          label: '测试2',
+          tag: 'el-select',
+          items: [{ label: '测试$model', value: 1 }],
+          props: { clearable: '$model.radio' }
         }
       },
       model: {}

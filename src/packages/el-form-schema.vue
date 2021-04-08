@@ -163,24 +163,32 @@ export default {
 			this.formValues = Object.assign(values, this.model);
 		},
 		/** 
-		 * 监听表达式组件: $watchModel
+		 *  设置表达式:  props 和 attrs
 		*/
-		// eslint-disable-next-line no-unused-vars
-		watchModelExp(component, formValues = {}) {
-			// 监听目标对象：$watchConfig 和 $watchModel
-			const watchTarget = (target, key) => {
-				let targetExp = target[key];
-				if (/\$watchModel\./g.test(targetExp)) {
-					const watchModel = targetExp.replace(/\$watchModel/g, 'formValues');
-					target[key] = eval(watchModel);
-					this.$watch(watchModel, (val) => 	{
-						target[key] = val
-					});
-				}
-			} 
-			// watch props: $model.* 的情况
+		setExp(component) {
+			// 支持 required: '$model.a'
+			if (component.required && typeof component.required === 'string') {
+				component.requiredExpression = component.required;
+			}
+			// 支持 rules: { required: '$model.a', message: '必填' }
+			if (!Array.isArray(component.rules) && component.rules && (typeof component.rules.required === 'string'))  {
+				component.requiredExpression = component.rules.required;
+			}
+			// 支持 props 表达式
 			Object.keys(component.props).map(key => {
-				watchTarget(component.props, key);
+				const expProp = `${key}_exp_prop`;
+				const val = component.props[key];
+				if (/\$index|\$item|\$model/g.test(val)) {
+					component.props[expProp] = 	val;
+				}
+			});
+			// 支持 attrs 表达式
+			Object.keys(component.attrs).map(key => {
+				const expAttr = `${key}_exp_attr`;
+				const val = component.attrs[key];
+				if (/\$index|\$item|\$model/g.test(val)) {
+					component.attrs[expAttr] = 	val;
+				}
 			})
 		},
 		/** 
@@ -190,8 +198,8 @@ export default {
 			// 监听目标对象：$watchConfig 和 $watchModel
 			const watchTarget = (target, key) => {
 				let targetExp = target[key];
-				if(/\$watchConfig\./g.test(targetExp)) {
-					const watchModel = targetExp.replace(/\$watchConfig/g, 'configData');
+				if(/\$config\./g.test(targetExp)) {
+					const watchModel = targetExp.replace(/\$config/g, 'configData');
 					target[key] = [];
 					this.$watch(watchModel, (val) => {
 						target[key] = val;
@@ -216,6 +224,7 @@ export default {
 			component.props = component.props || {};
 			component.attrs = component.attrs || {};
 			component.rules = component.rules || (component.required ? { required: true, message: "必填" } : null);
+			// 监听config表达式的情况
 			this.watchConfigExp(component)
 			if (component.items) {
 				const list = JSON.parse(JSON.stringify(component.items));
@@ -361,8 +370,7 @@ export default {
             } else {
               values[key] = this.setDefaultValue(schema);
             }
-						// watch 表达式组件
-						this.watchModelExp(schema, values);
+						this.setExp(schema);
 						// 判断slot的情况
 						if (typeof schema.slot === 'object') {
 							Object.keys(schema.slot).forEach(key => {

@@ -38,7 +38,7 @@ export default {
           tag: "el-radio",
           label: "单选框",
           keys: { label: 'name', value: 'id' },
-          items: "$configData.foo"
+          items: "$config.foo"
         },
         bool: {
           tag: "el-radio",
@@ -52,12 +52,11 @@ export default {
           tag: "el-select",
           label: "下拉框1",
           keys: { label: 'name', value: 'id' },
-          items: "$configData.bar"
+          items: "$config.bar"
         },
         select2: {
           tag: "el-select",
           label: "下拉框2",
-          keys: { label: "name", value: "id" },
           items:  ["蛋壳公寓", "原油宝", "优胜教育"]
         },
         checkbox: {

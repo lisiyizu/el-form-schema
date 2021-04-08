@@ -47,7 +47,7 @@ export default  {
           label: '联动类型', 
           items: ["A"], 
           required: true,
-          props: { disabled: "$model.type !== 'add'" },
+          props: { disabled: "$model.type !== 'add'", clearable: true  },
           slot: { after: ' ' } 
         },
         city: { 
@@ -56,7 +56,7 @@ export default  {
           items: ["B"], 
           slot: { after: ' ' },
           required: true,
-          props: { disabled: "$model.type !== 'add'  || !$model.province" }  
+          props: { disabled: "$model.type !== 'add'  || !$model.province", clearable: true }  
         },
         county: { 
           tag: 'el-select', 
