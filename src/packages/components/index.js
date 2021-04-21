@@ -226,7 +226,8 @@ export const Component = (createElement, vm, key, item) => {
           rules,
           required: item.required,
           prop: key,
-          labelWidth: labelWidth || vm.labelWidth
+          labelWidth: labelWidth || vm.labelWidth,
+          label: item.label
         },
         style: {
           display: vifBool && ((item.expand || vm.expandAll && vm.isSearchForm) || !vm.isSearchForm)
@@ -247,9 +248,9 @@ export const Component = (createElement, vm, key, item) => {
         ref: key
       },
       [
-        item.label ? createElement('span', { slot: 'label' }, [
+        item.label &&  item.labelTip ? createElement('span', { slot: 'label' }, [
           item.label,
-          item.labelTip ? createLabelTipComponent(createElement, item) : null
+          createLabelTipComponent(createElement, item)
         ]) : null,
         ... nodes
       ]

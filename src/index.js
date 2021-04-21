@@ -1,4 +1,4 @@
-import elFormSchema from './packages/el-form-schema.vue'
+import elFormSchema from './packages/index.vue'
 const install = function (Vue, opts = {}) {
   Vue.prototype.$EFS = {
     size: opts.size || 'small',

@@ -1,6 +1,7 @@
 import vue from 'rollup-plugin-vue';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from "rollup-plugin-terser";
+import copyTo from 'rollup-plugin-copy-assets-to';
 
 export default {
   input: 'src/index.js',
@@ -14,6 +15,12 @@ export default {
   plugins: [
     commonjs(),
     vue(),
-    terser()
+    terser(),
+    copyTo({
+      assets: [
+        './src'
+      ],
+      outputDir: 'npm/'
+    }),
   ]
 }
