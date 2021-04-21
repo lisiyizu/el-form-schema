@@ -62,11 +62,28 @@ const createTipComponent = (createElement, dataItem) => {
   const tipTag = createElement("el-tooltip", { props: { ...tip } }, [
     createElement("i", {
       class: "el-icon-warning",
-      style: { padding: "0 10px", fontSize: "18px" }
+      style: { padding: "0 4px", fontSize: "14px" }
     })
   ]);
 
-  return dataItem.tip ? tipTag : null;
+  return dataItem.tip ? tipTag : null
+};
+
+// 创建 tooltip 提示组件
+const createLabelTipComponent = (createElement, dataItem) => {
+  const labelTip = Object.assign(
+    { content: "", placement: "top", effect: "light" },
+    typeof dataItem.labelTip === "string" ? { content: dataItem.labelTip } : dataItem.labelTip
+  );
+
+  const labelTipTag = createElement("el-tooltip", { props: { ...labelTip } }, [
+    createElement("i", {
+      class: "el-icon-warning",
+      style: { padding: "0 0 0 2px", fontSize: "14px" }
+    })
+  ]);
+
+  return dataItem.labelTip ? labelTipTag : null;
 };
 
 // 创建组件 slot
@@ -153,5 +170,6 @@ export {
   fieldsetComponent,
   slotComponent,
   createTipComponent,
-  createElementBySlot
+  createElementBySlot,
+  createLabelTipComponent
 };

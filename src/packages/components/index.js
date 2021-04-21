@@ -3,7 +3,8 @@ import {
   customTags,
   slotComponent,
   createTipComponent,
-  createElementBySlot
+  createElementBySlot,
+  createLabelTipComponent
 } from "./utils";
 
 export const Component = (createElement, vm, key, item) => {
@@ -60,7 +61,7 @@ export const Component = (createElement, vm, key, item) => {
   }
 
   // 编译表达式字符串
-  const compilerExpressionString = condition => {
+  const compileExpressionString = condition => {
     const expCondition = condition;
     if (typeof condition === "boolean" || condition === undefined) {
       // bool值vif
@@ -105,19 +106,19 @@ export const Component = (createElement, vm, key, item) => {
   }
   // 编译 vif 表达式字符串
   if (item.vif && typeof item.vif === "string") {
-    vifBool = !!compilerExpressionString(item.vif);
+    vifBool = !!compileExpressionString(item.vif);
   }
   // 编译 required 表达式字符串
   if (item.requiredExpression && (typeof item.requiredExpression === "string")) {
-    item.required = !!compilerExpressionString(item.requiredExpression);
+    item.required = !!compileExpressionString(item.requiredExpression);
   }
   // 编译 props 表达式
   if(item.props) {
     Object.keys(item.props).map(key => {
       if(/\$index|\$item|\$model/g.test(item.props[key])) {
-        item.props[key.replace('_exp_prop', '')] =  compilerExpressionString(item.props[key]);
+        item.props[key.replace('_exp_prop', '')] =  compileExpressionString(item.props[key]);
         if(key === 'disabled_exp_prop') {
-          disabledBool = compilerExpressionString(item.props[key]);
+          disabledBool = compileExpressionString(item.props[key]);
         }
       }
     });
@@ -126,9 +127,9 @@ export const Component = (createElement, vm, key, item) => {
   if (item.attrs) {
     Object.keys(item.attrs).map(key => {
       if(/\$index|\$item|\$model/g.test(item.attrs[key])) {
-        item.attrs[key.replace('_exp_attr', '')] =  compilerExpressionString(item.attrs[key]);
+        item.attrs[key.replace('_exp_attr', '')] =  compileExpressionString(item.attrs[key]);
         if(key === 'disabled_exp_attr') {
-          disabledBool = compilerExpressionString(item.attrs[key]);
+          disabledBool = compileExpressionString(item.attrs[key]);
         }
       }
     });
@@ -225,8 +226,7 @@ export const Component = (createElement, vm, key, item) => {
           rules,
           required: item.required,
           prop: key,
-          labelWidth: labelWidth || vm.labelWidth,
-          label: item.label
+          labelWidth: labelWidth || vm.labelWidth
         },
         style: {
           display: vifBool && ((item.expand || vm.expandAll && vm.isSearchForm) || !vm.isSearchForm)
@@ -246,7 +246,13 @@ export const Component = (createElement, vm, key, item) => {
         },
         ref: key
       },
-      nodes
+      [
+        item.label ? createElement('span', { slot: 'label' }, [
+          item.label,
+          item.labelTip ? createLabelTipComponent(createElement, item) : null
+        ]) : null,
+        ... nodes
+      ]
     ),
     item.isLastInline
       ? createElement("div", { style: { display: "flex" } })
