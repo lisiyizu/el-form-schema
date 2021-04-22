@@ -17,9 +17,7 @@ export default {
     vue(),
     terser(),
     copyTo({
-      assets: [
-        './src'
-      ],
+      assets: ['./src'],
       outputDir: 'npm/'
     }),
   ]

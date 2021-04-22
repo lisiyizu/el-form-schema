@@ -112,6 +112,10 @@ export const Component = (createElement, vm, key, item) => {
   if (item.requiredExpression && (typeof item.requiredExpression === "string")) {
     item.required = !!compileExpressionString(item.requiredExpression);
   }
+  // 编译 inline 表达式字符串
+  if (item.inlineExpression && (typeof item.inlineExpression === "string")) {
+    item.inline = !!compileExpressionString(item.inlineExpression);
+  }
   // 编译 props 表达式
   if(item.props) {
     Object.keys(item.props).map(key => {

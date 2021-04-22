@@ -170,6 +170,10 @@ export default {
 			if (component.required && typeof component.required === 'string') {
 				component.requiredExpression = component.required;
 			}
+			// 支持 inline: '$model.a'
+			if (component.inline && typeof component.inline === 'string') {
+				component.inlineExpression = component.inline;
+			}
 			// 支持 rules: { required: '$model.a', message: '必填' }
 			if (!Array.isArray(component.rules) && component.rules && (typeof component.rules.required === 'string'))  {
 				component.requiredExpression = component.rules.required;
