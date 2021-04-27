@@ -120,9 +120,11 @@ export const Component = (createElement, vm, key, item) => {
   if(item.props) {
     Object.keys(item.props).map(key => {
       if(/\$index|\$item|\$model/g.test(item.props[key])) {
-        item.props[key.replace('_exp_prop', '')] =  compileExpressionString(item.props[key]);
         if(key === 'disabled_exp_prop') {
-          disabledBool = compileExpressionString(item.props[key]);
+          disabledBool = !!compileExpressionString(item.props[key]);
+          item.props[key.replace('_exp_prop', '')] =  !!compileExpressionString(item.props[key]);
+        } else {
+          item.props[key.replace('_exp_prop', '')] =  compileExpressionString(item.props[key]);
         }
       }
     });
@@ -131,14 +133,15 @@ export const Component = (createElement, vm, key, item) => {
   if (item.attrs) {
     Object.keys(item.attrs).map(key => {
       if(/\$index|\$item|\$model/g.test(item.attrs[key])) {
-        item.attrs[key.replace('_exp_attr', '')] =  compileExpressionString(item.attrs[key]);
         if(key === 'disabled_exp_attr') {
-          disabledBool = compileExpressionString(item.attrs[key]);
+          disabledBool = !!compileExpressionString(item.attrs[key]);
+          item.attrs[key.replace('_exp_attr', '')] =  !!compileExpressionString(item.attrs[key]);
+        } else {
+          item.attrs[key.replace('_exp_attr', '')] =  compileExpressionString(item.attrs[key]);
         }
       }
     });
   }
-
   // 收集vif=false的隐藏字段（目的：后续为了用来移除验证）
   if(vifBool) {
     vm.validiteFieldSet.delete(name);
