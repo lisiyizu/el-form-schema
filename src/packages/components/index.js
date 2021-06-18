@@ -175,12 +175,18 @@ export const Component = (createElement, vm, key, item) => {
 
   if (customTags[tag]) {
     nodes = [
-      customTags[tag].call(vm, createElement, value, item),
-      createTipComponent(createElement, item)
+        createElement('div', {
+        style: { display: vifBool ? 'contents' : 'none' }
+      }, [
+        customTags[tag].call(vm, createElement, value, item)
+      ])
     ];
+    if (item.isInput === false) {
+      return nodes;
+    }
   } else {
     nodes = [
-      createElementBySlot(createElement, item, "before"),
+      createElementBySlot.call(vm, createElement, item, "before"),
       createElement(
         tag,
         {
@@ -199,15 +205,9 @@ export const Component = (createElement, vm, key, item) => {
             : slotComponent.call(vm, createElement, value, item)
           : item.slot || item.default || value
       ),
-      createElementBySlot(createElement, item, "after"),
+      createElementBySlot.call(vm, createElement, item, "after"),
       createTipComponent(createElement, item)
     ];
-  }
-
-  if (item.isInput === false) {
-    return customTags[tag]
-      ? customTags[tag].call(vm, createElement, value, item)
-      : nodes;
   }
 
   // 复杂组件

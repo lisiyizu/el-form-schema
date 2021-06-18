@@ -26,9 +26,8 @@ const customTags = {
 const slotComponent = function(createElement, value, data) {
   return Object.keys(data.slot).map(key => {
     const slotItem = data.slot[key];
-    if (slotItem instanceof Object) {
+    if (slotItem instanceof Object && !['before', 'after'].includes(key)) {
       if (slotItem.vmodel) {
-        this.$set(data.slot[key], `isInput`, false);
         return createElement("template", { slot: key }, [
           Component(createElement, this, slotItem.vmodel, slotItem)
         ]);
@@ -53,7 +52,7 @@ const slotComponent = function(createElement, value, data) {
 };
 
 // 创建 tooltip 提示组件
-const createTipComponent = (createElement, dataItem) => {
+const createTipComponent = function(createElement, dataItem) {
   const tip = Object.assign(
     { content: "", placement: "top", effect: "light" },
     typeof dataItem.tip === "string" ? { content: dataItem.tip } : dataItem.tip
@@ -70,7 +69,7 @@ const createTipComponent = (createElement, dataItem) => {
 };
 
 // 创建 tooltip 提示组件
-const createLabelTipComponent = (createElement, dataItem) => {
+const createLabelTipComponent = function(createElement, dataItem) {
   const labelTip = Object.assign(
     { content: "", placement: "top", effect: "light" },
     typeof dataItem.labelTip === "string" ? { content: dataItem.labelTip } : dataItem.labelTip
@@ -87,23 +86,13 @@ const createLabelTipComponent = (createElement, dataItem) => {
 };
 
 // 创建组件 slot
-const createElementBySlot = (createElement, dataItem, slotKey) => {
+const createElementBySlot = function(createElement, dataItem, slotKey) {
   if (dataItem.slot && Object.keys(dataItem.slot).length > 0) {
     const slotItem = dataItem.slot[slotKey] || "";
     if (slotKey === "after")
       Object.assign(slotItem.style || {}, { paddingLeft: "10px" });
     if (typeof slotItem === "object") {
-      return createElement(
-        slotItem.tag,
-        {
-          class: slotItem.class,
-          props: slotItem.props,
-          style: slotItem.style,
-          attrs: slotItem.attrs,
-          on: slotItem.on
-        },
-        slotItem.slot
-      );
+      return Component(createElement, this, slotItem.vmodel, slotItem);
     } else {
       return slotItem
         ? createElement(
@@ -119,7 +108,7 @@ const createElementBySlot = (createElement, dataItem, slotKey) => {
 };
 
 // 
-const fieldsetComponent = (createElement, dataItem, nodes) => {
+const fieldsetComponent = function(createElement, dataItem, nodes) {
   return [
     createElement("fieldset", {
       style: { border: "1px solid #dddddd" }

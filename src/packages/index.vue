@@ -179,7 +179,7 @@ export default {
 				component.requiredExpression = component.rules.required;
 			}
 			// 支持 props 表达式
-			Object.keys(component.props).map(key => {
+			Object.keys(component.props || {}).map(key => {
 				const expProp = `${key}_exp_prop`;
 				const val = component.props[key];
 				if (/\$index|\$item|\$model/g.test(val)) {
@@ -187,7 +187,7 @@ export default {
 				}
 			});
 			// 支持 attrs 表达式
-			Object.keys(component.attrs).map(key => {
+			Object.keys(component.attrs || {}).map(key => {
 				const expAttr = `${key}_exp_attr`;
 				const val = component.attrs[key];
 				if (/\$index|\$item|\$model/g.test(val)) {
@@ -218,7 +218,7 @@ export default {
 		*/
 		initComponentDefaultProps (component) {
 			component.isMarginBottom = true;
-			component.isInput = true;
+			component.isInput = component.hasOwnProperty('isInput') ? component.isInput : true;
 			component.$item = null;
 			component.$index = -1;
 			component.$isArrayLast = false;
@@ -378,15 +378,18 @@ export default {
 						// 判断slot的情况
 						if (typeof schema.slot === 'object') {
 							Object.keys(schema.slot).forEach(key => {
-								const obj = schema.slot[key];
+								let obj = schema.slot[key];
 								if (obj instanceof Object && obj['vmodel']) {
+									schema.slot[key].isInput = false;
+									this.initComponentDefaultProps(obj);
 									if (obj.items) {
 										const list = JSON.parse(JSON.stringify(obj.items));
 										schema.slot[key].items = list.map(item => {
 											return (typeof item === 'string') ? { label: item, value: item } : item;
 										})
 									}
-									values[obj.vmodel] =  this.setDefaultValue(obj);
+									values[obj.vmodel] = this.setDefaultValue(obj);
+									this.setExp(obj);
 								}
 							})
 						}

@@ -39,6 +39,20 @@ export default {
           required: true,
           attrs: { placeholder: "自定义组件" }
         },
+        input2: {
+          tag: Input,
+          required: true,
+          attrs: { placeholder: "自定义组件" },
+          slot: {
+            after: {
+              tag: 'el-select',
+              vmodel: 'ck',
+              vif: '!$model.input2',
+              style: { display: 'inline-flex' },
+              items: ["A", "B"]
+            }
+          }
+        },
         cascader: {
           tag: "el-cascader",
           required: true,
