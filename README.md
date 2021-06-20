@@ -21,6 +21,7 @@ vuepress地址：[http://efs.apidevelop.com](http://efs.apidevelop.com)
 - 支持组件之间的复杂联动，包括 vif: '表达式字符串'、inline: '表达式字符串'、required: '表达式字符串'、props: { disabled: '表达式字符串' }、 通过表达式字符串去做联动
 - 支持引入自定义组件，如果要实现双向绑定使用（注意：前提该组件实现了v-model的语法糖）
 - 支持统一设置组件宽度
+- 支持 enter 按键触发查询
 ## Install
 
 ```bash
