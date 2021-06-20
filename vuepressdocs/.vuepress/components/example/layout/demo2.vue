@@ -6,6 +6,7 @@
       v-model="model"
       :inline="true"
       :is-search-form="true"
+      :use-enter-search="false"
       :expand-number="2"
       label-width="90px"
       component-width="220px"

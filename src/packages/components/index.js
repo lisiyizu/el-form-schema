@@ -38,6 +38,13 @@ export const Component = (createElement, vm, key, item) => {
     input: function(value) {
       // 解决对象的问题 object: { test: '' }, name = object.test
       eval(`formValues.${name} = value`);
+      // 清除页面所有 el-select 组件的选中状态
+      vm.$nextTick(()=>{
+        Array.from(document.querySelectorAll('.el-select > .el-input')).forEach(el=>{
+          el.className = el.className.replace('is-focus', '');
+          el.querySelector('.el-input__inner').blur();
+        });
+      })
       // on : { changeExt(val,item) { }
       if (["el-select", "el-radio", "el-checkbox"].includes(tag) && on.changeExt) {
         const model = items.find(

@@ -2,7 +2,7 @@
 # 布局篇
 
 ## 查询表单布局
-  
+🌟 efs默认开启了通过 enter 按键触发查询（通过设置 useEnterSearch 属性）
 
 <demo-block>
 <example-layout-demo1 slot="source"/>

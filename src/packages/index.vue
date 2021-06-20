@@ -1,6 +1,6 @@
 <script>
 import { Component } from './components/index'
-import { getObjectByPath } from './components/utils';
+import { getObjectByPath, isEqual } from './components/utils';
 export default {
 	model: {
 		prop: 'model',
@@ -101,6 +101,10 @@ export default {
 		},
 		apiConfig: {
 			type: Function
+		},
+		useEnterSearch: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data () {
@@ -109,6 +113,7 @@ export default {
 			expandAll: this.isExpand,
 			isWatching: false,
 			validiteFieldSet: new Set(),
+			enterFormValues: {},
 			formValues: {}
 		}
 	},
@@ -615,6 +620,21 @@ export default {
 		Array.from(document.querySelectorAll('.is-set-inline')).forEach(el => {
 			el.querySelector('.el-form-item__content').style.marginLeft = '0px';
 		});
+	},
+	mounted() {
+		if(this.isSearchForm && this.useEnterSearch) {
+			document.onkeydown =  (event) => {
+					const e = event || window.event || arguments.callee.caller.arguments[0];
+					if (e && e.keyCode == 13) {
+						if(!isEqual(this.formValues, this.enterFormValues)) {
+							this.enterFormValues =  JSON.parse(JSON.stringify(this.formValues));
+							this.$refs[this.refName].validate((valid) => {
+								valid && this.$emit('submit', valid);
+							});
+						}
+					}
+			};
+		}
 	}
 }
 </script>

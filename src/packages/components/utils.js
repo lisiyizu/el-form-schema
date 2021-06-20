@@ -152,7 +152,17 @@ const deepClone = obj => {
   return clone;
 };
 
+// 比较是否相等
+const isEqual = function(source, target) {
+  if (Object.keys(source).length != Object.keys(target).length) {
+    return false
+  } else {
+    return Object.is(JSON.stringify(source), JSON.stringify(target));
+  }
+}
+
 export {
+  isEqual,
   customTags,
   deepClone,
   getObjectByPath,

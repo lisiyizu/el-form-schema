@@ -32,6 +32,7 @@ disabled|是否禁用该表单内的所有组件。若设置为 true，则表单
 isSearchForm|是否是查询表单|boolean|false
 isExpand|是否展开|boolean|false
 componentWidth|统一组件宽度|string|240px
+useEnterSearch|使用enter按键查询|bool|true
 apiConfig|配置接口（专门为 el-select、el-radio、el-checkbox 组件的items数据源配置，详见：[动态数据](http://efs.apidevelop.com/guide/apiConfig.html#apiconfig-%E6%96%B9%E6%B3%95) ）|Function|-
 
 ## el-form-schema 方法
