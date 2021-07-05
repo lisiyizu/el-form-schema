@@ -92,7 +92,21 @@ const createElementBySlot = function(createElement, dataItem, slotKey) {
     if (slotKey === "after")
       Object.assign(slotItem.style || {}, { paddingLeft: "10px" });
     if (typeof slotItem === "object") {
-      return Component(createElement, this, slotItem.vmodel, slotItem);
+      if(!['before', 'after'].includes(slotKey)) {
+        return Component(createElement, this, slotItem.vmodel, slotItem);
+      } else {
+        return createElement(
+          slotItem.tag,
+          {
+            class: slotItem.class,
+            props: slotItem.props,
+            style: slotItem.style,
+            attrs: slotItem.attrs,
+            on: slotItem.on
+          },
+          slotItem.slot
+        );
+      }
     } else {
       return slotItem
         ? createElement(
@@ -161,8 +175,14 @@ const isEqual = function(source, target) {
   }
 }
 
+// 是否为空
+const isEmpty = function(val) {
+  return val === null || val === undefined || val === "";
+}
+
 export {
   isEqual,
+  isEmpty,
   customTags,
   deepClone,
   getObjectByPath,

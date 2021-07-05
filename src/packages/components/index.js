@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import {
+  isEmpty,
   customTags,
   slotComponent,
   createTipComponent,
@@ -29,7 +30,7 @@ export const Component = (createElement, vm, key, item) => {
   const value = eval(`formValues.${key}`);
   
   // 组件default如果是动态, 需要重新设置该组件的value
-  if(!value && typeof value !== 'boolean' && item.default) {
+  if(isEmpty(value) && typeof value !== 'boolean' && !isEmpty(item.default)) {
     eval(`formValues.${name} = item.default`);
   }
 

@@ -623,7 +623,7 @@ export default {
 	},
 	mounted() {
 		if(this.isSearchForm && this.useEnterSearch) {
-			document.onkeydown =  (event) => {
+			document.onkeyup =  (event) => {
 					const e = event || window.event || arguments.callee.caller.arguments[0];
 					if (e && e.keyCode == 13) {
 						if(!isEqual(this.formValues, this.enterFormValues)) {
