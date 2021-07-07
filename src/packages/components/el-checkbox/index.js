@@ -90,6 +90,9 @@ export default function(createElement, value, data) {
               key: option.value,
               disabled: option.disabled,
               label: keys ? option[keys["value"]] : option["value"]
+            },
+            style: { 
+              color: option.color || ''
             }
           },
           [keys ? option[keys["label"]] : option["label"]]
