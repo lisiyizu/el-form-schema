@@ -24,23 +24,55 @@ export default function(createElement, value, data) {
     const componentDataCopy = deepClone(data.components[key]);
     return Component(createElement, this, `${data.name}.${key}`, componentDataCopy);
   });
-
   const card = list => {
     return [
       createElement(
         "div",
         {
           style: {
-            border: "1px solid #dddddd",
-            padding: "10px"
+            border:  data.border ? "1px solid #dddddd" : null,
+            padding: "6px"
           }
         },
         [CardComponent(createElement, value, data, { marginBottom: `${ isStartInline? '20px' : '20ox' }` }), list]
-      )
+      ),
+      data.endDivider ? createElement(
+        "el-divider",{
+          attrs: {
+            style: 'margin-top: 0px; margin-bottom: 32px;'
+          },
+        }
+      ): null
+    ];
+  };
+
+  const divider = list => {
+    return [
+      createElement(
+        "el-divider",
+        {
+          attrs: {
+            style: 'margin-top: 10px'
+          },
+          props: {
+            contentPosition: data.contentPosition || "left"
+          }
+        },
+        data.title
+      ),
+      list,
+      data.endDivider ? createElement(
+        "el-divider",{
+          attrs: {
+            style: 'margin-top: 6px'
+          },
+        }
+      ): null
     ];
   };
 
   let types = {
+    "divider": ()=> divider(allComponent),
     "card": () => card(allComponent), 
     "fieldset": () => fieldsetComponent(createElement, data, allComponent)
   }

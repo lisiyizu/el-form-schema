@@ -257,7 +257,7 @@ export const Component = (createElement, vm, key, item) => {
               ? "0px"
               : item.style && item.style.marginBottom ? item.style.marginBottom : item.isMarginBottom
               ? "22px"
-              : "22px"
+              : (item.tag === 'object' && item.type === 'card' && !item.border) ?  "-12px" : (item.type === 'divider') ? '0px' : "22px"
             : ""
         },
         ref: key
@@ -270,7 +270,7 @@ export const Component = (createElement, vm, key, item) => {
         ... nodes
       ]
     ),
-    item.isLastInline
+    item.isLastInline || item.inlineBlock
       ? createElement("div", { style: { display: "flex" } })
       : []
   ];

@@ -353,6 +353,7 @@ export default {
 					if (schema.components) {
 						values[key] = {}
 						schema.isMarginBottom = false;
+						if (schema.type === 'card' && !schema.hasOwnProperty('border')) schema.border = true;
 						for (const _key in schema.components) {
 							schema.components[_key].isMarginBottom = true;
 							this.setValueKey(values[key], _key, schema.components[_key]);

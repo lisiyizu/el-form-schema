@@ -1,5 +1,5 @@
 
-# Object[内置组件]
+# Object[内置组件] 🌟
 
 
 字段|说明
@@ -15,20 +15,27 @@ $item| $item是复杂对象(object、array、table)所具有的， 对于object�
 <<< @/vuepressdocs/.vuepress/components/example/object/demo1.vue
 </demo-block>
 
+## 样式一
 
-## 中级
-  
 
 <demo-block>
 <example-object-demo2 slot="source"/>
 <<< @/vuepressdocs/.vuepress/components/example/object/demo2.vue
 </demo-block>
 
-
-## 高级
+## 样式二
   
 
 <demo-block>
 <example-object-demo3 slot="source"/>
 <<< @/vuepressdocs/.vuepress/components/example/object/demo3.vue
+</demo-block>
+
+
+## 样式三
+  
+
+<demo-block>
+<example-object-demo4 slot="source"/>
+<<< @/vuepressdocs/.vuepress/components/example/object/demo4.vue
 </demo-block>

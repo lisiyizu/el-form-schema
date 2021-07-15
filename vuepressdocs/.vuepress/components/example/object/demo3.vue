@@ -5,10 +5,9 @@
       ref="el-form-schema"
       :schema="schema"
       v-model="model"
-      label-width="100px"
       component-width="200px"
     >
-      <el-form-item>
+      <el-form-item label-width="100px">
         <el-button type="primary" @click="submit">提交</el-button>
         <el-button @click="reset">重置</el-button>
       </el-form-item>
@@ -20,24 +19,35 @@ export default {
   data() {
     return {
       schema: {
-        time: {
-          tag: "el-time-select",
-          label: " ",
-          inline: true
-        },
-        obj: {
+        systemSetting1: {
           tag: "object",
-          label: "对象",
-          title: "我是对象",
-          required: true,
-          type: "fieldset",
+          title: "系统设置",
+          type: "card",
+          border: false,
           labelWidthComponents: "100px",
+          inline: true,
           components: {
-            input: { tag: "el-input", required: true, label: "输入框" },
-            radio: { tag: "el-radio", items: this.arrayData(4) },
-            checkbox: { tag: "el-checkbox", items: this.arrayData(5) }
+            sel1: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
+            sel2: { tag: "el-select", items: ['A'], required: true, inlineBlock: true,  label: "输入框" },
+            sel3: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
+            sel4: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
           }
-        }
+        },
+        systemSetting2: {
+          tag: "object",
+          title: "系统设置",
+          type: "card",
+          border: false,
+          labelWidthComponents: "100px",
+          inline: true,
+          endDivider: true,
+          components: {
+            sel1: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
+            sel2: { tag: "el-select", items: ['A'], required: true, inlineBlock: true,  label: "输入框" },
+            sel3: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
+            sel4: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
+          }
+        },
       },
       model: {}
     };
