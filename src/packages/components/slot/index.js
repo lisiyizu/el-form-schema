@@ -17,6 +17,7 @@ export default function(createElement, value, data) {
         this.$scopedSlots[data.slot]({
           prop: data.name,
           row: rowItem,
+          target: rowItem,
           index: data.$index
         })
       ];

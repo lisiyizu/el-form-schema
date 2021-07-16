@@ -183,13 +183,15 @@ export const Component = (createElement, vm, key, item) => {
 
   if (customTags[tag]) {
     nodes = [
-        createElement('div', {
-        style: { display: vifBool ? 'contents' : 'none' }
-      }, [
+      createElement('div', {
+          style: { display: vifBool ? 'contents' : 'none' }, 
+          class: { 'el-form-item-inline': tag === 'slot', "is-set-inline": tag === 'slot' && item.inline },
+          attrs: tag === 'slot' ? { 'slot-label-width': item.labelWidth } : null
+        }, [
         customTags[tag].call(vm, createElement, value, item)
       ])
     ];
-    if (item.isInput === false) {
+    if (item.isInput === false || tag === 'slot') {
       return nodes;
     }
   } else {

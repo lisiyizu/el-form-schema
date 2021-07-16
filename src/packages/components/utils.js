@@ -89,10 +89,21 @@ const createLabelTipComponent = function(createElement, dataItem) {
 const createElementBySlot = function(createElement, dataItem, slotKey) {
   if (dataItem.slot && Object.keys(dataItem.slot).length > 0) {
     const slotItem = dataItem.slot[slotKey] || "";
-    if (slotKey === "after")
-      Object.assign(slotItem.style || {}, { paddingLeft: "10px" });
-    if (typeof slotItem === "object") {
-        return Component(createElement, this, slotItem.vmodel, slotItem);
+    if (slotKey === "after")  Object.assign(slotItem.style || {}, { paddingLeft: "10px" });
+    if (typeof slotItem === "object" && slotItem.vmodel) {
+      return Component(createElement, this, slotItem.vmodel, slotItem);
+    } else if(typeof slotItem === "object") {
+      return createElement(
+        slotItem.tag,
+        {
+          props: slotItem.props,
+          attrs: slotItem.props,
+          style: slotItem.style,
+          class: slotItem.class,
+          on: slotItem.on
+        },
+        typeof slotItem.slot === "string" ? slotItem.slot : ""
+      );
     } else {
       return slotItem
         ? createElement(

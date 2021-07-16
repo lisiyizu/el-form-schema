@@ -616,10 +616,21 @@ export default {
 		// 这是为了根据设置 class = el-form-item-inline，来实现类似于 el-form 的 inline 效果
 		Array.from(document.querySelectorAll('.el-form-item-inline')).forEach(el => {
 			el.querySelector('.el-form-item__content').style.marginLeft = '0px';
+			// 设置 slot 的 label-width
+			const slotLabelWidth = el.getAttribute('slot-label-width');
+			if (el.querySelector('.is-required') && slotLabelWidth) {
+				el.querySelector('.el-form-item__content').style.marginLeft = slotLabelWidth;
+				el.querySelector('.el-form-item').style.marginBottom = "22px";
+			}
+			if(slotLabelWidth && el.querySelector('.el-form-item__label')) {
+				el.querySelector('.el-form-item__label').style.width = slotLabelWidth;
+			}
 		});
 		// 这是为了根据设置 class = is-set-inline，来达到的 inline 效果
 		Array.from(document.querySelectorAll('.is-set-inline')).forEach(el => {
-			el.querySelector('.el-form-item__content').style.marginLeft = '0px';
+			if (el.querySelector('.el-form-item__label')) {
+				el.querySelector('.el-form-item__content').style.marginLeft = '0px';
+			}
 		});
 	},
 	mounted() {

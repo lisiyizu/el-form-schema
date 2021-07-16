@@ -18,7 +18,7 @@ export default function(createElement, value, data) {
     if(data.components[key].tag == 'array' && componentsList.length === index+1) {
       data.components[key].isMarginBottom = '0px';
     } else if (componentsList.length === index+1 && !data.inline) {
-      data.components[key].style.marginBottom = !data.type ? '0px' : '12px';
+      // data.components[key].style.marginBottom = !data.type ? '0px' : '0px';
     }
     this.$set(data.components[key], "$item", eval(`model.${data.name}`));
     const componentDataCopy = deepClone(data.components[key]);
