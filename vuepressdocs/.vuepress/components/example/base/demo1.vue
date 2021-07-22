@@ -5,7 +5,7 @@
       :schema="schema"
       v-model="model"
       :inline="false"
-      label-width="120px"
+      label-width="200px"
       :api-config="getApiConfig"
     ></el-form-schema>
   </div>
@@ -34,6 +34,51 @@ export default {
           label: "输入框",
           slot: { prepend: "测试" }
         },
+
+        select1: {
+          tag: "el-select",
+          label: "下拉框1",
+          keys: { label: 'name', value: 'id' },
+          items: "$config.bar"
+        },
+        select2: {
+          tag: "el-select",
+          label: "下拉框自定义scopedSlots🌟",
+          keys: { label: 'label', value: 'id'},
+          items:  [{
+            word: 'A',
+            label: "蛋壳公寓🌟",
+            id: 1,
+          }, {
+            word: 'B',
+            label: "原油宝🌟",
+            id: 2,
+          }, {
+            word: 'C',
+            label: "优胜教育🌟",
+            id: 3,
+          }],
+          scopedSlots: (h, option) => {
+            return {
+              default: () => [
+                h(
+                  "div",
+                  {
+                    style: { float: "left" },
+                  },
+                  option.word
+                ),
+                h(
+                  "div",
+                  {
+                    style: { float: "right", color: "#999999" },
+                  },
+                  option.label
+                ),
+              ],
+            };
+          },
+        },
         radio: {
           tag: "el-radio",
           label: "单选框",
@@ -47,17 +92,6 @@ export default {
             { label: "是", value: true },
             { label: "否", value: false }
           ]
-        },
-        select1: {
-          tag: "el-select",
-          label: "下拉框1",
-          keys: { label: 'name', value: 'id' },
-          items: "$config.bar"
-        },
-        select2: {
-          tag: "el-select",
-          label: "下拉框2",
-          items:  ["蛋壳公寓", "原油宝", "优胜教育"]
         },
         checkbox: {
           tag: "el-checkbox",

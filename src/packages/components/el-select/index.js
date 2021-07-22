@@ -7,7 +7,8 @@ export default function(createElement, value, data) {
     props = {},
     style = {},
     items = [],
-    keys = null
+    keys = null,
+    scopedSlots = null
   } = data;
 
   let nodes = [
@@ -34,7 +35,8 @@ export default function(createElement, value, data) {
               disabled: option.disabled,
               label: keys ? option[keys["label"]] : option["label"],
               value: keys ? option[keys["value"]] : option["value"]
-            }
+            },
+            scopedSlots: typeof scopedSlots === 'function' ? scopedSlots(createElement, option) : null
           },
           null
         );
