@@ -173,7 +173,7 @@ export default function(createElement, value, data) {
               index
             )
           },
-          title: (evalTemplateString(data, { model, item: listValues[index], index }) || '标题').replace(/\$index/gi, $index + 1)
+          title: (evalTemplateString(data, { model, item: listValues[index], index }) || '标题').replace(/\$index/gi, index + 1)
         }),
         list
       ]

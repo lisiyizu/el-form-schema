@@ -123,6 +123,8 @@ const evalTemplateString = function(component, { model, item, index }) {
   if(component.tag === 'array') {
     if(component['title_template_string']) {
       return eval('`'+component['title_template_string']+'`');
+    }else {
+      return component.title;
     }
   } else  {
     ['title', 'label'].forEach(key => {
