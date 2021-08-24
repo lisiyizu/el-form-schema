@@ -296,7 +296,7 @@ export default function(createElement, value, data) {
       "div",
       {
         style: { ...data.style },
-        class: { [data.class]: true }
+        class: { [data.class||'']: true }
       },
       nodes
     ),

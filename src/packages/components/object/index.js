@@ -87,7 +87,7 @@ export default function(createElement, value, data) {
     createElement(
       "div",
       {
-        class: { "el-form--inline": data.inline, [data.class]: true },
+        class: { "el-form--inline": data.inline, [data.class||'']: true },
         style: { marginBottom: data.inline && !data.type ? "-22px" : "", ...data.style }
       },
       nodes
