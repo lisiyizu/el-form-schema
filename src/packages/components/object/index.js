@@ -1,6 +1,6 @@
 import { Component } from "../index";
 import CardComponent from "../card";
-import { createElementBySlot, fieldsetComponent, deepClone } from "../utils";
+import { createElementBySlot, fieldsetComponent, deepClone, evalTemplateString } from "../utils";
 
 export default function(createElement, value, data) {
   const componentsList = Object.keys(data.components);
@@ -24,6 +24,9 @@ export default function(createElement, value, data) {
     const componentDataCopy = deepClone(data.components[key]);
     return Component(createElement, this, `${data.name}.${key}`, componentDataCopy);
   });
+  //
+  evalTemplateString(data, { model });
+  //
   const card = list => {
     return [
       createElement(
@@ -84,7 +87,7 @@ export default function(createElement, value, data) {
     createElement(
       "div",
       {
-        class: { "el-form--inline": data.inline },
+        class: { "el-form--inline": data.inline, [data.class]: true },
         style: { marginBottom: data.inline && !data.type ? "-22px" : "", ...data.style }
       },
       nodes

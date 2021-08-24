@@ -81,15 +81,17 @@ export default  {
     },
     edit() {
       this.dialogVisible = true;
-      this.form.type = "edit";
-      Object.assign(this.form, {
-        id: 1,
-        input: "hello",
-        province: "A",
-        city: "B",
-        county: "C",
-        daterange: "2020-02-08"
-      })
+      this.$nextTick(()=> {
+        this.form.type = "edit";
+        Object.assign(this.form, {
+          id: 1,
+          input: "hello",
+          province: "A",
+          city: "B",
+          county: "C",
+          daterange: "2020-02-08"
+        })
+      });
     },
     closedDialog() {
       this.$refs.efs.resetFields();

@@ -26,18 +26,42 @@ export default {
           default: 'A',
           items: ['A', 'B']
         },
-        arr1: {
+        arr: {
+          tag: "array",
+          label: "${model.radio}",
+          required: true,
+          title: "选中值：${model.radio || '-'}-${index+1}",
+          type: "card",
+          class: "arrClass",
+          labelWidthComponents: "100px",
+          components: {
+            radio: {
+              tag: "el-radio",
+              required: true,
+              items: [
+                { label: "必填", value: true },
+                { label: "非必填", value: false }
+              ]
+            }
+          }
+        },
+        obj: {
           tag: "object",
           label: "${model.radio}",
           required: true,
           title: "选中值：${model.radio || '-'}",
-          type: "fieldset",
+          type: "card",
+          class: "objClass",
           labelWidthComponents: "100px",
           components: {
-            sel1: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
-            sel2: { tag: "el-select", items: ['A'], required: true, inlineBlock: true,  label: "输入框" },
-            sel3: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
-            sel4: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
+            radio: {
+              tag: "el-radio",
+              required: true,
+              items: [
+                { label: "必填", value: true },
+                { label: "非必填", value: false }
+              ]
+            }
           }
         }
       },

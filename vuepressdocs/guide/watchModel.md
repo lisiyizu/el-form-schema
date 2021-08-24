@@ -1,4 +1,4 @@
-# Props设置联动值 🌟
+# 组件props设置联动值 🌟
 
 ## $model
 

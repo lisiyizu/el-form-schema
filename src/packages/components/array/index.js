@@ -1,10 +1,10 @@
 import { Component } from "../index";
 import CardComponent from "../card";
-import { createElementBySlot, deepClone } from "../utils";
+import { createElementBySlot, deepClone, evalTemplateString } from "../utils";
 
 export default function(createElement, value, data) {
   // eslint-disable-next-line no-unused-vars
-  const { formValues } = this;
+  const { formValues, model } = this;
   const listValues = eval(`formValues.${data.name}`);
   data.slot = data.slot || {};
   data.operator =  data.operator || {};
@@ -139,12 +139,12 @@ export default function(createElement, value, data) {
   const isTypeOfCard = () => data.type === "card";
 
   // 卡片组件
-  const wrapperCardComponent = (list, $index) => {
+  const wrapperCardComponent = (list, index) => {
     return createElement(
       "div",
       {
         style: {
-          borderTop: $index === 0 ? "1px solid #dddddd" : "",
+          borderTop: index === 0 ? "1px solid #dddddd" : "",
           borderBottom: "1px solid #dddddd",
           borderLeft: "1px solid #dddddd",
           borderRight: "1px solid #dddddd",
@@ -170,10 +170,10 @@ export default function(createElement, value, data) {
                 }
               },
               "delete",
-              $index
+              index
             )
           },
-          title: (data.title || "标题").replace(/\$index/gi, $index + 1).replace(/\$index/gi, $index + 1)
+          title: (evalTemplateString(data, { model, item: listValues[index], index }) || '标题').replace(/\$index/gi, $index + 1)
         }),
         list
       ]
@@ -295,7 +295,8 @@ export default function(createElement, value, data) {
     createElement(
       "div",
       {
-        style: { ...data.style }
+        style: { ...data.style },
+        class: { [data.class]: true }
       },
       nodes
     ),

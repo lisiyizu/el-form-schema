@@ -168,6 +168,27 @@ export default {
 			this.formValues = Object.assign(values, this.model);
 		},
 		/** 
+		 *  label/title/slot 模版字符串
+		*/
+		setExpTpl(component) {
+			// slot: { after: "模版字符串" } 或 slot: "模版字符串" 
+			if(!['array', 'object', 'table'].includes(component.tag)) {
+				if (typeof component.slot === 'string' && /\$\{.+?\}/g.test(component.slot)) {
+					component['slot_template_string'] = component.slot;
+				} else if (typeof component.slot === 'object' & /\$\{.+?\}/g.test(component.slot.after)) {
+					component['slot_after_template_string'] = component.slot.after;
+				}
+			}
+			// title/label 模版字符串
+			['title', 'label'].forEach(key => {
+				const expTagProp = `${key}_template_string`;
+				const val = component[key];
+				if (/\$\{.+?\}/g.test(val)) {
+					component[expTagProp] = val;
+				}
+			});
+		},
+		/** 
 		 *  设置表达式:  props 和 attrs
 		*/
 		setExp(component) {
@@ -358,6 +379,7 @@ export default {
 							schema.components[_key].isMarginBottom = true;
 							this.setValueKey(values[key], _key, schema.components[_key]);
 						}
+						this.setExpTpl(schema);
 					}
 					break;
 				case 'table':
@@ -372,6 +394,7 @@ export default {
 						schema.keys = keys;
 					}
 					values[key] = schema.default || [];
+					this.setExpTpl(schema);
 					break;
 				default:
 					if (schema.isInput) {
@@ -381,6 +404,7 @@ export default {
               values[key] = this.setDefaultValue(schema);
             }
 						this.setExp(schema);
+						this.setExpTpl(schema);
 						// 判断slot的情况
 						if (typeof schema.slot === 'object') {
 							Object.keys(schema.slot).forEach(key => {

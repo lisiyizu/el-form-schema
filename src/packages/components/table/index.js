@@ -162,7 +162,8 @@ export default function(createElement, value, data) {
     createElement(
       "div",
       {
-        style: { ...data.style }
+        style: { ...data.style },
+        class: { [data.class]: true }
       },
       nodes
     ),

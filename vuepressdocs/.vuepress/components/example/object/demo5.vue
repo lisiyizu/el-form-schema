@@ -5,10 +5,14 @@
       ref="el-form-schema"
       :schema="schema"
       v-model="model"
-      label-width="100px"
       component-width="200px"
-    >
-      <el-form-item>
+    > 
+      <template slot="hello" slot-scope="scope">
+        <el-form-item :prop="scope.prop" label="slot组件" :rules="{ required: true, message: '必填' }">
+          <el-input v-model="scope.target.sel1" placeholder="测试" style="width:200px"></el-input>
+        </el-form-item>
+      </template>
+      <el-form-item label-width="100px">
         <el-button type="primary" @click="submit">提交</el-button>
         <el-button @click="reset">重置</el-button>
       </el-form-item>
@@ -20,19 +24,26 @@ export default {
   data() {
     return {
       schema: {
-        radio: {
-          tag: "el-radio",
-          label: "字母",
-          default: 'A',
-          items: ['A', 'B']
-        },
-        arr1: {
+        systemSetting1: {
           tag: "object",
-          label: "${model.radio}",
-          required: true,
-          title: "选中值：${model.radio || '-'}",
-          type: "fieldset",
+          title: "系统设置",
+          type: "divider",
           labelWidthComponents: "100px",
+          inline: false,
+          components: {
+            sel1: { tag: 'slot', slot: 'hello' },
+            sel2: { tag: "el-select", items: ['A'], required: true, inlineBlock: true,  label: "输入框" },
+            sel3: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
+            sel4: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
+          }
+        },
+        systemSetting2: {
+          tag: "object",
+          title: "系统设置",
+          type: "divider",
+          labelWidthComponents: "100px",
+          inline: true,
+          endDivider: true,
           components: {
             sel1: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
             sel2: { tag: "el-select", items: ['A'], required: true, inlineBlock: true,  label: "输入框" },

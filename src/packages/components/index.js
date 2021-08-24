@@ -8,6 +8,9 @@ import {
   createLabelTipComponent
 } from "./utils";
 
+// 复杂组件
+const COMPFLEX_COMPONENTS = ["object", "array", "table"];
+
 export const Component = (createElement, vm, key, item) => {
 
   let {
@@ -150,10 +153,24 @@ export const Component = (createElement, vm, key, item) => {
       }
     });
   }
+
+  // 编译 label_template_string  表达式  
+  if(item['label_template_string']) {
+    item.label = eval('`'+item['label_template_string']+'`')
+  }
+  // 编译 slot_template_string  表达式  
+  if(item['slot_template_string']) {
+    item.slot = eval('`'+item['slot_template_string']+'`')
+  }
+  // 编译 slot_after_template_string  表达式  
+  if(item['slot_after_template_string']) {
+    item.slot.after = eval('`'+item['slot_after_template_string']+'`')
+  }
+
   // 收集vif=false的隐藏字段（目的：后续为了用来移除验证）
   if(vifBool) {
     vm.validiteFieldSet.delete(name);
-  }  else {
+  } else if (!COMPFLEX_COMPONENTS.includes(item.tag)) {
     // 修复联动 vif=false，清空数值
     eval(`formValues.${name} = item.default || ''`);
     vm.validiteFieldSet.add(name);
@@ -219,9 +236,6 @@ export const Component = (createElement, vm, key, item) => {
       createTipComponent(createElement, item)
     ];
   }
-
-  // 复杂组件
-  const COMPFLEX_COMPONENTS = ["object", "array", "table"];
   
   // 复杂类型 required: true 的情况
   if(COMPFLEX_COMPONENTS.includes(item.tag) && typeof item.required === 'boolean') {

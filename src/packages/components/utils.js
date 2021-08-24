@@ -118,6 +118,22 @@ const createElementBySlot = function(createElement, dataItem, slotKey) {
   }
 };
 
+// eval 解析模版字符串
+const evalTemplateString = function(component, { model, item, index }) {
+  if(component.tag === 'array') {
+    if(component['title_template_string']) {
+      return eval('`'+component['title_template_string']+'`');
+    }
+  } else  {
+    ['title', 'label'].forEach(key => {
+      const expTpl = `${key}_template_string`;
+      if (component[expTpl]) {
+        component[key] = eval('`'+component[expTpl]+'`');
+      }
+    });
+  }
+}
+
 // 
 const fieldsetComponent = function(createElement, dataItem, nodes) {
   return [
@@ -182,9 +198,10 @@ export {
   isEmpty,
   customTags,
   deepClone,
+  slotComponent,
   getObjectByPath,
   fieldsetComponent,
-  slotComponent,
+  evalTemplateString,
   createTipComponent,
   createElementBySlot,
   createLabelTipComponent
