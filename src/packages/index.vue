@@ -172,12 +172,10 @@ export default {
 		*/
 		setExpTpl(component) {
 			// slot: { after: "模版字符串" } 或 slot: "模版字符串" 
-			if(!['array', 'object', 'table'].includes(component.tag)) {
-				if (typeof component.slot === 'string' && /\$\{.+?\}/g.test(component.slot)) {
-					component['slot_template_string'] = component.slot;
-				} else if (typeof component.slot === 'object' & /\$\{.+?\}/g.test(component.slot.after)) {
-					component['slot_after_template_string'] = component.slot.after;
-				}
+			if (typeof component.slot === 'string' && /\$\{.+?\}/g.test(component.slot)) {
+				component['slot_template_string'] = component.slot;
+			} else if (typeof component.slot === 'object' && /\$\{.+?\}/g.test(component.slot.after)) {
+				component['slot_after_template_string'] = component.slot.after;
 			}
 			// title/label 模版字符串
 			['title', 'label'].forEach(key => {
@@ -273,6 +271,7 @@ export default {
 				case 'h5':
 				case 'div':
 				case 'span':
+					component.isInput = false;
 					break;
 				case 'card':
 					component.isInput = false;
@@ -374,29 +373,33 @@ export default {
 					if (schema.components) {
 						values[key] = {}
 						schema.isMarginBottom = false;
+						this.setExpTpl(schema);
 						if (schema.type === 'card' && !schema.hasOwnProperty('border')) schema.border = true;
 						for (const _key in schema.components) {
 							schema.components[_key].isMarginBottom = true;
+							this.setExpTpl(schema.components[_key]);
 							this.setValueKey(values[key], _key, schema.components[_key]);
 						}
-						this.setExpTpl(schema);
 					}
 					break;
 				case 'table':
 				case 'array':
 					// eslint-disable-next-line no-case-declarations
 					let keys = {};
-					Object.keys(schema.components).forEach((akey) => {
-						this.setValueKey(keys, akey, schema.components[akey]);
+					this.setExpTpl(schema);
+					Object.keys(schema.components).forEach((_key) => {
+						this.setExpTpl(schema.components[_key]);
+						this.setValueKey(keys, _key, schema.components[_key]);
 					})
 					// eslint-disable-next-line no-prototype-builtins
 					if (!schema.hasOwnProperty('keys')) {
 						schema.keys = keys;
 					}
 					values[key] = schema.default || [];
-					this.setExpTpl(schema);
+					
 					break;
 				default:
+					this.setExpTpl(schema);
 					if (schema.isInput) {
 						if (this.model[key] || typeof this.model[key] === 'boolean') {
               values[key] = this.model[key];
@@ -404,7 +407,6 @@ export default {
               values[key] = this.setDefaultValue(schema);
             }
 						this.setExp(schema);
-						this.setExpTpl(schema);
 						// 判断slot的情况
 						if (typeof schema.slot === 'object') {
 							Object.keys(schema.slot).forEach(key => {

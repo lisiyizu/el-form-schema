@@ -25,7 +25,7 @@ export default function(createElement, value, data) {
     return Component(createElement, this, `${data.name}.${key}`, componentDataCopy);
   });
   //
-  evalTemplateString(data, { model });
+  evalTemplateString(data, { model, key: "title" });
   //
   const card = list => {
     return [

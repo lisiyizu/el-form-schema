@@ -5,6 +5,7 @@ import {
   slotComponent,
   createTipComponent,
   createElementBySlot,
+  evalTemplateString,
   createLabelTipComponent
 } from "./utils";
 
@@ -156,15 +157,15 @@ export const Component = (createElement, vm, key, item) => {
 
   // 编译 label_template_string  表达式  
   if(item['label_template_string']) {
-    item.label = eval('`'+item['label_template_string']+'`')
+    evalTemplateString(item, { model, item: item.$item, retNow: false, key: 'label'});
   }
   // 编译 slot_template_string  表达式  
   if(item['slot_template_string']) {
-    item.slot = eval('`'+item['slot_template_string']+'`')
+    evalTemplateString(item, { model, item: item.$item, retNow: false, key: 'slot'});
   }
   // 编译 slot_after_template_string  表达式  
   if(item['slot_after_template_string']) {
-    item.slot.after = eval('`'+item['slot_after_template_string']+'`')
+    item.slot.after = evalTemplateString(item, { model, item: item.$item, retNow: true, key: 'slot_after'})
   }
 
   // 收集vif=false的隐藏字段（目的：后续为了用来移除验证）
