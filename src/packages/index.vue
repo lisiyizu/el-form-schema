@@ -281,7 +281,7 @@ export default {
 					Object(component.style, { margin: '16px 0' });
 					break;
 				case 'el-input':
-					component.attrs.placeholder = component.props.placeholder || `请输入${component.label}`;
+					component.attrs.placeholder = component.props.placeholder || `请输入${/\$\{.+?\}/g.test(component.label)?'':component.label}`;
 					break;
 				case 'el-date-picker':
 					component.props = Object.assign({}, { placeholder: '请选择日期', startPlaceholder: '开始日期', endPlaceholder: '结束日期', unlinkPanels: true }, component.props);
@@ -316,7 +316,7 @@ export default {
 				case 'el-select':
 				case 'el-radio':
 				case 'el-checkbox':
-					component.props.placeholder = component.props.placeholder || `请选择${component.label}`;
+					component.props.placeholder = component.props.placeholder || `请输入${/\$\{.+?\}/g.test(component.label)?'':component.label}`;
 					component.keys = Object.assign({ label: "label", value: "value" }, component.keys || {});
 					if (component.tag === 'el-checkbox') {
 						component.default = component.default || [];
