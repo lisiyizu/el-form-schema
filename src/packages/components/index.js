@@ -28,6 +28,12 @@ export const Component = (createElement, vm, key, item) => {
   // 新增 name 属性（目的：为了做给复杂类型(object|array)用来遍历嵌套 el-form-item 的时候设置 prop 值）
   item.name = key;
 
+  // 支持 required: '$model.a'
+  if (item.required && typeof item.required === 'string') item.requiredExpression = item.required;
+
+  // 支持 rules: { required: '$model.a', message: '必填' }
+  if (!Array.isArray(item.rules) && item.rules && (typeof item.rules.required === 'string')) item.requiredExpression = item.rules.required;
+
   const { formValues, model } = vm;
 
   // 获取value
@@ -168,13 +174,29 @@ export const Component = (createElement, vm, key, item) => {
     item.slot.after = evalTemplateString(item, { model, item: item.$item, retNow: true, key: 'slot_after'})
   }
 
-  // 收集vif=false的隐藏字段（目的：后续为了用来移除验证）
-  if(vifBool) {
+  // 收集vif = false的隐藏字段（目的：后续为了用来移除验证）
+  if (vifBool) {
     vm.validiteFieldSet.delete(name);
   } else if (!COMPFLEX_COMPONENTS.includes(item.tag)) {
-    // 修复联动 vif=false，清空数值
+    // 修复联动 vif = false，清空数值
     eval(`formValues.${name} = item.default || ''`);
     vm.validiteFieldSet.add(name);
+    vm.$refs[vm.refName] && vm.$refs[vm.refName].clearValidate(key);
+  } else if (COMPFLEX_COMPONENTS.includes(item.tag)) {
+    // 支持 object/array/table 复杂联动 vif = false，清空数值
+    const props = vm.getValidateProps(key);
+    vm.$refs[vm.refName] && vm.$refs[vm.refName].clearValidate(props);
+    if(tag === 'object') {
+      props.forEach(field=> {
+        const fieldVal = eval(`formValues.${field}`);
+        // 去掉数组，以免造成循环引用
+        if(!Array.isArray(fieldVal)) { 
+          vm.$refs[field] && vm.$refs[field].resetField();
+        }
+      });
+    } else if (value.length > 0) {
+      eval(`formValues.${name}.splice(0, ${value.length})`);
+    }
   }
   
   // 修复联动 disabled = true，清空数值

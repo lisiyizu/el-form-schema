@@ -9,7 +9,7 @@ export default function(createElement, value, data) {
   let isStartInline = false;
   const allComponent = componentsList.map((key, index) => {
     data.components[key].$index = data.$index;
-    data.components[key].labelWidth = data.labelWidthComponents || "0px";
+    data.components[key].labelWidth = data.components[key].labelWidth || data.labelWidthComponents || "0px";
     if (index === 0) {
       isStartInline = true;
     } else if (index === 0 && data.inline) {

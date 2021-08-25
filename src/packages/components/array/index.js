@@ -18,7 +18,7 @@ export default function(createElement, value, data) {
     const componentCount = Object.keys(data.components).length;
     data.list = listValues.map((item, index) => {
       return Object.keys(data.components).map((key, kIndex) => {
-        data.components[key].labelWidth = data.labelWidthComponents || "0px";
+        data.components[key].labelWidth = data.components[key].labelWidth || data.labelWidthComponents || "0px";
         data.components[key].$index = index;
         data.components[key].$isLast = componentCount === kIndex + 1;
         data.components[key].$item = item;

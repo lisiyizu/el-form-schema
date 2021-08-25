@@ -24,20 +24,73 @@ export default {
           tag: "el-radio",
           label: "字母",
           default: 'A',
-          items: ['A', 'B']
+          items: ['A', 'B', 'C']
         },
-        arr1: {
+        obj: {
           tag: "object",
           label: "${model.radio}",
-          required: true,
+          required: "$model.radio === 'A'",
           title: "选中值：${model.radio || '-'}",
           type: "fieldset",
+          vif: "$model.radio === 'A'",
           labelWidthComponents: "100px",
           components: {
-            sel1: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
-            sel2: { tag: "el-select", items: ['A'], required: true, inlineBlock: true,  label: "输入框" },
-            sel3: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
-            sel4: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
+            radio: {
+              tag: "el-radio",
+              items: [
+                { label: "必填", value: true },
+                { label: "非必填", value: false }
+              ]
+            },
+            arr: {
+              tag: "array",
+              required: "$item.radio",
+              type: "fieldset",
+              vif: "$item.radio",
+              inline: true,
+              components: {
+                input: {
+                  tag: "el-input",
+                  required: true
+                }
+              }
+            }
+          }
+        },
+        arr: {
+          tag: "array",
+          label: "${model.radio}",
+          required: "$model.radio === 'B'",
+          title: "选中值：${model.radio || '-'}",
+          type: "fieldset",
+          labelWidthComponents: "0px",
+          vif: "$model.radio === 'B'",
+          inline: true,
+          components: {
+            input: {
+              tag: "el-input",
+              required: true
+            }
+          }
+        },
+        table: {
+          tag: "table",
+          label: "${model.radio}",
+          required: "$model.radio === 'C'",
+          type: "fieldset",
+          labelWidthComponents: "0px",
+          vif: "$model.radio === 'C'",
+          components: {
+            input: {
+              tag: "el-input",
+              required: true,
+              column: { label: "测试" }
+            },
+            radio: {
+              tag: "el-input",
+              required: true,
+              column: { label: "测试" }
+            }
           }
         }
       },

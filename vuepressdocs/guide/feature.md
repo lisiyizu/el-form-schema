@@ -13,11 +13,12 @@ el-form-schema 是中后台表单解决方案，不仅覆盖了表单的布局�
 4. 内置支持给组件设置 inline 行内布局属性，让布局更加灵活
 5. 内置支持给 `object`、`array` 设置 `inline` 的方式
 6. 支持 `label/slot/title` 设置模板字符串
-7. 支持组件 props 设置联动值
-8. `object` 组件内置支持 card 和 fieldset 的布局类型，`array` 内置支持 card 的布局方式。
-9. 支持组件之间的复杂联动，支持 vif: `字符串表达式`、props: { disabled: `字符串表达式` }、required: `字符串表达式` 和 rules: { required: `字符串表达式`, message:'必填'}
-10. 支持引入自定义组件，如果要实现双向绑定使用（注意：前提该组件实现了`v-model`的语法糖）
-11. 支持统一设置组件宽度
+7. `vif` 在 false 情况下，自动清空组件
+8. 支持组件 props 设置联动值
+9. `object` 组件内置支持 card 和 fieldset 的布局类型，`array` 内置支持 card 的布局方式。
+10. 支持组件之间的复杂联动，支持 vif: `字符串表达式`、props: { disabled: `字符串表达式` }、required: `字符串表达式` 和 rules: { required: `字符串表达式`, message:'必填'}
+11. 支持引入自定义组件，如果要实现双向绑定使用（注意：前提该组件实现了`v-model`的语法糖）
+12. 支持统一设置组件宽度
 
 ## el-form-schema 属性
 字段|说明|类型|默认值  

@@ -22,7 +22,7 @@ export default function(createElement, value, data) {
           props: data.components[key].column || {},
           scopedSlots: {
             default: scope => {
-              data.components[key].labelWidth = data.labelWidthComponents || "0px";
+              data.components[key].labelWidth = data.components[key].labelWidth || data.labelWidthComponents || "0px";
               data.components[key].showValidate = !data.showValidate;
               data.components[key].$index = scope.$index;
               data.components[key].$item = scope.row;
