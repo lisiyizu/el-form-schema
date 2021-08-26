@@ -63,6 +63,7 @@ export default {
           required: "$model.radio === 'B'",
           title: "选中值：${model.radio || '-'}",
           type: "fieldset",
+          minLimit: 2,
           labelWidthComponents: "0px",
           vif: "$model.radio === 'B'",
           inline: true,

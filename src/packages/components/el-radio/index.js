@@ -1,4 +1,4 @@
-import { createElementBySlot } from "../utils";
+import { createElementBySlot, createTipComponent } from "../utils";
 
 export default function(createElement, value, data) {
   const {
@@ -41,7 +41,8 @@ export default function(createElement, value, data) {
         );
       })
     ),
-    createElementBySlot(createElement, data, "after")
+    createElementBySlot(createElement, data, "after"),
+    createTipComponent(createElement, data),
   ];
   return nodes;
 }

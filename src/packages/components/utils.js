@@ -57,14 +57,12 @@ const createTipComponent = function(createElement, dataItem) {
     { content: "", placement: "top", effect: "light" },
     typeof dataItem.tip === "string" ? { content: dataItem.tip } : dataItem.tip
   );
-
   const tipTag = createElement("el-tooltip", { props: { ...tip } }, [
     createElement("i", {
       class: "el-icon-warning",
       style: { padding: "0 4px", fontSize: "14px" }
     })
   ]);
-
   return dataItem.tip ? tipTag : null
 };
 

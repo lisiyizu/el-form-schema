@@ -1,4 +1,4 @@
-import { createElementBySlot } from "../utils";
+import { createElementBySlot, createTipComponent } from "../utils";
 
 export default function(createElement, value, data) {
   const vm = this;
@@ -102,7 +102,8 @@ export default function(createElement, value, data) {
         ? render.after.call(vm, createElement)
         : []
     ),
-    createElementBySlot(createElement, data, "after")
+    createElementBySlot(createElement, data, "after"),
+    createTipComponent(createElement, data),
   ];
 
   return nodes;

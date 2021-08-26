@@ -186,7 +186,8 @@ export const Component = (createElement, vm, key, item) => {
     // 支持 object/array/table 复杂联动 vif = false，清空数值
     const props = vm.getValidateProps(key);
     vm.$refs[vm.refName] && vm.$refs[vm.refName].clearValidate(props);
-    if(tag === 'object') {
+    // object 组件 或者 存在 minLimit 的 array/table 组件
+    if(tag === 'object' || item.minLimit > 0) {
       props.forEach(field=> {
         const fieldVal = eval(`formValues.${field}`);
         // 去掉数组，以免造成循环引用
@@ -194,7 +195,7 @@ export const Component = (createElement, vm, key, item) => {
           vm.$refs[field] && vm.$refs[field].resetField();
         }
       });
-    } else if (value.length > 0) {
+    } else if (value.length > 0 && !item.minLimit) {
       eval(`formValues.${name}.splice(0, ${value.length})`);
     }
   }
