@@ -373,6 +373,7 @@ export default {
 					if (schema.components) {
 						values[key] = {}
 						schema.isMarginBottom = false;
+						schema.vifBool = true;
 						this.setExpTpl(schema);
 						if (schema.type === 'card' && !schema.hasOwnProperty('border')) schema.border = true;
 						for (const _key in schema.components) {
@@ -387,6 +388,7 @@ export default {
 					// eslint-disable-next-line no-case-declarations
 					let keys = {};
 					this.setExpTpl(schema);
+					schema.vifBool = true;
 					Object.keys(schema.components).forEach((_key) => {
 						this.setExpTpl(schema.components[_key]);
 						this.setValueKey(keys, _key, schema.components[_key]);

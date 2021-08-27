@@ -37,6 +37,12 @@ export default function(createElement, value, data) {
                   componentDataCopy
                 )
               ];
+            },
+            header: scope => {
+              return [
+                createElement('span', { style: { color: '#f56c6c' } },  data.components[key].required ? '*' : ''),
+                createElement('span', scope.column.label)
+              ]
             }
           }
         });
@@ -80,7 +86,7 @@ export default function(createElement, value, data) {
   };
 
   // 数组最小限制
-  if (data.minLimit > 0 && listValues.length === 0) {
+  if (data.minLimit > 0 && listValues.length === 0 && data.vifBool) {
     for (let i = 1; i <= data.minLimit; i++) {
       eval(
         `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`

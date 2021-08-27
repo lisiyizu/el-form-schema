@@ -174,6 +174,11 @@ export const Component = (createElement, vm, key, item) => {
     item.slot.after = evalTemplateString(item, { model, item: item.$item, retNow: true, key: 'slot_after'})
   }
 
+  // 存储复杂对象的 vif 值
+  if (COMPFLEX_COMPONENTS.includes(item.tag))  {
+    item.vifBool = vifBool;
+  }
+  
   // 收集vif = false的隐藏字段（目的：后续为了用来移除验证）
   if (vifBool) {
     vm.validiteFieldSet.delete(name);
@@ -187,7 +192,7 @@ export const Component = (createElement, vm, key, item) => {
     const props = vm.getValidateProps(key);
     vm.$refs[vm.refName] && vm.$refs[vm.refName].clearValidate(props);
     // object 组件 或者 存在 minLimit 的 array/table 组件
-    if(tag === 'object' || item.minLimit > 0) {
+    if(tag === 'object') {
       props.forEach(field=> {
         const fieldVal = eval(`formValues.${field}`);
         // 去掉数组，以免造成循环引用
@@ -195,7 +200,7 @@ export const Component = (createElement, vm, key, item) => {
           vm.$refs[field] && vm.$refs[field].resetField();
         }
       });
-    } else if (value.length > 0 && !item.minLimit) {
+    } else if (value.length > 0) {
       eval(`formValues.${name}.splice(0, ${value.length})`);
     }
   }

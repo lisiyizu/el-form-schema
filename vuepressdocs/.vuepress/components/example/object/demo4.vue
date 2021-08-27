@@ -81,6 +81,8 @@ export default {
           type: "fieldset",
           labelWidthComponents: "0px",
           vif: "$model.radio === 'C'",
+          minLimit: 1,
+          maxLimit: 5,
           components: {
             input: {
               tag: "el-input",
