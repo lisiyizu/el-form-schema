@@ -31,7 +31,7 @@ export default function(createElement, value, data) {
   }
 
   let nodes = [
-    createElementBySlot(createElement, data, "before"),
+    createElementBySlot.call(this, createElement, data, "before"),
     createElement(
       "el-checkbox-group",
       {
@@ -95,14 +95,14 @@ export default function(createElement, value, data) {
               color: option.color || ''
             }
           },
-          [keys ? option[keys["label"]] : option["label"]]
+          keys ? option[keys["label"]] : option["label"]
         );
       }),
       typeof render.after === "function"
         ? render.after.call(vm, createElement)
         : []
     ),
-    createElementBySlot(createElement, data, "after"),
+    createElementBySlot.call(this, createElement, data, "after"),
     createTipComponent(createElement, data),
   ];
 

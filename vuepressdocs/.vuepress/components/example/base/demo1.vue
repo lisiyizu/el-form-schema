@@ -5,9 +5,15 @@
       :schema="schema"
       v-model="model"
       :inline="false"
-      label-width="200px"
+      ref="efs"
+      label-width="120px"
       :api-config="getApiConfig"
-    ></el-form-schema>
+    >
+    <el-form-item>
+        <el-button type="primary" @click="submit">提交</el-button>
+        <el-button @click="reset">重置</el-button>
+      </el-form-item>
+    </el-form-schema>
   </div>
 </template>
 <script>
@@ -22,7 +28,7 @@ export default {
         },
         input1: {
           tag: "el-input",
-          label: "输入框"
+          label: "输入框",
         },
         input2: {
           tag: "el-input",
@@ -34,64 +40,60 @@ export default {
           label: "输入框",
           slot: { prepend: "测试" }
         },
-
-        select1: {
-          tag: "el-select",
-          label: "下拉框1",
-          keys: { label: 'name', value: 'id' },
-          items: "$config.bar"
-        },
-        select2: {
-          tag: "el-select",
-          label: "下拉框自定义scopedSlots🌟",
-          keys: { label: 'label', value: 'id'},
-          items:  [{
-            word: 'A',
-            label: "蛋壳公寓🌟",
-            id: 1,
-          }, {
-            word: 'B',
-            label: "原油宝🌟",
-            id: 2,
-          }, {
-            word: 'C',
-            label: "优胜教育🌟",
-            id: 3,
-          }],
-          scopedSlots: (h, option) => {
-            return {
-              default: () => [
-                h(
-                  "div",
-                  {
-                    style: { float: "left" },
-                  },
-                  option.word
-                ),
-                h(
-                  "div",
-                  {
-                    style: { float: "right", color: "#999999" },
-                  },
-                  option.label
-                ),
-              ],
-            };
-          },
-        },
         radio: {
           tag: "el-radio",
-          label: "单选框",
+          label: "${model.input1}-${model.input2}",
           keys: { label: 'name', value: 'id' },
           items: "$config.foo"
         },
         bool: {
-          tag: "el-radio",
+          tag: "el-checkbox",
           label: "bool单选",
           items: [
-            { label: "是", value: true },
+            { label: "", value: true },
             { label: "否", value: false }
           ]
+        },
+        select1: {
+          tag: "el-select",
+          label: "下拉框1",
+          keys: { label: 'name', value: 'id' },
+          items: "$config.bar",
+          slot: {
+            after: {
+              tag: "el-input",
+              vmodel: "test",
+              style: { width: "100px" }
+            }
+          }
+        },
+        select2: {
+          tag: "el-select",
+          label: "下拉框2 (int)",
+          keys: {label: 'label', value: 'id'},
+          default: -1,
+          items:  [{
+            label:"全部",
+            id: 0,
+          }, {
+            label: "蛋壳公寓", 
+            id: 1,
+          }, {
+            label: "优胜教育",
+            id: -1
+          }]
+        },
+        select3: {
+          tag: "el-select",
+          label: "下拉框3（bool）",
+          default: true,
+          items:  [{
+            label: "是", 
+            value: true
+          },{
+            label:"否",
+            value: false
+          }]
         },
         checkbox: {
           tag: "el-checkbox",
@@ -157,11 +159,21 @@ export default {
         }
       },
       model: {
-        bool: true
+        input1: "hello world!",
+        select1: 1,
+        test: "123456"
       }
     };
   },
   methods: {
+    submit() {
+      this.$refs.efs.validate(valid => {
+        alert(valid);
+      });
+    },
+    reset() {
+      this.$refs.efs.resetFields();
+    },
     arrayData(num) {
       return new Array(num)
         .fill({})

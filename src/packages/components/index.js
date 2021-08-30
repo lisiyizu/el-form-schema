@@ -1,16 +1,14 @@
 /* eslint-disable no-unused-vars */
 import {
+  CUSTOM_TAGS,
+  COMPFLEX_COMPONENTS,
   isEmpty,
-  customTags,
   slotComponent,
   createTipComponent,
   createElementBySlot,
   evalTemplateString,
   createLabelTipComponent
 } from "./utils";
-
-// 复杂组件
-const COMPFLEX_COMPONENTS = ["object", "array", "table"];
 
 export const Component = (createElement, vm, key, item) => {
 
@@ -227,14 +225,14 @@ export const Component = (createElement, vm, key, item) => {
     item.style.marin = item.style.margin || "0 0 22px 0";
   }
 
-  if (customTags[tag]) {
+  if (CUSTOM_TAGS[tag]) {
     nodes = [
       createElement('div', {
-          style: { display: vifBool ? 'contents' : 'none' }, 
+          style: { display: vifBool ?  (item.slot && item.slot.after ? 'inline-flex' : 'flow-root') : 'none' }, 
           class: { 'el-form-item-inline': tag === 'slot', "is-set-inline": tag === 'slot' && item.inline },
           attrs: tag === 'slot' ? { 'slot-label-width': item.labelWidth } : null
         }, [
-        customTags[tag].call(vm, createElement, value, item)
+        CUSTOM_TAGS[tag].call(vm, createElement, value, item)
       ])
     ];
     if (item.isInput === false || tag === 'slot') {
@@ -305,6 +303,7 @@ export const Component = (createElement, vm, key, item) => {
               : (item.tag === 'object' && item.type === 'card' && !item.border) ?  "-12px" : (item.type === 'divider') ? '0px' : "22px"
             : ""
         },
+        key: key,
         ref: key
       },
       [

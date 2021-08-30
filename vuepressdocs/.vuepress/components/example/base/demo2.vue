@@ -5,7 +5,6 @@
       :schema="schema"
       ref="el-form-schema"
       v-model="model"
-      :inline="false"
       label-width="150px"
     >
       <el-form-item>
@@ -39,17 +38,16 @@ export default {
           required: true,
           attrs: { placeholder: "自定义组件" }
         },
-        input2: {
-          tag: Input,
-          required: true,
-          attrs: { placeholder: "自定义组件" },
+        select1: {
+          tag: "el-select",
+          label: "下拉框1",
+          keys: { label: 'name', value: 'id' },
+          items: "$config.bar",
           slot: {
             after: {
-              tag: 'el-select',
-              vmodel: 'ck',
-              vif: '!$model.input2',
-              style: { display: 'inline-flex' },
-              items: ["A", "B"]
+              tag: "el-input",
+              vmodel: "test",
+              style: { width: "100px" }
             }
           }
         },

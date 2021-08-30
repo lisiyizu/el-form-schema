@@ -10,7 +10,7 @@ import ElCheckboxComponent from './el-checkbox';
 import ElSelectComponent from './el-select';
 
 // 初始化自定义组件
-const customTags = {
+const CUSTOM_TAGS = {
   'text': TextComponent,
   'array': ArrayComponent,
   'object': ObjectComponent,
@@ -21,6 +21,9 @@ const customTags = {
   'el-checkbox': ElCheckboxComponent,
   'el-select': ElSelectComponent
 };
+
+// 复杂组件
+const COMPFLEX_COMPONENTS = ["object", "array", "table"];
 
 // 动态 slot 占位组件
 const slotComponent = function(createElement, value, data) {
@@ -192,7 +195,6 @@ const isEmpty = function(val) {
 export {
   isEqual,
   isEmpty,
-  customTags,
   deepClone,
   slotComponent,
   getObjectByPath,
@@ -200,5 +202,7 @@ export {
   evalTemplateString,
   createTipComponent,
   createElementBySlot,
-  createLabelTipComponent
+  createLabelTipComponent,
+  CUSTOM_TAGS,
+  COMPFLEX_COMPONENTS,
 };

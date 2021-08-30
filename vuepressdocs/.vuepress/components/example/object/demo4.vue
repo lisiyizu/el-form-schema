@@ -4,6 +4,7 @@
     <el-form-schema
       ref="el-form-schema"
       :schema="schema"
+      :api-config="getApiConfig"
       v-model="model"
       label-width="100px"
       component-width="200px"
@@ -37,21 +38,29 @@ export default {
           components: {
             radio: {
               tag: "el-radio",
+              default: true,
               items: [
                 { label: "必填", value: true },
                 { label: "非必填", value: false }
               ]
             },
-            arr: {
-              tag: "array",
-              required: "$item.radio",
-              type: "fieldset",
-              vif: "$item.radio",
-              inline: true,
+            table: {
+              tag: "table",
+              labelWidthComponents: "0px",
+              minLimit: 2,
               components: {
                 input: {
                   tag: "el-input",
-                  required: true
+                  required: true,
+                  column: { label: "测试" }
+                },
+                select: {
+                  tag: "el-select",
+                  required: true,
+                  default: 1,
+                  keys: { label: 'name', value: 'id' },
+                  items: "$config.foo",
+                  column: { label: "测试" }
                 }
               }
             }
@@ -63,14 +72,16 @@ export default {
           required: "$model.radio === 'B'",
           title: "选中值：${model.radio || '-'}",
           type: "fieldset",
-          minLimit: 2,
           labelWidthComponents: "0px",
           vif: "$model.radio === 'B'",
           inline: true,
+          minLimit: 2,
           components: {
-            input: {
-              tag: "el-input",
-              required: true
+            select: {
+              tag: "el-select",
+              required: true,
+              keys: { label: 'name', value: 'id' },
+              items: "$config.foo"
             }
           }
         },
@@ -81,17 +92,18 @@ export default {
           type: "fieldset",
           labelWidthComponents: "0px",
           vif: "$model.radio === 'C'",
-          minLimit: 1,
-          maxLimit: 5,
+          minLimit: 2,
           components: {
             input: {
               tag: "el-input",
               required: true,
               column: { label: "测试" }
             },
-            radio: {
-              tag: "el-input",
+            select: {
+              tag: "el-select",
               required: true,
+              keys: { label: 'name', value: 'id' },
+              items: "$config.foo",
               column: { label: "测试" }
             }
           }
@@ -113,6 +125,12 @@ export default {
     },
     reset() {
       this.$refs["el-form-schema"].resetFields();
+    },
+     async getApiConfig() {
+      const foo = await new Promise(r => {
+        setTimeout(() => r([{ id: 1, name: 'foo1' }, { id: 2, name: 'foo2' }]), 3000);
+      });
+      return { foo };
     }
   }
 };

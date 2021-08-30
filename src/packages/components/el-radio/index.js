@@ -13,7 +13,7 @@ export default function(createElement, value, data) {
   if (!this.inline) style.width = "";
 
   let nodes = [
-    createElementBySlot(createElement, data, "before"),
+    createElementBySlot.call(this, createElement, data, "before"),
     createElement(
       "el-radio-group",
       {
@@ -37,11 +37,11 @@ export default function(createElement, value, data) {
               label: keys ? option[keys["value"]] : option["value"]
             }
           },
-          [keys ? option[keys["label"]] : option["label"]]
+          keys ? option[keys["label"]] : option["label"]
         );
       })
     ),
-    createElementBySlot(createElement, data, "after"),
+    createElementBySlot.call(this, createElement, data, "after"),
     createTipComponent(createElement, data),
   ];
   return nodes;

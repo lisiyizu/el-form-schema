@@ -12,7 +12,7 @@ export default function(createElement, value, data) {
   } = data;
 
   let nodes = [
-    createElementBySlot(createElement, data, "before"),
+    createElementBySlot.call(this, createElement, data, "before"),
     createElement(
       "el-select",
       {
@@ -42,7 +42,7 @@ export default function(createElement, value, data) {
         );
       })
     ),
-    createElementBySlot(createElement, data, "after"),
+    createElementBySlot.call(this, createElement, data, "after"),
     createTipComponent(createElement, data),
   ];
 

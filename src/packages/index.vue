@@ -134,6 +134,14 @@ export default {
 			},
 			deep: true
 		},
+		model: {
+			handler (val) {
+				this.$nextTick(()=> {
+					Object.assign(this.formValues, val);
+				});
+			},
+			immediate: true
+		},
 		schema: {
 			handler (val) {
 				if (!this.isWatching && Object.keys(val).length) {
@@ -165,7 +173,8 @@ export default {
 				this.initComponentList(schemaComponent);
 				this.setValueKey(values, key, schemaComponent)
 			}
-			this.formValues = Object.assign(values, this.model);
+			this.formValues = values;
+			this.$emit("input", { ...this.formValues, ...this.model });
 		},
 		/** 
 		 *  label/title/slot 模版字符串
@@ -231,6 +240,10 @@ export default {
 					target[key] = [];
 					this.$watch(watchModel, (val) => {
 						target[key] = val;
+						// this.$nextTick(()=> {
+						// 	// 强制刷新一下表单，解决 table/array 的items数据变了，组件没刷新的bug
+						// 	this.refreshKey = +new Date();
+						// })
 					});
 				}
 			} 
@@ -403,11 +416,7 @@ export default {
 				default:
 					this.setExpTpl(schema);
 					if (schema.isInput) {
-						if (this.model[key] || typeof this.model[key] === 'boolean') {
-              values[key] = this.model[key];
-            } else {
-              values[key] = this.setDefaultValue(schema);
-            }
+						values[key] = this.setDefaultValue(schema);
 						this.setExp(schema);
 						// 判断slot的情况
 						if (typeof schema.slot === 'object') {
@@ -415,6 +424,10 @@ export default {
 								let obj = schema.slot[key];
 								if (obj instanceof Object && obj['vmodel']) {
 									schema.slot[key].isInput = false;
+									if(obj.style && key === 'after') {
+										schema.slot[key].inline = true;
+										schema.slot[key].style.marginBottom = obj.marginBottom || "0px";
+									}
 									this.initComponentDefaultProps(obj);
 									if (obj.items) {
 										const list = JSON.parse(JSON.stringify(obj.items));
@@ -625,6 +638,7 @@ export default {
 				disabled: vm.disabled,
 				labelPosition: vm.labelPosition
 			},
+			key: vm.refreshKey,
 			ref: vm.refName,
 		}, [
 			...(vm.renderFormItems(h) || []),
