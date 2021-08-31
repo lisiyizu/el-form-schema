@@ -1,54 +1,54 @@
-export default function (createElement, value, data, style = {}) {
-    return createElement(
-      "div",
-      {
+export default function(createElement, value, data, style = {}) {
+  return createElement(
+    'div',
+    {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        borderBottom: '1px solid #E6E7EB',
+        paddingBottom: '5px',
+        marginBottom: '30px',
+        ...style
+      }
+    },
+    [
+      createElement('span', {
         style: {
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          borderBottom: "1px solid #E6E7EB",
-          paddingBottom: "5px",
-          marginBottom: "30px",
-          ...style
+          borderLeft: `4px solid ${data.color || '#409FFF'}`,
+          width: '0px',
+          height: '20px',
+          lineHeight: '20px'
         }
-      },
-      [
-        createElement("span", {
+      }),
+      createElement(
+        'span',
+        {
           style: {
-            borderLeft: `4px solid ${data.color || "#409FFF"}`,
-            width: "0px",
-            height: "20px",
-            lineHeight: "20px"
+            paddingLeft: '5px',
+            color: '#333333',
+            fontSize: '18px'
           }
-        }),
-        createElement(
-          "span",
+        },
+        data.title
+      ),
+      data.slot && data.slot.right
+        ? createElement(
+          'div',
           {
             style: {
-              paddingLeft: "5px",
-              color: "#333333",
-              fontSize: "18px"
+              paddingLeft: '5px',
+              color: '#333333',
+              fontSize: '15px',
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'flex-end',
+              flex: 1
             }
           },
-          data.title
-        ),
-        data.slot && data.slot.right
-          ? createElement(
-              "div",
-              {
-                style: {
-                  paddingLeft: "5px",
-                  color: "#333333",
-                  fontSize: "15px",
-                  display: "flex",
-                  alignItems: "flex-end",
-                  justifyContent: "flex-end",
-                  flex: 1
-                }
-              },
-              data.slot.right
-            )
-          : []
-      ]
-    );
+          data.slot.right
+        )
+        : []
+    ]
+  )
 }

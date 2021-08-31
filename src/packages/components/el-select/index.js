@@ -1,4 +1,4 @@
-import { createElementBySlot, createTipComponent } from "../utils";
+import { createElementBySlot, createTipComponent } from '../utils'
 
 export default function(createElement, value, data) {
   const {
@@ -9,16 +9,16 @@ export default function(createElement, value, data) {
     items = [],
     keys = null,
     scopedSlots = null
-  } = data;
+  } = data
 
-  let nodes = [
-    createElementBySlot.call(this, createElement, data, "before"),
+  const nodes = [
+    createElementBySlot.call(this, createElement, data, 'before'),
     createElement(
-      "el-select",
+      'el-select',
       {
         props: {
           value,
-          placeholder: props.placeholder || "请选择",
+          placeholder: props.placeholder || '请选择',
           ...attrs,
           ...props
         },
@@ -27,24 +27,24 @@ export default function(createElement, value, data) {
       },
       (items || []).map(option => {
         return createElement(
-          "el-option",
+          'el-option',
           {
             style: { minWidth: style.width },
             props: {
               key: option.value,
               disabled: option.disabled,
-              label: keys ? option[keys["label"]] : option["label"],
-              value: keys ? option[keys["value"]] : option["value"]
+              label: keys ? option[keys['label']] : option['label'],
+              value: keys ? option[keys['value']] : option['value']
             },
             scopedSlots: typeof scopedSlots === 'function' ? scopedSlots(createElement, option) : null
           },
           null
-        );
+        )
       })
     ),
-    createElementBySlot.call(this, createElement, data, "after"),
-    createTipComponent(createElement, data),
-  ];
+    createElementBySlot.call(this, createElement, data, 'after'),
+    createTipComponent(createElement, data)
+  ]
 
-  return nodes;
+  return nodes
 }

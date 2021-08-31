@@ -1,39 +1,39 @@
-import { createElementBySlot, createTipComponent } from "../utils";
+import { createElementBySlot, createTipComponent } from '../utils'
 
 export default function(createElement, value, data) {
-  const vm = this;
+  const vm = this
 
   const {
-    all = "",
+    all = '',
     on = {},
     attrs = {},
     props = {},
     style = {},
     items = [],
-    name = "",
+    name = '',
     keys = null,
     render = { before: null, after: null }
-  } = data;
+  } = data
 
-  data.checkAll = data.checkAll || [];
-  data.checkAllDisabled = data.checkAllDisabled || false;
-  if (!this.inline) style.width = "";
+  data.checkAll = data.checkAll || []
+  data.checkAllDisabled = data.checkAllDisabled || false
+  if (!this.inline) style.width = ''
 
   if (value.length > 0) {
     if (
       value.includes(all) ||
       (all && all !== undefined && value.length === items.length - 1)
     ) {
-      const ids = items.map(m => (keys ? m[keys["value"]] : m["value"]));
-      data.checkAll = ids;
-      value = JSON.parse(JSON.stringify(ids));
+      const ids = items.map(m => (keys ? m[keys['value']] : m['value']))
+      data.checkAll = ids
+      value = JSON.parse(JSON.stringify(ids))
     }
   }
 
-  let nodes = [
-    createElementBySlot.call(this, createElement, data, "before"),
+  const nodes = [
+    createElementBySlot.call(this, createElement, data, 'before'),
     createElement(
-      "el-checkbox-group",
+      'el-checkbox-group',
       {
         style: { display: data.inline ? 'inline-flex' : '', ...style },
         props: {
@@ -45,14 +45,14 @@ export default function(createElement, value, data) {
           ...on,
           input(val) {
             // 包含全部选中的逻辑
-            if ((all + "").length > 0) {
-              const option = [];
+            if ((all + '').length > 0) {
+              const option = []
               items.filter(m => {
-                const allValue = keys ? m[keys["value"]] : m["value"];
+                const allValue = keys ? m[keys['value']] : m['value']
                 if (allValue === all) {
-                  option.push(m);
+                  option.push(m)
                 }
-              });
+              })
               if (option.length > 0) {
                 if (
                   (val.includes(all) && !data.checkAll.includes(all)) ||
@@ -60,51 +60,51 @@ export default function(createElement, value, data) {
                     !data.checkAll.includes(all) &&
                     items.length - 1 === val.length)
                 ) {
-                  val = [];
+                  val = []
                   items.forEach((item, index) => {
                     if (data.checkAllDisabled) {
-                      item.disabled = index !== 0;
+                      item.disabled = index !== 0
                     }
-                    val.push(keys ? item[keys["value"]] : item["value"]);
-                  });
+                    val.push(keys ? item[keys['value']] : item['value'])
+                  })
                 } else if (!val.includes(all) && data.checkAll.includes(all)) {
-                  val = [];
+                  val = []
                   items.forEach(item => {
-                    item.disabled = false;
-                  });
+                    item.disabled = false
+                  })
                 } else if (val.includes(all)) {
-                  val.splice(val.indexOf(all), 1);
+                  val.splice(val.indexOf(all), 1)
                 }
-                data.checkAll = val;
+                data.checkAll = val
               }
             }
-            eval(`vm.formValues.${name} = val`);
+            eval(`vm.formValues.${name} = val`)
           }
         }
       },
       (items || []).map(option => {
         return createElement(
-          "el-checkbox",
+          'el-checkbox',
           {
             props: {
               key: option.value,
               disabled: option.disabled,
-              label: keys ? option[keys["value"]] : option["value"]
+              label: keys ? option[keys['value']] : option['value']
             },
-            style: { 
+            style: {
               color: option.color || ''
             }
           },
-          keys ? option[keys["label"]] : option["label"]
-        );
+          keys ? option[keys['label']] : option['label']
+        )
       }),
-      typeof render.after === "function"
+      typeof render.after === 'function'
         ? render.after.call(vm, createElement)
         : []
     ),
-    createElementBySlot.call(this, createElement, data, "after"),
-    createTipComponent(createElement, data),
-  ];
+    createElementBySlot.call(this, createElement, data, 'after'),
+    createTipComponent(createElement, data)
+  ]
 
-  return nodes;
+  return nodes
 }

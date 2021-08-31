@@ -1,4 +1,4 @@
-import { createElementBySlot, createTipComponent } from "../utils";
+import { createElementBySlot, createTipComponent } from '../utils'
 
 export default function(createElement, value, data) {
   const {
@@ -8,18 +8,18 @@ export default function(createElement, value, data) {
     style = {},
     items = [],
     keys = null
-  } = data;
+  } = data
 
-  if (!this.inline) style.width = "";
+  if (!this.inline) style.width = ''
 
-  let nodes = [
-    createElementBySlot.call(this, createElement, data, "before"),
+  const nodes = [
+    createElementBySlot.call(this, createElement, data, 'before'),
     createElement(
-      "el-radio-group",
+      'el-radio-group',
       {
         props: {
           value,
-          placeholder: props.placeholder || "请选择",
+          placeholder: props.placeholder || '请选择',
           ...attrs,
           ...props
         },
@@ -28,21 +28,21 @@ export default function(createElement, value, data) {
       },
       (items || []).map(option => {
         return createElement(
-          "el-radio",
+          'el-radio',
           {
-            style: { lineHeight: "32px" },
+            style: { lineHeight: '32px' },
             props: {
               key: option.value,
               disabled: option.disabled,
-              label: keys ? option[keys["value"]] : option["value"]
+              label: keys ? option[keys['value']] : option['value']
             }
           },
-          keys ? option[keys["label"]] : option["label"]
-        );
+          keys ? option[keys['label']] : option['label']
+        )
       })
     ),
-    createElementBySlot.call(this, createElement, data, "after"),
-    createTipComponent(createElement, data),
-  ];
-  return nodes;
+    createElementBySlot.call(this, createElement, data, 'after'),
+    createTipComponent(createElement, data)
+  ]
+  return nodes
 }

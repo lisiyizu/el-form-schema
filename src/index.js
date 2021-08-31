@@ -1,14 +1,14 @@
 import elFormSchema from './packages/index.vue'
-const install = function (Vue, opts = {}) {
+const install = function(Vue, opts = {}) {
   Vue.prototype.$EFS = {
     size: opts.size || 'small',
     isExpand: opts.isExpand,
-    componentWidth:  opts.componentWidth || '220px',
+    componentWidth: opts.componentWidth || '220px',
     labelSuffix: opts.labelSuffix || '',
     submitProps: opts.submitProps || {},
     resetProps: opts.resetProps || {},
-    expandProps: opts.expandProps || {},
-  };
+    expandProps: opts.expandProps || {}
+  }
   if (install.installed) return
   if (!Vue.prototype.$ELEMENT) {
     throw new Error('请先安装element-ui')
@@ -18,6 +18,6 @@ const install = function (Vue, opts = {}) {
 }
 // auto install
 if (typeof window !== 'undefined' && window.Vue) {
-  install(window.Vue);
+  install(window.Vue)
 }
 export default { install }

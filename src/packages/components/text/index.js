@@ -4,17 +4,17 @@ export default function(createElement, value, data) {
     attrs = {},
     props = {},
     style = {}
-  } = data;
+  } = data
   return createElement('span', {
-      style: {
-        minWidth: style.width,
-        display: 'block',
-        fontSize: '15px',
-        color: '#777777',
-        ...style
-      },
-      attrs: { ...attrs },
-      props: { ...props },
-      on: { ...on }
-  }, value);
+    style: {
+      minWidth: style.width,
+      display: 'block',
+      fontSize: '15px',
+      color: '#777777',
+      ...style
+    },
+    attrs: { ...attrs },
+    props: { ...props },
+    on: { ...on }
+  }, value)
 }

@@ -8,7 +8,7 @@
       label-width="100px"
     >
       <template slot="table.switch" slot-scope="scope">
-        <el-form-item :prop="scope.prop">
+        <el-form-item :prop="scope.prop" style="margin-bottom:2px">
           <el-switch
             v-model="scope.row.switch"
             active-color="#13ce66"

@@ -1,16 +1,14 @@
 export default function(createElement, value, data) {
-  const { model } = this;
+  const { model } = this
 
-  let nodes = [],
-    rowItem = "",
-    modelPath;
-
-  modelPath = data.name.substr(0, data.name.lastIndexOf("."));
+  let nodes = []
+  let rowItem = ''
+  const modelPath = data.name.substr(0, data.name.lastIndexOf('.'))
 
   if (modelPath) {
-    rowItem = modelPath.split(".").reduce((prev, next) => {
-      return prev ? eval(`prev.${next}`) : "";
-    }, model);
+    rowItem = modelPath.split('.').reduce((prev, next) => {
+      return prev ? eval(`prev.${next}`) : ''
+    }, model)
 
     if (rowItem && Object.keys(rowItem).length > 0) {
       nodes = [
@@ -20,8 +18,8 @@ export default function(createElement, value, data) {
           target: rowItem,
           index: data.$index
         })
-      ];
+      ]
     }
   }
-  return nodes;
+  return nodes
 }
