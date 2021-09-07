@@ -30,6 +30,15 @@ export default {
             add: "Add",
             delete: "Delete"
           },
+          addRowExt: {
+            disabled: false,
+            id: "",
+          },
+          on: {
+            $addRow(scope) {
+              scope.row.disabled = true;
+            }
+          },
           components: {
             radio1: {
               tag: "el-radio",
@@ -43,7 +52,8 @@ export default {
             input: {
               tag: "el-input",
               label: "输入框",
-              required: "$item.radio1"
+              required: "$item.radio1",
+              props: { disabled: "$item.disabled" }
             },
             arr2: {
               tag: "array",

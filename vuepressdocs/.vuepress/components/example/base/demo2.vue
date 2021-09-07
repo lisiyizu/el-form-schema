@@ -15,13 +15,12 @@
   </div>
 </template>
 <script>
-import { Input, Switch, Cascader } from "element-ui";
-import inputTrim from "./components/el-input-trim";
+import { Input, Switch } from "element-ui";
 export default {
   data() {
     return {
       schema: {},
-      model: {},
+      model: { },
       cascaderOptions: []
     };
   },
@@ -29,25 +28,21 @@ export default {
     initForm() {
       this.schema = {
         inputTrim: {
-          tag: inputTrim,
+          tag: 'el-input-num',
           required: true,
-          attrs: { placeholder: "我是el-input-trim" }
+          rules: { type: 'number' },
+          props: { placeholder: "我是el-input-num" }
         },
         input: {
           tag: Input,
           required: true,
-          attrs: { placeholder: "自定义组件" }
-        },
-        select1: {
-          tag: "el-select",
-          label: "下拉框1",
-          keys: { label: 'name', value: 'id' },
-          items: "$config.bar",
+          attrs: { placeholder: "自定义组件" },
           slot: {
             after: {
-              tag: "el-input",
-              vmodel: "test",
-              style: { width: "100px" }
+              tag: 'el-checkbox',
+              vmodel: 'sel',
+              vif: '$model.input',
+              items: ["A", "B", "C", "D"]
             }
           }
         },
@@ -70,9 +65,10 @@ export default {
           inline: true,
           required: true,
           label: "测试",
+          labelTip: '123',
           components: {
             input: { tag: "el-input", required: true },
-            timeselect: { tag: "el-time-select", required: true }
+            timeselect: { tag: "el-date-picker", required: true }
           }
         },
         switch: { tag: Switch }

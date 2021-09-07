@@ -24,6 +24,48 @@
           </el-input>
         </el-form-item>
       </template>
+      <template slot="slot.a" slot-scope="scope">
+        <el-form-item
+          label="hello slot.a"
+          :prop="scope.prop"
+          :rules="{ required: true, message: '必填!' }"
+        >
+          <el-input
+            style="width: 240px;"
+            v-model.trim="scope.row.slotA"
+            placeholder="slotTest测试"
+          >
+          </el-input>
+        </el-form-item>
+      </template>
+      <template slot="slot.b" slot-scope="scope">
+        <el-form-item
+          label="hello slot.b"
+          :prop="scope.prop"
+          :rules="{ required: true, message: '必填!' }"
+        >
+          <el-input
+            style="width: 240px;"
+            v-model.trim="scope.row.slotB"
+            placeholder="slotTest测试"
+          >
+          </el-input>
+        </el-form-item>
+      </template>
+      <template slot="slot.c" slot-scope="scope">
+        <el-form-item
+          label="hello slot.c"
+          :prop="scope.prop"
+          :rules="{ required: true, message: '必填!' }"
+        >
+          <el-input
+            style="width: 240px;"
+            v-model.trim="scope.row.slotC"
+            placeholder="slotTest测试"
+          >
+          </el-input>
+        </el-form-item>
+      </template>
       <template slot="helloworld" slot-scope="scope">
         <el-form-item
           :prop="scope.prop"
@@ -341,12 +383,18 @@ export default {
             radio: {
               tag: "el-radio",
               required: true,
+              inline: true,
               items: this.arrayData(2)
             },
-            slotTest: { tag: "slot", slot: "test" },
+            slotTest: { 
+              tag: "slot", 
+              slot: "test", 
+              inline: true 
+            },
             checkbox: {
               tag: "el-checkbox",
               required: true,
+              inline: true,
               items: this.arrayData(2)
             },
             arr: {
@@ -377,8 +425,31 @@ export default {
           minLimit: 1,
           maxLimit: 3,
           components: {
-            input1: { tag: "el-input", label: "测试input1" },
-            input2: { tag: "el-input", label: "测试input2" },
+            slotA: {
+              tag: 'slot',
+              slot: 'slot.a',
+              inline: true
+            },
+            slotB: {
+              tag: 'slot',
+              slot: 'slot.b', 
+              inline: true
+            },
+            slotC: {
+              tag: 'slot',
+              slot: 'slot.c',
+              inline: true
+            },
+            input1: { 
+              tag: "el-input", 
+              label: "测试input1",
+              inline: true
+            },
+            input2: { 
+              tag: "el-input", 
+              label: "测试input2", 
+              inline: true
+            },
             obj2: {
               tag: "object",
               label: "对象测试-obj2",
@@ -391,6 +462,7 @@ export default {
               tag: "el-checkbox",
               label: "下拉框",
               required: true,
+              inline: true,
               items: this.arrayData(3)
             },
             arr2: {
@@ -403,7 +475,13 @@ export default {
                 radio: {
                   tag: "el-select",
                   required: true,
+                  style: { width: "100px" },
                   items: this.arrayData(3)
+                },
+                input: {
+                  tag: "el-input",
+                  style: { width: "100px" },
+                  required: true
                 }
               }
             },
@@ -414,8 +492,7 @@ export default {
               items: this.arrayData(3)
             }
           }
-        },
-        divider: { tag: "el-divider" }
+        }
       }
     };
   },

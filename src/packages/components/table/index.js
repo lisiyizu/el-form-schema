@@ -1,5 +1,6 @@
 import { Component } from '../index'
-import { createElementBySlot, deepClone, genUnique } from '../utils'
+import { createElementBySlot, deepClone, addRow,  delRowForTable, createActionButtons, genUnique } from '../utils'
+
 
 export default function(createElement, value, data) {
   // eslint-disable-next-line no-unused-vars
@@ -15,9 +16,11 @@ export default function(createElement, value, data) {
     },
     data.operator.column || {}
   )
+  const lastCom = data.components[Object.keys(data.components).pop()]
   const createTableColumns = () => {
     return Object.keys(data.components)
-      .map(key => {
+      .map((key) => {
+        if (data.components[key].tag === 'action') return null
         return createElement('el-table-column', {
           props: data.components[key].column || {},
           scopedSlots: {
@@ -46,43 +49,44 @@ export default function(createElement, value, data) {
             }
           }
         })
-      })
-      .concat(
-        createElement('el-table-column', {
-          props: operatorColumnProps,
-          scopedSlots: {
-            default: scope => {
-              return data.operator.slot
-                ? this.$scopedSlots[data.operator.slot]({
-                  delDisabled: listValues.length === data.minLimit,
-                  addDisabled: listValues.length === data.maxLimit,
-                  ...scope
-                })
-                : createElement('el-form-item', {
-                  style: {
-                    marginBottom: data.showValidate ? '22px' : '0px'
+      }).concat(createElement('el-table-column', {
+        props: (lastCom.tag === 'action') ? lastCom.column : operatorColumnProps,
+        scopedSlots: {
+          default: scope => {
+            return data.operator.slot
+              ? this.$scopedSlots[data.operator.slot]({
+                delDisabled: listValues.length === data.minLimit,
+                addDisabled: listValues.length === data.maxLimit,
+                ...scope
+              })
+              : createElement('el-form-item', {
+                style: {
+                  marginBottom: data.showValidate ? '22px' : '0px'
+                }
+              },
+              // 自定义操作
+              (lastCom.tag === 'action') ? createActionButtons.call(this, {
+                h: createElement,
+                action: lastCom,
+                component: data,
+                scope: { ...scope, $length: listValues.length },
+              }) : [createElement(
+                'el-button',
+                {
+                  props: {
+                    disabled: this.disabled || listValues.length === data.minLimit
+                  },
+                  on: {
+                    click: () => {
+                      delRowForTable(data, scope, formValues);
+                    }
                   }
-                }, [
-                  createElement(
-                    'el-button',
-                    {
-                      props: {
-                        disabled: listValues.length === data.minLimit
-                      },
-                      on: {
-                        click: () => {
-                          eval(`formValues.${data.name}.splice(scope.$index, 1)`)
-                        }
-                      }
-                    },
-                    typeof data.slot.delete === 'string' ? data.slot.delete : '删除'
-                  )
-                ]
-                )
-            }
+                },
+                typeof data.slot.delete === 'string' ? data.slot.delete : '删除'
+              )])
           }
-        })
-      )
+        }
+      }))
   }
 
   // 数组最小限制
@@ -94,10 +98,10 @@ export default function(createElement, value, data) {
     }
   }
 
-  // 设置 uuid_key 作为 rowKey
+  // 设置 $key 作为 rowKey
   listValues.forEach(item => {
-    if (!item.uuid_key) {
-      this.$set(item, 'uuid_key', genUnique())
+    if (!item.$key) {
+      this.$set(item, '$key', genUnique())
     }
   })
 
@@ -109,7 +113,7 @@ export default function(createElement, value, data) {
           data: listValues,
           size: 'small',
           border: true,
-          rowKey: 'uuid_key',
+          rowKey: '$key',
           headerCellStyle: { fontSize: '13px', background: '#f9f9f9', padding: '2px 0' },
           ...data.props
         },
@@ -140,13 +144,11 @@ export default function(createElement, value, data) {
             props: {
               icon: 'el-icon-plus',
               underline: false,
-              disabled: listValues.length === data.maxLimit
+              disabled: this.disabled || listValues.length === data.maxLimit
             },
             on: {
               click() {
-                eval(
-                  `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`
-                )
+                addRow(data, formValues);
               }
             }
           },

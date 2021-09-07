@@ -19,10 +19,17 @@ export default function(createElement, value, data) {
     if (data.components[key].tag == 'array' && componentsList.length === index + 1) {
       data.components[key].isMarginBottom = '0px'
     } else if (componentsList.length === index + 1 && !data.inline) {
-      // data.components[key].style.marginBottom = !data.type ? '0px' : '0px';
     }
     this.$set(data.components[key], '$item', eval(`model.${data.name}`))
     const componentDataCopy = deepClone(data.components[key])
+    // 联动清除子组件的验证，array/table 做数组清空
+    if(!componentDataCopy.vif) {
+      componentDataCopy.vif = data.vifBool;
+      // 子组件不包含验证表达式
+      if(!componentDataCopy.requiredExpression && typeof data.vif === 'string') {
+        componentDataCopy.required = data.vifBool;
+      }
+    }
     return Component(createElement, this, `${data.name}.${key}`, componentDataCopy)
   })
   //
@@ -49,7 +56,7 @@ export default function(createElement, value, data) {
       ) : null
     ]
   }
-
+  //
   const divider = list => {
     return [
       createElement(
@@ -74,15 +81,15 @@ export default function(createElement, value, data) {
       ) : null
     ]
   }
-
+  //
   const types = {
     'divider': () => divider(allComponent),
     'card': () => card(allComponent),
     'fieldset': () => fieldsetComponent(createElement, data, allComponent)
   }
-
+  //
   let nodes = types[data.type] ? types[data.type]() : allComponent
-
+  //
   nodes = [
     createElementBySlot(createElement, data, 'before'),
     createElement(

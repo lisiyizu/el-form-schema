@@ -14,10 +14,10 @@
         v-model="form" 
         :inline="false" 
         label-width="100px"
-        v-if="Object.keys(schema)"
       >
         <el-form-item>
           <el-button @click="dialogVisible=false">取消</el-button>
+          <el-button @click="reset">重置</el-button>
           <el-button type="primary" @click="submit">提交</el-button>
         </el-form-item>
       </el-form-schema>
@@ -30,21 +30,7 @@ export default  {
   data () {
     return {
       dialogVisible: false,
-      schema: {},
-      form: { 
-        type: "",
-        id: 1,
-        input: "hello",
-        province: "A",
-        city: "B",
-        county: "C",
-        daterange: "2020-02-08"
-      }
-    }
-  },
-  methods: {
-    createSchema() {
-      return {
+      schema: {
         id: {
           tag: 'text', 
           label: 'ID',
@@ -85,12 +71,27 @@ export default  {
           label: '日期范围',
           required: true,
         },
-      };
-    },
+      },
+      form: { 
+        type: "",
+        input: "hello",
+        province: "A",
+        city: "B",
+        county: "C",
+        daterange: "2020-02-08"
+      }
+    }
+  },
+  methods: {
     add() {
       this.dialogVisible = true;
-      this.schema = this.createSchema();
-      this.form.type = "add";
+      this.$nextTick(()=> {
+        this.form.type = "add";
+        Object.assign(this.form, {
+          input: "world",
+          daterange: "2020-09-03"
+        })
+      });
     },
     edit() {
       this.dialogVisible = true;
@@ -102,11 +103,15 @@ export default  {
           province: "A",
           city: "B",
           county: "C",
-          daterange: "2020-02-08"
+          daterange: "2020-02-02"
         })
       });
     },
     closedDialog() {
+      this.$refs.efs.resetFields();
+      console.log('closedDialog', this.form);
+    },
+    reset() {
       this.$refs.efs.resetFields();
     },
     submit() {

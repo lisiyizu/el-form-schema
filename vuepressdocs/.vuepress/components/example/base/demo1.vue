@@ -105,7 +105,11 @@ export default {
           label: "级联选择器",
           props: { options: [], filterable: true }
         },
-        swtich: { tag: "el-switch", label: "复选框" },
+        swtich: { 
+          tag: "el-switch", 
+          label: "复选框",
+          default: true,
+        },
         slider: {
           tag: "el-slider",
           label: "滑块",

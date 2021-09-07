@@ -194,7 +194,98 @@ const isEmpty = function(val) {
 
 // 生成唯一键
 const genUnique = function() {
-  return Math.random().toString(36).substring(2);
+  return Math.random().toString(36).substring(2)
+}
+
+// 创建操作按钮
+const createActionButtons = function({ h, action, component, scope }) {
+  const { formValues } = this;
+  const $model = formValues;
+  return action.buttons.map(item => {
+    const ifBool = item.if ? eval(item.if) : true
+    const disabledBool = item.disabled ? eval(item.disabled) : false
+    return ifBool ? h(
+      item.tag,
+      {
+        props: { ...item.props, disabled: this.disabled || disabledBool },
+        on: {
+          click: () => {
+            item.onClick({
+              ...scope,
+              $addRow: () => {
+                eval(
+                  `formValues.${component.name}.push(JSON.parse(JSON.stringify(component.keys)))`
+                )
+              },
+              $delRow: () => {
+                eval(`formValues.${component.name}.splice(scope.$index, 1)`)
+              }
+            })
+          }
+        }
+      },
+      item.text
+    ) : null
+  })
+}
+
+// array/table 新增操作
+const addRow = function(data, formValues) {
+  if(data.on && data.on.add) {
+    eval(
+      `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`
+    )
+    const list = eval(`formValues.${data.name}`);
+    data.on.add({
+      row: list[list.length-1],
+      $index: list.length-1,
+      $length: list.length
+    });
+  } else {
+    eval(
+      `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`
+    )
+  }
+}
+
+// array 删除操作
+const delRowForArray = function(data, formValues, item, index) {
+  if(data.on && typeof data.on.delete === 'function') {
+    data.on.delete({
+      row: item,
+      $index: index,
+      $length: formValues.length
+    }, done => {
+      if(done) {
+        eval(`(formValues.${data.name}).splice(${index}, 1)`);
+      }
+    })
+  } else {
+    eval(`(formValues.${data.name}).splice(${index}, 1)`);
+  }
+}
+
+// table 删除行操作
+const delRowForTable = function(data, scope, formValues) {
+  if(data.on && typeof data.on.delete === 'function') {
+    data.on.delete(scope, done => {
+      if(done) {
+        eval(`formValues.${data.name}.splice(scope.$index, 1)`)
+      }
+    });
+  } else {
+    eval(`formValues.${data.name}.splice(scope.$index, 1)`)
+  }
+}
+
+// data transform base64
+const utoa = function (data) {
+  return btoa(unescape(encodeURIComponent(data)))
+}
+
+// base64 transform data
+const atou = function (base64) {
+  return decodeURIComponent(escape(atob(base64)))
 }
 
 export {
@@ -208,7 +299,11 @@ export {
   evalTemplateString,
   createTipComponent,
   createElementBySlot,
+  createActionButtons,
   createLabelTipComponent,
+  COMPFLEX_COMPONENTS,
   CUSTOM_TAGS,
-  COMPFLEX_COMPONENTS
+  addRow,
+  delRowForArray,
+  delRowForTable
 }

@@ -230,14 +230,17 @@ export const Component = (createElement, vm, key, item) => {
   if (CUSTOM_TAGS[tag]) {
     nodes = [
       createElement('div', {
-        style: { display: vifBool ? (item.slot && item.slot.after ? 'inline-flex' : 'flow-root') : 'none' },
+        style: {
+          display: vifBool ? (item.slot && item.slot.after ? 'inline-block' : 'flow-root') : 'none',
+          ...((item.tag === 'slot' && !item.vmodel && item.inline && vifBool) ? { display: 'inline-flex', alignItems: 'center' } : {})
+        },
         class: { 'el-form-item-inline': tag === 'slot', 'is-set-inline': tag === 'slot' && item.inline },
         attrs: tag === 'slot' ? { 'slot-label-width': item.labelWidth } : null
       }, [
         CUSTOM_TAGS[tag].call(vm, createElement, value, item)
       ])
     ]
-    if (item.isInput === false || tag === 'slot') {
+    if (item.isInput === false || (item.tag === 'slot' && item.slot)) {
       return nodes
     }
   } else {
@@ -292,9 +295,9 @@ export const Component = (createElement, vm, key, item) => {
         style: {
           display: vifBool && ((item.expand || vm.expandAll && vm.isSearchForm) || !vm.isSearchForm)
             ? !COMPFLEX_COMPONENTS.includes(item.tag) && item.inline
-              ? 'inline-flex'
+              ? (item.vmodel && item.inline) ? 'inline-block' : 'inline-flex'
               : ''
-            : 'none',
+            : item.vmodel ? '' : 'none',
           alignItems: !['object', 'array', 'table'].includes(item.tag) && item.inline ? 'flex-end' : null,
           marginRight: item.inline && item.slot && item.slot.after ? '0px' : '',
           marginBottom: !vm.inline
@@ -303,7 +306,7 @@ export const Component = (createElement, vm, key, item) => {
               : item.style && item.style.marginBottom ? item.style.marginBottom : item.isMarginBottom
                 ? '22px'
                 : (item.tag === 'object' && item.type === 'card' && !item.border) ? '-12px' : (item.type === 'divider') ? '0px' : '22px'
-            : ''
+            : item.vmodel ? '0px' : ''
         },
         key: item.refreshKey,
         ref: key

@@ -109,6 +109,7 @@ export default {
   },
   data() {
     return {
+      schemaValues: {},
       configData: {},
       expandAll: this.isExpand,
       isWatching: false,
@@ -132,11 +133,9 @@ export default {
     },
     model: {
       handler(val) {
-        this.$nextTick(() => {
-          Object.assign(this.formValues, val)
-        })
+        Object.assign(this.formValues, val)
       },
-      immediate: true
+      deep: true
     },
     schema: {
       handler(val) {
@@ -183,13 +182,18 @@ export default {
       if (el.querySelector('.el-form-item__label')) {
         el.querySelector('.el-form-item__content').style.marginLeft = '0px'
       }
+      if (el.querySelector('.el-form-item') && !el.querySelector('.el-form-item').style.display) {
+        el.querySelector('.el-form-item').style.display = 'inline-flex'
+      }
     })
   },
   mounted() {
+    Object.assign(this.formValues, this.vmodel)
+    this.$emit('input', { ...this.formValues })
     if (this.isSearchForm && this.useEnterSearch) {
       document.onkeyup = (event) => {
         const e = event || window.event || arguments.callee.caller.arguments[0]
-        if (e && e.keyCode == 13) {
+        if (e && e.keyCode === 13) {
           if (!isEqual(this.formValues, this.enterFormValues)) {
             this.enterFormValues = JSON.parse(JSON.stringify(this.formValues))
             this.$refs[this.refName].validate((valid) => {
@@ -213,8 +217,12 @@ export default {
         this.initComponentList(schemaComponent)
         this.setValueKey(values, key, schemaComponent)
       }
-      this.formValues = { ...values }
-      this.$emit('input', { ...this.formValues, ...this.model })
+      this.schemaValues = JSON.parse(JSON.stringify(values));
+      const customData = Object.keys(this.model).reduce((prev, key) => {
+        if (!(key in values)) prev[key] = this.model[key]
+        return prev
+      }, {})
+      this.formValues = { ...values, ...customData }
     },
     /**
 		 *  label/title/slot 模版字符串
@@ -443,19 +451,21 @@ export default {
         case 'table':
         case 'array':
           // eslint-disable-next-line no-case-declarations
-          const keys = {}
+          let keys = {};
           this.setExpTpl(schema)
           schema.vifBool = true
           Object.keys(schema.components).forEach((_key) => {
             this.setExpTpl(schema.components[_key])
-            this.setValueKey(keys, _key, schema.components[_key])
+            if (schema.components[_key].tag !== 'action') {
+              this.setValueKey(keys, _key, schema.components[_key])
+            }
           })
+          Object.assign(keys, schema.addRowExt || {});
           // eslint-disable-next-line no-prototype-builtins
           if (!schema.hasOwnProperty('keys')) {
             schema.keys = keys
           }
           values[key] = schema.default || []
-
           break
         default:
           this.setExpTpl(schema)
@@ -539,7 +549,7 @@ export default {
         return val.length === 0 ? [field] : val.map((item, index) => this.getValidateProps(`${field}[${index}]`)).flat(Infinity)
       } else {
         return Object.keys(val).reduce((prev, next) => {
-          if (!next.includes('uuid_key')) {
+          if (!next.includes('$key')) {
             if (typeof val[next] !== 'object' && !Array.isArray(val[next])) { // 简单类型
               prev.push(`${field}.${next}`)
             } else if (Array.isArray(val[next])) { // 数组类型
@@ -581,6 +591,10 @@ export default {
         this.validiteFieldSet.clear()
         // 表单重置
         this.$refs[this.refName].resetFields()
+        // 解决 array/table 设置minLimit后 无法重置的bug
+				this.$nextTick(()=> {
+					Object.assign(this.formValues, this.schemaValues);
+				})
       } catch (ex) {
         // 重置数组复杂对象会报以下的一个错误，暂时可以忽略，目前发现并不影响操作
         // Error: please transfer a valid prop path to form item!

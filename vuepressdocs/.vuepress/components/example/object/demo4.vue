@@ -34,15 +34,12 @@ export default {
           title: "选中值：${model.radio || '-'}",
           type: "fieldset",
           vif: "$model.radio === 'A'",
-          labelWidthComponents: "100px",
           components: {
-            radio: {
-              tag: "el-radio",
-              default: true,
-              items: [
-                { label: "必填", value: true },
-                { label: "非必填", value: false }
-              ]
+            input: {
+              tag: "el-input",
+              required: true,
+              labelWidth: "60px",
+              label: "测试"
             },
             table: {
               tag: "table",

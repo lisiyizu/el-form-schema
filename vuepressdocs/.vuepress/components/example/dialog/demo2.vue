@@ -14,7 +14,7 @@
         v-model="form" 
         :inline="false" 
         label-width="100px"
-        v-if="Object.keys(schema)"
+        v-if="Object.keys(schema).length"
       >
         <el-form-item>
           <el-button @click="dialogVisible=false">取消</el-button>
@@ -31,15 +31,7 @@ export default  {
     return {
       dialogVisible: false,
       schema: {},
-      form: { 
-        type: "",
-        id: 1,
-        input: "hello",
-        province: "A",
-        city: "B",
-        county: "C",
-        daterange: "2020-02-08"
-      }
+      form: { type: "" }
     }
   },
   methods: {
@@ -90,10 +82,13 @@ export default  {
     add() {
       this.dialogVisible = true;
       this.schema = this.createSchema();
-      this.form.type = "add";
+      this.$nextTick(()=> {
+        this.form.type = "add";
+      });
     },
     edit() {
       this.dialogVisible = true;
+      this.schema = this.createSchema();
       this.$nextTick(()=> {
         this.form.type = "edit";
         Object.assign(this.form, {
@@ -107,7 +102,8 @@ export default  {
       });
     },
     closedDialog() {
-      this.$refs.efs.resetFields();
+      this.schema = {};
+      this.form = { type: "" };
     },
     submit() {
       this.$refs.efs.validate((valid)=>{
