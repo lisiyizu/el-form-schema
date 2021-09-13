@@ -17,7 +17,6 @@
       >
         <el-form-item>
           <el-button @click="dialogVisible=false">取消</el-button>
-          <el-button @click="reset">重置</el-button>
           <el-button type="primary" @click="submit">提交</el-button>
         </el-form-item>
       </el-form-schema>
@@ -74,45 +73,42 @@ export default  {
       },
       form: { 
         type: "",
-        input: "hello",
-        province: "A",
-        city: "B",
-        county: "C",
-        daterange: "2020-02-08"
+        // input: "hello",
+        // province: "A",
+        // city: "B",
+        // county: "C",
+        // daterange: "2020-02-08"
       }
     }
   },
   methods: {
     add() {
       this.dialogVisible = true;
-      this.$nextTick(()=> {
-        this.form.type = "add";
-        Object.assign(this.form, {
-          input: "world",
-          daterange: "2020-09-03"
-        })
-      });
+      this.form.type = "add";
+      Object.assign(this.form, {
+        input: "world",
+        province: "A",
+        city: "B",
+        county: "C",
+        daterange: "2020-09-10"
+      })
+      
     },
     edit() {
       this.dialogVisible = true;
-      this.$nextTick(()=> {
-        this.form.type = "edit";
-        Object.assign(this.form, {
-          id: 1,
-          input: "hello",
-          province: "A",
-          city: "B",
-          county: "C",
-          daterange: "2020-02-02"
-        })
-      });
+      this.form.type = "edit";
+      Object.assign(this.form, {
+        id: 1,
+        input: "hello world!",
+        province: "A",
+        city: "B",
+        county: "C",
+        daterange: "2020-09-10"
+      })
     },
     closedDialog() {
       this.$refs.efs.resetFields();
       console.log('closedDialog', this.form);
-    },
-    reset() {
-      this.$refs.efs.resetFields();
     },
     submit() {
       this.$refs.efs.validate((valid)=>{

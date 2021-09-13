@@ -1,6 +1,6 @@
 <script>
 import { Component } from './components/index'
-import { getObjectByPath, isEqual, genUnique } from './components/utils'
+import { getObjectByPath, isEqual, isEmpty, genUnique } from './components/utils'
 export default {
   model: {
     prop: 'model',
@@ -133,9 +133,12 @@ export default {
     },
     model: {
       handler(val) {
-        Object.assign(this.formValues, val)
+        this.$nextTick(() => {
+          Object.assign(this.formValues, val)
+        })
       },
-      deep: true
+      deep: true,
+      immediate: true
     },
     schema: {
       handler(val) {
@@ -187,22 +190,12 @@ export default {
       }
     })
   },
+  activated() {
+    // 解决 keep-alive 造成的bug
+    this.onEnterSearch()
+  },
   mounted() {
-    Object.assign(this.formValues, this.vmodel)
-    this.$emit('input', { ...this.formValues })
-    if (this.isSearchForm && this.useEnterSearch) {
-      document.onkeyup = (event) => {
-        const e = event || window.event || arguments.callee.caller.arguments[0]
-        if (e && e.keyCode === 13) {
-          if (!isEqual(this.formValues, this.enterFormValues)) {
-            this.enterFormValues = JSON.parse(JSON.stringify(this.formValues))
-            this.$refs[this.refName].validate((valid) => {
-              valid && this.$emit('submit', valid)
-            })
-          }
-        }
-      }
-    }
+    this.onEnterSearch()
   },
   methods: {
     /**
@@ -215,14 +208,17 @@ export default {
         this.schema[key].$isLast = lastKey === key
         const schemaComponent = this.schema[key]
         this.initComponentList(schemaComponent)
-        this.setValueKey(values, key, schemaComponent)
+        this.setSchemaFields(values, key, schemaComponent)
       }
-      this.schemaValues = JSON.parse(JSON.stringify(values));
       const customData = Object.keys(this.model).reduce((prev, key) => {
         if (!(key in values)) prev[key] = this.model[key]
         return prev
       }, {})
+      this.schemaValues = JSON.parse(JSON.stringify(values))
       this.formValues = { ...values, ...customData }
+      this.$nextTick(() => {
+        this.$emit('input', { ...this.formValues, ...this.model })
+      })
     },
     /**
 		 *  label/title/slot 模版字符串
@@ -308,6 +304,7 @@ export default {
       component.isMarginBottom = true
       component.refreshKey = ''
       component.isInput = component.hasOwnProperty('isInput') ? component.isInput : true
+      component.vif = component.hasOwnProperty('vif') ? component.vif : true
       component.$item = null
       component.$index = -1
       component.$isArrayLast = false
@@ -432,7 +429,7 @@ export default {
     /**
 		 * @description: 递归遍历schema下所有组件的v-model的key
 		*/
-    setValueKey(values, key, schema) {
+    setSchemaFields(values, key, schema) {
       switch (schema.tag) {
         case 'object':
           if (schema.components) {
@@ -444,23 +441,23 @@ export default {
             for (const _key in schema.components) {
               schema.components[_key].isMarginBottom = true
               this.setExpTpl(schema.components[_key])
-              this.setValueKey(values[key], _key, schema.components[_key])
+              this.setSchemaFields(values[key], _key, schema.components[_key])
             }
           }
           break
         case 'table':
         case 'array':
           // eslint-disable-next-line no-case-declarations
-          let keys = {};
+          const keys = {}
           this.setExpTpl(schema)
           schema.vifBool = true
           Object.keys(schema.components).forEach((_key) => {
             this.setExpTpl(schema.components[_key])
             if (schema.components[_key].tag !== 'action') {
-              this.setValueKey(keys, _key, schema.components[_key])
+              this.setSchemaFields(keys, _key, schema.components[_key])
             }
           })
-          Object.assign(keys, schema.addRowExt || {});
+          Object.assign(keys, schema.addRowExt || {})
           // eslint-disable-next-line no-prototype-builtins
           if (!schema.hasOwnProperty('keys')) {
             schema.keys = keys
@@ -478,7 +475,8 @@ export default {
                 const obj = schema.slot[key]
                 if (obj instanceof Object && obj['vmodel']) {
                   schema.slot[key].isInput = false
-                  if (obj.style && key === 'after') {
+                  if (key === 'after') {
+                    schema.slot[key].style = schema.slot[key].style || {}
                     schema.slot[key].inline = true
                     schema.slot[key].style.marginBottom = obj.marginBottom || '0px'
                   }
@@ -501,7 +499,9 @@ export default {
 		 * @description: 设置默认值
 		*/
     setDefaultValue(item) {
-      if (item.default !== undefined && item.default !== null) {
+      if (!isEmpty(item.initValue)) {
+        return item.initValue
+      } else if (!isEmpty(item.default)) {
         return item.default
       } else {
         return ''
@@ -592,9 +592,9 @@ export default {
         // 表单重置
         this.$refs[this.refName].resetFields()
         // 解决 array/table 设置minLimit后 无法重置的bug
-				this.$nextTick(()=> {
-					Object.assign(this.formValues, this.schemaValues);
-				})
+        this.$nextTick(() => {
+          Object.assign(this.formValues, this.schemaValues)
+        })
       } catch (ex) {
         // 重置数组复杂对象会报以下的一个错误，暂时可以忽略，目前发现并不影响操作
         // Error: please transfer a valid prop path to form item!
@@ -606,6 +606,25 @@ export default {
     clearValidate(props = []) {
       props = this.getValidateProps(props)
       return this.$refs[this.refName] && this.$refs[this.refName].clearValidate(props)
+    },
+    /**
+    * @description: 通过enter事件触发查询事件
+    */
+    onEnterSearch() {
+      if (this.isSearchForm && this.useEnterSearch) {
+        document.onkeyup = (event) => {
+          // eslint-disable-next-line no-caller
+          const e = event || window.event || arguments.callee.caller.arguments[0]
+          if (e && e.keyCode === 13) {
+            if (!isEqual(this.formValues, this.enterFormValues) && this.$refs[this.refName]) {
+              this.enterFormValues = JSON.parse(JSON.stringify(this.formValues))
+              this.$refs[this.refName].validate((valid) => {
+                valid && this.$emit('submit', valid)
+              })
+            }
+          }
+        }
+      }
     }
   },
   render(h) {

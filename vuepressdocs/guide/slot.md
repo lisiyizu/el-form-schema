@@ -1,8 +1,8 @@
 
 # slot篇
 
-## 简单
-  
+## 简单 
+强烈建议大家不要滥用 `slot` 来做布局，应该优先考虑用 `inline` 的方式去控制布局。
 
 <demo-block>
 <example-slot-demo1 slot="source"/>
@@ -10,7 +10,7 @@
 </demo-block>
 
 ## 复杂
-  
+强烈建议大家不要滥用 `slot` 来做布局，应该优先考虑用 `inline` 的方式去控制布局。
 
 <demo-block>
 <example-slot-demo2 slot="source"/>

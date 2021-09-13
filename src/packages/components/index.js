@@ -59,7 +59,7 @@ export const Component = (createElement, vm, key, item) => {
       // on : { changeExt(val,item) { }
       if (['el-select', 'el-radio', 'el-checkbox'].includes(tag) && on.changeExt) {
         const model = items.find(
-          item => item[keys ? keys['value'] : 'value'] == value
+          item => item[keys ? keys['value'] : 'value'] === value
         )
         on.changeExt.call(vm, value, model)
       }
@@ -231,7 +231,7 @@ export const Component = (createElement, vm, key, item) => {
     nodes = [
       createElement('div', {
         style: {
-          display: vifBool ? (item.slot && item.slot.after ? 'inline-block' : 'flow-root') : 'none',
+          display: vifBool ? (item.vmodel ? (item.style && item.style.display ? item.style.display : 'inline-flex') : 'flow-root') : 'none',
           ...((item.tag === 'slot' && !item.vmodel && item.inline && vifBool) ? { display: 'inline-flex', alignItems: 'center' } : {})
         },
         class: { 'el-form-item-inline': tag === 'slot', 'is-set-inline': tag === 'slot' && item.inline },

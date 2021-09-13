@@ -81,25 +81,21 @@ export default  {
     },
     add() {
       this.dialogVisible = true;
+      this.form.type = "add";
       this.schema = this.createSchema();
-      this.$nextTick(()=> {
-        this.form.type = "add";
-      });
     },
     edit() {
       this.dialogVisible = true;
       this.schema = this.createSchema();
-      this.$nextTick(()=> {
-        this.form.type = "edit";
-        Object.assign(this.form, {
-          id: 1,
-          input: "hello",
-          province: "A",
-          city: "B",
-          county: "C",
-          daterange: "2020-02-08"
-        })
-      });
+      this.form.type = "edit";
+      Object.assign(this.form, {
+        id: 1,
+        input: "hello",
+        province: "A",
+        city: "B",
+        county: "C",
+        daterange: "2020-02-08"
+      })
     },
     closedDialog() {
       this.schema = {};

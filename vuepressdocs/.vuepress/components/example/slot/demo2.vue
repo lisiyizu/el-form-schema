@@ -31,7 +31,7 @@
           :rules="{ required: true, message: '必填!' }"
         >
           <el-input
-            style="width: 240px;"
+            style="width: 120px;"
             v-model.trim="scope.row.slotA"
             placeholder="slotTest测试"
           >
@@ -45,7 +45,7 @@
           :rules="{ required: true, message: '必填!' }"
         >
           <el-input
-            style="width: 240px;"
+            style="width: 120px;"
             v-model.trim="scope.row.slotB"
             placeholder="slotTest测试"
           >
@@ -59,7 +59,7 @@
           :rules="{ required: true, message: '必填!' }"
         >
           <el-input
-            style="width: 240px;"
+            style="width: 120px;"
             v-model.trim="scope.row.slotC"
             placeholder="slotTest测试"
           >

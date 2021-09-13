@@ -27,12 +27,6 @@ export default {
   methods: {
     initForm() {
       this.schema = {
-        inputTrim: {
-          tag: 'el-input-num',
-          required: true,
-          rules: { type: 'number' },
-          props: { placeholder: "我是el-input-num" }
-        },
         input: {
           tag: Input,
           required: true,
@@ -42,7 +36,7 @@ export default {
               tag: 'el-checkbox',
               vmodel: 'sel',
               vif: '$model.input',
-              items: ["A", "B", "C", "D"]
+              items: ["A", "B", "C"]
             }
           }
         },

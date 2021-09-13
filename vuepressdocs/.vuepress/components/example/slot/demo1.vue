@@ -3,7 +3,7 @@
     <p>{{ model }}</p>
     <el-form-schema
       :schema="schema"
-      ref="el-form-schema"
+      ref="efs"
       v-model="model"
       label-width="150px"
     >
@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       schema: {},
-      model: { },
+      model: {},
       cascaderOptions: []
     };
   },
@@ -30,23 +30,25 @@ export default {
         radio: {
           tag: 'el-radio',
           required: true,
+          default: true,
           items: [{ label: "必填", value: true }, { label: "非必填", value: false }]
         },
-        inputTrim: {
+        input1: {
           tag: 'el-input',
           rules: { required: "$model.radio", message: "必填项哦！" },
           props: { placeholder: "我是el-input-num" }
         },
-        input: {
-          tag: Input,
+        input2: {
+          tag: "el-input",
           required: true,
-          attrs: { placeholder: "自定义组件" },
+          props: { placeholder: "自定义组件", disabled: "!$model.sel" },
           slot: {
-            after: {
-              tag: 'el-checkbox',
-              vmodel: 'sel',
-              vif: '$model.input',
-              items: ["A", "B", "C", "D"]
+            prepend: {
+              tag: 'el-select',
+              vmodel: "sel",
+              style: { width: "90px" },
+              props: { placeholder: "请选择" },
+              items: [{ label: "是", value: true }, { label: "否", value: false }]
             }
           }
         },
@@ -75,7 +77,7 @@ export default {
             timeselect: { tag: "el-date-picker", required: true }
           }
         },
-        switch: { tag: Switch }
+        switch: { tag: Switch, default: false }
       };
     },
     arrayData(num) {
@@ -84,12 +86,12 @@ export default {
         .map((item, index) => ({ label: `测试-${index}`, value: index + 1 }));
     },
     submit() {
-      this.$refs["el-form-schema"].validate(valid => {
+      this.$refs.efs.validate(valid => {
         alert(valid);
       });
     },
     reset() {
-      this.$refs["el-form-schema"].resetFields();
+      this.$refs.efs.resetFields();
     }
   },
   mounted() {
