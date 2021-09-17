@@ -53,9 +53,10 @@ export default  {
         city: { 
           tag: 'el-select', 
           inline: true, 
-          items: ["B"], 
+          items: ["B", "O", "P"], 
           slot: { after: ' ' },
           required: true,
+          default: "O",
           props: { disabled: "$model.type !== 'add'  || !$model.province", clearable: true }  
         },
         county: { 
@@ -73,7 +74,7 @@ export default  {
       },
       form: { 
         type: "",
-        // input: "hello",
+        input: "hello",
         // province: "A",
         // city: "B",
         // county: "C",
@@ -85,10 +86,12 @@ export default  {
     add() {
       this.dialogVisible = true;
       this.form.type = "add";
+      this.$nextTick(()=> {
+        this.form.city = "P";
+      })
       Object.assign(this.form, {
-        input: "world",
+        // input: "world",
         province: "A",
-        city: "B",
         county: "C",
         daterange: "2020-09-10"
       })

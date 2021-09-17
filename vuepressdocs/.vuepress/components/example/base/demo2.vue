@@ -30,15 +30,16 @@ export default {
         input: {
           tag: Input,
           required: true,
-          attrs: { placeholder: "自定义组件" },
-          slot: {
-            after: {
-              tag: 'el-checkbox',
-              vmodel: 'sel',
-              vif: '$model.input',
-              items: ["A", "B", "C"]
-            }
-          }
+          inline: true,
+          label: "自定义组件",
+          attrs: { placeholder: "自定义组件" }
+        },
+        sel: {
+          tag: 'el-checkbox',
+          vif: '$model.input',
+          inline: true,
+          items: ["A", "B", "C"],
+          style: { marginLeft: "10px" }
         },
         cascader: {
           tag: "el-cascader",

@@ -1,4 +1,4 @@
-import { createElementBySlot, createTipComponent } from '../utils'
+import { createElementBySlot, createTipComponent, getOptionList } from '../utils'
 
 export default function(createElement, value, data) {
   const {
@@ -6,9 +6,10 @@ export default function(createElement, value, data) {
     attrs = {},
     props = {},
     style = {},
-    items = [],
     keys = null
   } = data
+
+  const items = getOptionList(data)
 
   if (!this.inline) style.width = ''
 

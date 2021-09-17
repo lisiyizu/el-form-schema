@@ -44,7 +44,7 @@ export default {
           tag: "el-checkbox",
           label: "复选框",
           inline: true,
-          rules: { required: true, type: "array", message: "必填" },
+          required: true,
           items: []
         },
         obj: {

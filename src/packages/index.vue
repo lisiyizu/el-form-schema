@@ -216,9 +216,7 @@ export default {
       }, {})
       this.schemaValues = JSON.parse(JSON.stringify(values))
       this.formValues = { ...values, ...customData }
-      this.$nextTick(() => {
-        this.$emit('input', { ...this.formValues, ...this.model })
-      })
+      this.$emit('input', { ...this.formValues, ...this.model })
     },
     /**
 		 *  label/title/slot 模版字符串
@@ -311,17 +309,12 @@ export default {
       component.label = component.label || ''
       component.style = component.style || {}
       component.slot = component.slot || {}
+      component.items = component.items || []
       component.props = component.props || {}
       component.attrs = component.attrs || {}
       component.rules = component.rules || (component.required ? { required: true, message: '必填' } : null)
       // 监听config表达式的情况
       this.watchConfigExp(component, watchConfigExp)
-      if (component.items) {
-        const list = JSON.parse(JSON.stringify(component.items))
-        component.items = list.map(item => {
-          return (typeof item === 'string') ? { label: item, value: item } : item
-        })
-      }
       switch (component.tag) {
         case 'p':
         case 'a':
@@ -499,9 +492,7 @@ export default {
 		 * @description: 设置默认值
 		*/
     setDefaultValue(item) {
-      if (!isEmpty(item.initValue)) {
-        return item.initValue
-      } else if (!isEmpty(item.default)) {
+      if (!isEmpty(item.default)) {
         return item.default
       } else {
         return ''
@@ -591,10 +582,6 @@ export default {
         this.validiteFieldSet.clear()
         // 表单重置
         this.$refs[this.refName].resetFields()
-        // 解决 array/table 设置minLimit后 无法重置的bug
-        this.$nextTick(() => {
-          Object.assign(this.formValues, this.schemaValues)
-        })
       } catch (ex) {
         // 重置数组复杂对象会报以下的一个错误，暂时可以忽略，目前发现并不影响操作
         // Error: please transfer a valid prop path to form item!

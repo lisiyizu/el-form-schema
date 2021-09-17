@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div>
     <p>{{ model }}</p>
     <el-form-schema
@@ -87,14 +87,8 @@ export default {
         select3: {
           tag: "el-select",
           label: "下拉框3（bool）",
-          default: true,
-          items:  [{
-            label: "是", 
-            value: true
-          },{
-            label:"否",
-            value: false
-          }]
+          default: "A",
+          items:  []
         },
         checkbox: {
           tag: "el-checkbox",
@@ -197,6 +191,11 @@ export default {
       });
       return { foo, bar };
     }
+  },
+  mounted() {
+    setTimeout(()=> { 
+      this.schema.select3.items = ["A", "B", "C"];
+    }, 5000)
   }
 };
 </script>

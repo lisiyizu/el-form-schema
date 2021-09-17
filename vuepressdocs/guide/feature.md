@@ -63,7 +63,7 @@ expand|展开/收起
 tag|组件名字|el-*(表单组件)、内置组件、自定义组件|-
 label|标签文本|string|-
 default|默认值|bool/string/number/object/array|-
-items|数据项（专门为el-select/el-radio/el-checkbox的属性）|string| []
+items|数据项（专门为el-select/el-radio/el-checkbox的属性）|array/object| []
 keys|字段映射（专门为el-select/el-radio/el-checkbox的属性）|object| {label:'label',value:'value'}
 inline|是否行内布局|boolean|false
 vif|是否显示|字符串表达式，比如: vif: "$model.id === 2" |-

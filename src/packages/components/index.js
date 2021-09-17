@@ -183,8 +183,8 @@ export const Component = (createElement, vm, key, item) => {
   if (vifBool) {
     vm.validiteFieldSet.delete(name)
   } else if (!COMPFLEX_COMPONENTS.includes(item.tag)) {
-    // 修复联动 vif = false，清空数值
-    eval(`formValues.${name} = item.default || ''`)
+    // 修复联动 vif = false，清空重置组件（注意：el-input-number 组件默认值0，需要单独处理);
+    eval(`formValues.${name} = item.default || (item.tag === 'el-input-number' ? item.props.min || 0 : '')`)
     vm.validiteFieldSet.add(name)
     vm.$refs[vm.refName] && vm.$refs[vm.refName].clearValidate(key)
   } else if (COMPFLEX_COMPONENTS.includes(item.tag)) {

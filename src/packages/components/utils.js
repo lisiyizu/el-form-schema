@@ -199,8 +199,8 @@ const genUnique = function() {
 
 // 创建操作按钮
 const createActionButtons = function({ h, action, component, scope }) {
-  const { formValues } = this;
-  const $model = formValues;
+  const { formValues } = this
+  const $model = formValues
   return action.buttons.map(item => {
     const ifBool = item.if ? eval(item.if) : true
     const disabledBool = item.disabled ? eval(item.disabled) : false
@@ -231,16 +231,16 @@ const createActionButtons = function({ h, action, component, scope }) {
 
 // array/table 新增操作
 const addRow = function(data, formValues) {
-  if(data.on && data.on.add) {
+  if (data.on && data.on.add) {
     eval(
       `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`
     )
-    const list = eval(`formValues.${data.name}`);
+    const list = eval(`formValues.${data.name}`)
     data.on.add({
-      row: list[list.length-1],
-      $index: list.length-1,
+      row: list[list.length - 1],
+      $index: list.length - 1,
       $length: list.length
-    });
+    })
   } else {
     eval(
       `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`
@@ -250,42 +250,52 @@ const addRow = function(data, formValues) {
 
 // array 删除操作
 const delRowForArray = function(data, formValues, item, index) {
-  if(data.on && typeof data.on.delete === 'function') {
+  if (data.on && typeof data.on.delete === 'function') {
     data.on.delete({
       row: item,
       $index: index,
       $length: formValues.length
     }, done => {
-      if(done) {
-        eval(`(formValues.${data.name}).splice(${index}, 1)`);
+      if (done) {
+        eval(`(formValues.${data.name}).splice(${index}, 1)`)
       }
     })
   } else {
-    eval(`(formValues.${data.name}).splice(${index}, 1)`);
+    eval(`(formValues.${data.name}).splice(${index}, 1)`)
   }
 }
 
 // table 删除行操作
 const delRowForTable = function(data, scope, formValues) {
-  if(data.on && typeof data.on.delete === 'function') {
+  if (data.on && typeof data.on.delete === 'function') {
     data.on.delete(scope, done => {
-      if(done) {
+      if (done) {
         eval(`formValues.${data.name}.splice(scope.$index, 1)`)
       }
-    });
+    })
   } else {
     eval(`formValues.${data.name}.splice(scope.$index, 1)`)
   }
 }
 
 // data transform base64
-const utoa = function (data) {
+const utoa = function(data) {
   return btoa(unescape(encodeURIComponent(data)))
 }
 
 // base64 transform data
-const atou = function (base64) {
+const atou = function(base64) {
   return decodeURIComponent(escape(atob(base64)))
+}
+
+// 获取(el-select/el-radio/el-checkbox)数据
+const getOptionList = function(data) {
+  return Array.isArray(data.items) ? data.items.map(item => {
+    return (typeof item === 'string') ? { label: item, value: item } : item
+  }) : typeof data.items === 'object' ? Object.keys(data.items).reduce((prev, next) => {
+    prev.push({ label: data.items[next], value: next })
+    return prev
+  }, []) : []
 }
 
 export {
@@ -305,5 +315,6 @@ export {
   CUSTOM_TAGS,
   addRow,
   delRowForArray,
-  delRowForTable
+  delRowForTable,
+  getOptionList
 }

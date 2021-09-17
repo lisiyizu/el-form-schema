@@ -21,16 +21,13 @@ export default function(createElement, value, data) {
     }
     this.$set(data.components[key], '$item', eval(`model.${data.name}`))
     const componentDataCopy = deepClone(data.components[key])
-    // 联动清除子组件的验证，array/table 做数组清空
-    if (!componentDataCopy.vif) {
-      // 复杂组件的情况
-      if (componentDataCopy.isInput) {
-        componentDataCopy.vif = data.vifBool
-      }
-      // 子组件不包含验证表达式
-      if (!componentDataCopy.requiredExpression && componentDataCopy.isInput && typeof data.vif === 'string') {
-        componentDataCopy.required = data.vifBool
-      }
+    // 复杂组件的情况
+    if (typeof componentDataCopy.vif !== 'string') {
+      componentDataCopy.vif = data.vifBool
+    }
+    // 子组件不包含验证表达式
+    if (!componentDataCopy.requiredExpression && componentDataCopy.hasOwnProperty('required') && componentDataCopy.isInput && typeof data.vif === 'string') {
+      componentDataCopy.required = data.vifBool
     }
     return Component(createElement, this, `${data.name}.${key}`, componentDataCopy)
   })

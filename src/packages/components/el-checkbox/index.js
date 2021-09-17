@@ -1,4 +1,4 @@
-import { createElementBySlot, createTipComponent } from '../utils'
+import { createElementBySlot, createTipComponent, getOptionList } from '../utils'
 
 export default function(createElement, value, data) {
   const vm = this
@@ -9,11 +9,12 @@ export default function(createElement, value, data) {
     attrs = {},
     props = {},
     style = {},
-    items = [],
     name = '',
     keys = null,
     render = { before: null, after: null }
   } = data
+
+  const items = getOptionList(data)
 
   data.checkAll = data.checkAll || []
   data.checkAllDisabled = data.checkAllDisabled || false
