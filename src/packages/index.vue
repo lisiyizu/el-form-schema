@@ -579,13 +579,15 @@ export default {
     resetFields() {
       try {
         // 解决复杂组件array/table在设置minLimit 后，可能造成重置失效的Bug
-        setTimeout(() => {
-          this.$set(this, 'formValues', { ...this.model, ...JSON.parse(JSON.stringify(this.schemaValues)) })
-          this.$nextTick(() => {
-            this.$forceUpdate()
-            this.$refs[this.refName].clearValidate()
-          })
-        }, 100)
+        this.$nextTick(() => {
+          if (!this.isSearchForm) {
+            this.$set(this, 'formValues', { ...this.model, ...JSON.parse(JSON.stringify(this.schemaValues)) })
+            this.$nextTick(() => {
+              this.$forceUpdate()
+              this.$refs[this.refName].clearValidate()
+            })
+          }
+        })
         // 清楚隐藏字段的数据
         this.validiteFieldSet.clear()
         // 表单重置
