@@ -4,9 +4,8 @@
     <el-form-schema
       :schema="schema"
       v-model="model"
-      :inline="true"
       :is-search-form="true"
-      label-width="90px"
+      label-width="auto"
       component-width="230px"
       @submit="submit"
       @reset="reset"

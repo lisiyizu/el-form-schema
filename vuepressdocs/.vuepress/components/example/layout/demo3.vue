@@ -4,8 +4,7 @@
     <el-form-schema
       :schema="schema"
       v-model="model"
-      :inline="false"
-      label-width="100px"
+      label-width="auto"
       component-width="200px"
     ></el-form-schema>
   </div>

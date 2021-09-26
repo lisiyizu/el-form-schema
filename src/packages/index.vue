@@ -574,20 +574,10 @@ export default {
       })
     },
     /**
-		 * @description: 表单重置
+		 * @description: 重置表单字段
 		 */
     resetFields() {
       try {
-        // 解决复杂组件array/table在设置minLimit 后，可能造成重置失效的Bug
-        this.$nextTick(() => {
-          if (!this.isSearchForm) {
-            this.$set(this, 'formValues', { ...this.model, ...JSON.parse(JSON.stringify(this.schemaValues)) })
-            this.$nextTick(() => {
-              this.$forceUpdate()
-              this.$refs[this.refName].clearValidate()
-            })
-          }
-        })
         // 清楚隐藏字段的数据
         this.validiteFieldSet.clear()
         // 表单重置
@@ -596,6 +586,20 @@ export default {
         // 重置数组复杂对象会报以下的一个错误，暂时可以忽略，目前发现并不影响操作
         // Error: please transfer a valid prop path to form item!
       }
+    },
+    /**
+		 * @description: 强制重置 (专门针对复杂场景，无法重置的问题)
+		 */
+    forceReset() {
+      // 解决复杂组件array/table在设置minLimit 后，可能造成重置失效的Bug
+      this.$nextTick(() => {
+        this.$set(this, 'formValues', { ...this.model, ...JSON.parse(JSON.stringify(this.schemaValues)) })
+        this.$nextTick(() => {
+          this.$forceUpdate()
+          this.$refs[this.refName].clearValidate()
+        })
+      })
+      this.resetFields()
     },
     /**
 		 * @description: 移除表单校验

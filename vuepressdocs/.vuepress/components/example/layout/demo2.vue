@@ -8,7 +8,7 @@
       :is-search-form="true"
       :use-enter-search="false"
       :expand-number="2"
-      label-width="90px"
+      label-width="auto"
       component-width="220px"
       @submit="submit"
       @reset="reset"
