@@ -208,7 +208,7 @@ export default {
         this.schema[key].$isLast = lastKey === key
         const schemaComponent = this.schema[key]
         this.initComponentList(schemaComponent)
-        this.setSchemaFields(values, key, schemaComponent)
+        this.setValueKey(values, key, schemaComponent)
       }
       const customData = Object.keys(this.model).reduce((prev, key) => {
         if (!(key in values)) prev[key] = this.model[key]
@@ -422,19 +422,25 @@ export default {
     /**
 		 * @description: 递归遍历schema下所有组件的v-model的key
 		*/
-    setSchemaFields(values, key, schema) {
+    setValueKey(values, key, schema) {
       switch (schema.tag) {
         case 'object':
           if (schema.components) {
-            values[key] = {}
+            schema.skip = !schema.hasOwnProperty('skip') ? false : schema.skip
+            if (!schema.skip) values[key] = {}
             schema.isMarginBottom = false
             schema.vifBool = true
+            schema.componentWidth = schema.componentWidth || this.componentWidth
             this.setExpTpl(schema)
             if (schema.type === 'card' && !schema.hasOwnProperty('border')) schema.border = true
             for (const _key in schema.components) {
               schema.components[_key].isMarginBottom = true
               this.setExpTpl(schema.components[_key])
-              this.setSchemaFields(values[key], _key, schema.components[_key])
+              if (!schema.skip) {
+                this.setValueKey(values[key], _key, schema.components[_key])
+              } else {
+                this.setValueKey(values, _key, schema.components[_key])
+              }
             }
           }
           break
@@ -444,10 +450,11 @@ export default {
           const keys = {}
           this.setExpTpl(schema)
           schema.vifBool = true
+          schema.operator = typeof schema.operator === 'boolean' ? schema.operator : {}
           Object.keys(schema.components).forEach((_key) => {
             this.setExpTpl(schema.components[_key])
             if (schema.components[_key].tag !== 'action') {
-              this.setSchemaFields(keys, _key, schema.components[_key])
+              this.setValueKey(keys, _key, schema.components[_key])
             }
           })
           Object.assign(keys, schema.addRowExt || {})
@@ -617,11 +624,15 @@ export default {
           // eslint-disable-next-line no-caller
           const e = event || window.event || arguments.callee.caller.arguments[0]
           if (e && e.keyCode === 13) {
-            if (!isEqual(this.formValues, this.enterFormValues) && this.$refs[this.refName]) {
-              this.enterFormValues = JSON.parse(JSON.stringify(this.formValues))
-              this.$refs[this.refName].validate((valid) => {
-                valid && this.$emit('submit', valid)
-              })
+            const nodePaths = e.path.map(node => node.className)
+            // 排除（弹框/页输入跳转）里按enter键触发查询的问题
+            if (!nodePaths.includes('el-dialog') && !nodePaths.includes('el-pagination__jump')) {
+              if (!isEqual(this.formValues, this.enterFormValues) && this.$refs[this.refName]) {
+                this.enterFormValues = JSON.parse(JSON.stringify(this.formValues))
+                this.$refs[this.refName].validate((valid) => {
+                  valid && this.$emit('submit', valid)
+                })
+              }
             }
           }
         }

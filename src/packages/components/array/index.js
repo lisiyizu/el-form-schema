@@ -1,30 +1,29 @@
-import { Component } from "../index";
-import CardComponent from "../card";
-import { createElementBySlot, deepClone, addRow, delRowForArray, genUnique, createActionButtons, evalTemplateString } from "../utils";
+import { Component } from '../index'
+import CardComponent from '../card'
+import { createElementBySlot, deepClone, addRow, delRowForArray, genUnique, createActionButtons, evalTemplateString } from '../utils'
 
 export default function(createElement, value, data) {
   // eslint-disable-next-line no-unused-vars
-  const  { formValues } = this;
-  const model = formValues;
-  const listValues = eval(`formValues.${data.name}`);
-  data.slot = data.slot || {};
-  data.operator =  data.operator || {};
-  data.style = data.style || { marginBottom: listValues.length ? '0x' : '' }; 
-  if(!data.type && listValues.length) {
-    data.style.marginBottom = "0px";
+  const { formValues } = this
+  const model = formValues
+  const listValues = eval(`formValues.${data.name}`)
+  data.slot = data.slot || {}
+  data.style = data.style || { marginBottom: listValues.length ? '0x' : '' }
+  if (!data.type && listValues.length) {
+    data.style.marginBottom = '0px'
   } else {
-    data.style.marginBottom = '';
+    data.style.marginBottom = ''
   }
   const lastCom = data.components[Object.keys(data.components).pop()]
   if (listValues && listValues.length) {
-    const componentCount = Object.keys(data.components).length;
+    const componentCount = Object.keys(data.components).length
     data.list = listValues.map((item, index) => {
       return Object.keys(data.components).map((key, kIndex) => {
-        data.components[key].labelWidth = data.components[key].labelWidth || data.labelWidthComponents || "0px";
-        data.components[key].$index = index;
-        data.components[key].$isLast = componentCount === kIndex + 1;
-        data.components[key].$item = item;
-        const componentDataCopy = deepClone(data.components[key]);
+        data.components[key].labelWidth = data.components[key].labelWidth || data.labelWidthComponents || '0px'
+        data.components[key].$index = index
+        data.components[key].$isLast = componentCount === kIndex + 1
+        data.components[key].$item = item
+        const componentDataCopy = deepClone(data.components[key])
         return componentDataCopy.tag === 'action' ? createElement('el-form-item', {
           style: { display: 'inline-flex' }
         }, createActionButtons.call(this, {
@@ -39,10 +38,10 @@ export default function(createElement, value, data) {
           `${data.name}[${index}].${key}`,
           componentDataCopy
         )
-      });
-    });
+      })
+    })
   } else if (!data.default) {
-    data.list = [];
+    data.list = []
   }
 
   // 数组最小限制
@@ -50,128 +49,132 @@ export default function(createElement, value, data) {
     for (let i = 1; i <= data.minLimit; i++) {
       eval(
         `formValues.${data.name}.push(JSON.parse(JSON.stringify(data.keys)))`
-      );
+      )
     }
   }
 
   // 删除按钮
-  const deleteButton = item => {
+  const deleteButton = (item, index) => {
     return [
       createElement(
-        "el-button",
+        'el-button',
         {
           style: {
-            marginRight: !data.inline ? "10px" : "",
-            marginLeft: data.inline ? "10px" : ""
+            marginRight: !data.inline ? '10px' : '',
+            marginLeft: data.inline ? '10px' : ''
           },
           props: {
-            icon: "el-icon-delete-solid",
+            icon: 'el-icon-delete-solid',
             disabled: listValues.length === data.minLimit
           },
           on: {
             click: () => {
-              delRowForArray(data, formValues, item);
+              delRowForArray(data, formValues, item, index)
             }
           }
         },
-        typeof data.slot.delete === "string" ? data.slot.delete : "删除"
+        typeof data.slot.delete === 'string' ? data.slot.delete : '删除'
       )
-    ];
-  };
+    ]
+  }
 
   // 新增按钮
   const addButton = () => {
     return [
       createElement(
-        "el-button",
+        'el-button',
         {
           props: {
-            type: "primary",
-            icon: "el-icon-plus",
+            type: 'primary',
+            icon: 'el-icon-plus',
             disabled: listValues.length === data.maxLimit
           },
           style: {
-            marginLeft: data.list.length === 0 || !data.inline ? "0px" : "20px"
+            marginLeft: data.list.length === 0 || !data.inline ? '0px' : '20px'
           },
           on: {
             click: () => {
-              addRow(data, formValues);
+              addRow(data, formValues)
             }
           }
         },
-        typeof data.slot.add === "string" ? data.slot.add : "新增"
+        typeof data.slot.add === 'string' ? data.slot.add : '新增'
       )
-    ];
-  };
-  //
+    ]
+  }
+
   const createComponent = (component, type, index) => {
-    return (component.tag && component.tag === "slot") || (component.slot && type === 'operator')
+    return (component.tag && component.tag === 'slot') || (component.slot && type === 'operator')
       ? this.$scopedSlots[component.slot]({
-          delDisabled: listValues.length === data.minLimit,
-          addDisabled: listValues.length === data.maxLimit,
-          keys: JSON.parse(JSON.stringify(data.keys)),
-          prop: data.name,
-          row: listValues[index],
-          index: index,
-          get (prop) {
-            return eval(`formValues.${prop}`)
-          }
-        })
+        delDisabled: listValues.length === data.minLimit,
+        addDisabled: listValues.length === data.maxLimit,
+        keys: JSON.parse(JSON.stringify(data.keys)),
+        prop: data.name,
+        row: listValues[index],
+        index: index,
+        get(prop) {
+          return eval(`formValues.${prop}`)
+        }
+      })
       : [
-          createElement(
-            component.tag,
-            {
-              props: component.props,
-              style: component.style,
-              class: component.class,
-              on: {
-                click: () => {
-                  if (type === "add") {
-                    addRow(data, formValues);
-                  } else if (type === 'delete') {
-                    delRowForArray(data, formValues, listValues[index]);
-                  }
+        createElement(
+          component.tag,
+          {
+            props: component.props,
+            style: component.style,
+            class: component.class,
+            on: {
+              click: () => {
+                if (type === 'add') {
+                  addRow(data, formValues)
+                } else if (type === 'delete') {
+                  delRowForArray(data, formValues, listValues[index], index)
                 }
               }
-            },
-            component.default || (component.slot && component.slot.default)
-          )
-        ];
-  };
+            }
+          },
+          component.default || (component.slot && component.slot.default)
+        )
+      ]
+  }
+
   //
-  const isTypeOfCard = () => data.type === "card";
+  const isTypeOfCard = () => data.type === 'card'
+
   // 卡片组件
   const wrapperCardComponent = (list, index) => {
     return createElement(
-      "div",
+      'div',
       {
         style: {
-          borderTop: index === 0 ? "1px solid #dddddd" : "",
-          borderBottom: "1px solid #dddddd",
-          borderLeft: "1px solid #dddddd",
-          borderRight: "1px solid #dddddd",
-          padding: "10px"
+          borderTop: index === 0 ? '1px solid #dddddd' : '',
+          borderBottom: '1px solid #dddddd',
+          borderLeft: '1px solid #dddddd',
+          borderRight: '1px solid #dddddd',
+          padding: '10px'
         }
       },
       [
         CardComponent(createElement, value, {
+          iconClass: data.iconClass,
+          color: data.themeColor,
           slot: {
             right: createComponent(
               {
-                tag: "el-link",
+                tag: 'el-link',
                 props: {
-                  icon: "el-icon-delete-solid",
+                  icon: 'el-icon-delete-solid',
                   underline: false,
                   disabled: this.disabled || listValues.length === data.minLimit
                 },
                 slot: {
                   default:
-                    typeof data.slot.delete === "string"
+                    typeof data.slot.delete === 'string'
                       ? data.slot.delete
-                      : "删除"
+                      : '删除'
                 }
               },
-              "delete",
+              'delete',
               index
             )
           },
@@ -179,25 +182,27 @@ export default function(createElement, value, data) {
         }),
         list
       ]
-    );
-  };
+    )
+  }
+
   // 设置 $key 作为 key 值
   const getRowKey = index => {
     if (listValues.length > 0) {
-      const item = listValues[index];
+      const item = listValues[index]
       if (!item.$key) {
-        this.$set(listValues[index], "$key", genUnique());
+        this.$set(listValues[index], '$key', genUnique())
       }
-      return item.$key;
+      return item.$key
     }
-  };
-  //
-  let nodes = [
+  }
+
+  const nodes = [
     data.list.map((listComponent, index) =>
       createElement(
-        "div",
+        'div',
         {
-          class: { "el-form--inline": data.inline },
+          class: { 'el-form--inline': data.inline },
+          style: { 'float': data.inline && !data.operator ? 'left' : '' },
           key: getRowKey(index)
         },
         [
@@ -206,92 +211,94 @@ export default function(createElement, value, data) {
             ? []
             : lastCom.tag === 'action' ? [] : createElement(
               'el-form-item',
-                {
-                  props: {
-                    labelWidth: data.inline
-                      ? ""
-                      : data.labelWidthComponents || "0px"
-                  },
-                  style: { margin: !data.inline ? "22px 0" : "0px" }
+              {
+                props: {
+                  labelWidth: data.inline
+                    ? ''
+                    : data.labelWidthComponents || '0px'
                 },
-                isTypeOfCard()
-                  ? []
-                  : data.operator.slot
-                    ? createComponent(data.operator, "operator", index) : [
+                style: { margin: !data.inline ? '22px 0' : '0px' }
+              },
+              isTypeOfCard()
+                ? []
+                : (typeof data.operator === 'boolean' && !data.operator)
+                  ? null : data.operator.slot
+                    ? createComponent(data.operator, 'operator', index) : [
                       data.list.length > 1 || !data.default
-                        ? typeof data.slot.delete === "object" ? createComponent(data.slot.delete, "delete", index) : deleteButton(listComponent) : [],
-                      typeof data.slot.add === "object" ? createComponent(data.slot.add, "add", index) : addButton()
+                        ? typeof data.slot.delete === 'object' ? createComponent(data.slot.delete, 'delete', index) : deleteButton(listComponent, index) : [],
+                      typeof data.slot.add === 'object' ? createComponent(data.slot.add, 'add', index) : addButton()
                     ]
-              )
+            )
         ]
       )
     ),
     isTypeOfCard()
       ? createElement(
-          "div",
-          {
-            style: {
-              background: "#f9f9f9",
-              padding: "5px 0 5px 20px",
-              borderTop: data.list.length === 0 ? "1px solid #dddddd" : "",
-              borderBottom: "1px solid #dddddd",
-              borderLeft: "1px solid #dddddd",
-              borderRight: "1px solid #dddddd"
-            }
-          },
-          [
-            createElement(
-              "el-link",
-              {
-                props: {
-                  icon: "el-icon-plus",
-                  underline: false,
-                  disabled: this.disabled || listValues.length === data.maxLimit
-                },
-                on: {
-                  click() {
-                    addRow(data, formValues);
-                  }
-                }
+        'div',
+        {
+          style: {
+            background: '#f9f9f9',
+            padding: '5px 0 5px 20px',
+            borderTop: data.list.length === 0 ? '1px solid #dddddd' : '',
+            borderBottom: '1px solid #dddddd',
+            borderLeft: '1px solid #dddddd',
+            borderRight: '1px solid #dddddd'
+          }
+        },
+        [
+          createElement(
+            'el-link',
+            {
+              props: {
+                icon: 'el-icon-plus',
+                underline: false,
+                disabled: this.disabled || listValues.length === data.maxLimit
               },
-              typeof data.slot.add === "string" ? data.slot.add : "新增"
-            ),
-            data.maxLimit > 0
-              ? createElement(
-                  "span",
-                  { style: { color: "#f56c6c" } },
-                  `（注意：当前限制最多${data.maxLimit}条数据）`
-                )
-              : null
-          ]
-        )
-      : createElement(
-          "div",
+              on: {
+                click() {
+                  addRow(data, formValues)
+                }
+              }
+            },
+            typeof data.slot.add === 'string' ? data.slot.add : '新增'
+          ),
+          data.maxLimit > 0
+            ? createElement(
+              'span',
+              { style: { color: '#f56c6c' }},
+              `（注意：当前限制最多${data.maxLimit}条数据）`
+            )
+            : null
+        ]
+      )
+      : (typeof data.operator === 'boolean' && !data.operator)
+        ? null : createElement(
+          'div',
           {
-            props: { labelWidth: "0px" }
+            props: { labelWidth: '0px' }
           },
           [
-            typeof data.slot.add !== "object"
+            typeof data.slot.add !== 'object'
               ? data.list.length === 0
                 ? addButton()
                 : []
               : data.list.length === 0
-              ? createComponent(data.slot.add, "add", 0)
-              : []
+                ? createComponent(data.slot.add, 'add', 0)
+                : []
           ]
         )
-  ];
-  //
+  ]
+
   return [
-    createElementBySlot(createElement, data, "before"),
+    createElementBySlot(createElement, data, 'before'),
     createElement(
-      "div",
+      'div',
       {
         style: { ...data.style },
-        class: { [data.class||'']: true }
+        class: { [data.class || '']: true }
       },
       nodes
     ),
-    createElementBySlot(createElement, data, "after")
-  ];
+    createElementBySlot(createElement, data, 'after')
+  ]
 }

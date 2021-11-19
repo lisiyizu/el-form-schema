@@ -6,10 +6,10 @@
       :schema="schema"
       v-model="model"
       component-width="200px"
-    > 
-      <template slot="hello" slot-scope="scope">
-        <el-form-item :prop="scope.prop" label="slot组件" :rules="{ required: true, message: '必填' }">
-          <el-input v-model="scope.target.sel1" placeholder="测试" style="width:200px"></el-input>
+    >
+      <template slot="hello" slot-scope="scope" >
+        <el-form-item :prop="scope.prop" label="测试" label-width="100px" :rules="{ required: true, message: '必填' }" >
+          <el-input v-model="scope.row.sel1" placeholder="测试" style="width:200px" />
         </el-form-item>
       </template>
       <el-form-item label-width="100px">
@@ -29,9 +29,9 @@ export default {
           title: "系统设置",
           type: "divider",
           labelWidthComponents: "100px",
-          inline: false,
+          inline: true,
           components: {
-            sel1: { tag: 'slot', slot: 'hello' },
+            sel1: { tag: "slot", slot: 'hello' },
             sel2: { tag: "el-select", items: ['A'], required: true, inlineBlock: true,  label: "输入框" },
             sel3: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
             sel4: { tag: "el-select", items: ['A'], required: true, label: "输入框" },
@@ -42,7 +42,7 @@ export default {
           title: "系统设置",
           type: "divider",
           labelWidthComponents: "100px",
-          inline: true,
+          inline: false,
           endDivider: true,
           components: {
             sel1: { tag: "el-select", items: ['A'], required: true, label: "输入框" },

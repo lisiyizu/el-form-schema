@@ -20,9 +20,16 @@ export default {
   data() {
     return {
       schema: {
+        radio: {
+          tag: "el-radio",
+          required: true,
+          label: "选择1111",
+          items: ['A', 'B']
+        },
         arr1: {
           tag: "array",
           label: "数组",
+          title: "测试-$index",
           required: true,
           type: "card",
           labelWidthComponents: "100px",
@@ -36,6 +43,7 @@ export default {
           },
           on: {
             $addRow(scope) {
+              console.log(scope);
               scope.row.disabled = true;
             }
           },
@@ -53,7 +61,7 @@ export default {
               tag: "el-input",
               label: "输入框",
               required: "$item.radio1",
-              props: { disabled: "$item.disabled" }
+              props: { disabled: "$item.disabled" },
             },
             arr2: {
               tag: "array",

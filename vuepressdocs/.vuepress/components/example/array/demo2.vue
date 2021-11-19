@@ -31,7 +31,7 @@ export default {
           required: true,
           title: "测试-$index",
           type: "card",
-          labelWidthComponents: "100px",
+          labelWidthComponents: "30px",
           components: {
             radio: {
               tag: "el-radio",
@@ -45,17 +45,13 @@ export default {
               tag: "array",
               inline: true,
               labelWidthComponents: "70px",
+              operator: false,
+              minLimit: 5,
               components: {
                 input: {
                   tag: "el-input",
                   required: "arr1_$index === 0 && arr2_$index === 0",
-                  label: "输入框"
-                },
-                select: {
-                  tag: "el-select",
-                  required: "$model.arr1[arr1_$index].radio",
-                  label: "下拉框",
-                  items: ["蛋壳公寓", "原油宝", "优胜教育"]
+                  label: "第${index}项"
                 }
               }
             }

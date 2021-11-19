@@ -2,7 +2,7 @@
   <div>
     <p>{{ model }}</p>
     <el-form-schema
-      ref="el-form-schema"
+      ref="efs"
       :schema="schema"
       v-model="model"
       label-width="100px"
@@ -32,19 +32,70 @@ export default {
           tag: "el-time-select",
           inline: true
         },
-        obj: {
+        obj1: {
           tag: "object",
-          inline: true,
           label: "对象",
           required: true,
+          type: 'card',
+          title: "测试",
+          labelWidthComponents: '60px',
           components: {
-            input: { tag: "el-input", required: true },
-            radio: { tag: "el-radio", items: this.arrayData(4) }
+            input: { tag: "el-input", label: "测试", inline: true, required: true, slot: { after: ' ' } },
+            radio: { tag: "el-radio", inline: true, items: this.arrayData(4) },
+            table: {
+              tag: 'table',
+              labelWidthComponents: '0px',
+              components: {
+                input: { tag: "el-input", column: { label: 'input列', width: '300px' }, required: true },
+                radio: { tag: "el-radio", column: { label: 'radio列' }, items: this.arrayData(4) }
+              }
+            }
+          }
+        },
+        o1: {
+          tag: "object",
+          label: "o1对象",
+          type: 'card',
+          title: "测试1",
+          labelWidthComponents: '60px',
+          collapse: true,
+          components: {
+            o2: {
+              tag: "object",
+              label: "o2对象",
+              type: 'card',
+              title: "测试2",
+              labelWidthComponents: '60px',
+              collapse: true,
+              components: {
+                arr: {
+                  tag: 'array',
+                  label: "数组",
+                  inline: true,
+                  required: true,
+                  components: {
+                    input: { 
+                      tag: "el-input"
+                    },
+                    time: {
+                      tag: "el-time-select",
+                      inline: true,
+                      required: true,
+                    },
+                  }
+                }
+              }
+            }
           }
         }
       },
       model: {}
     };
+  },
+  mounted() {
+    this.$nextTick(()=> {
+      this.model.o1.o2.arr = [{ input:  "111", time: "21:15" }, { input:  "222", time: "10:30" }];
+    })
   },
   methods: {
     arrayData(num) {
@@ -53,12 +104,12 @@ export default {
         .map((item, index) => ({ label: `测试-${index}`, value: index + 1 }));
     },
     submit() {
-      this.$refs["el-form-schema"].validate(valid => {
+      this.$refs.efs.validate(valid => {
         alert(valid);
       });
     },
     reset() {
-      this.$refs["el-form-schema"].resetFields();
+      this.$refs.efs.resetFields();
     }
   }
 };

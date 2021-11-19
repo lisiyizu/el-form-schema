@@ -7,17 +7,17 @@
       v-model="model"
       label-width="100px"
       component-width="200px"
-    >
+    > 
       <el-form-item>
         <el-button type="primary" @click="submit">提交</el-button>
         <el-button @click="reset">重置</el-button>
       </el-form-item>
-      <template slot="test" slot-scope="scope" v-if="scope.index === model.arr.length - 1">
+      <!-- <template slot="test" slot-scope="scope" v-if="scope.index === model.arr.length - 1">
         <el-form-item label="">
           <el-button @click="deleteArrItem(scope)">删除</el-button>
           <el-button type="primary" @click="addArrItem(scope)">新增</el-button>
         </el-form-item>
-      </template>
+      </template> -->
     </el-form-schema>
   </div>
 </template>
@@ -26,15 +26,19 @@ export default {
   data() {
     return {
       schema: {
-        input: {
-          tag: "el-input",
+        radio: {
+          tag: "el-radio",
           required: true,
-          label: "输入框"
+          label: "选择",
+          items: ['A', 'B']
         },
         arr: {
           tag: "array",
           inline: true,
-          label: "数组",
+          label: "测试-${model.radio}",
+          class: {
+            'test': true
+          },
           operator: {
             tag: 'slot',
             slot: 'test'
@@ -84,3 +88,8 @@ export default {
   }
 };
 </script>
+<style>
+  .test {
+    color: red
+  }
+</style>

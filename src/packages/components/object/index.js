@@ -1,6 +1,6 @@
 import { Component } from '../index'
 import CardComponent from '../card'
-import { createElementBySlot, fieldsetComponent, deepClone, evalTemplateString } from '../utils'
+import { createElementBySlot, fieldsetComponent, evalTemplateString } from '../utils'
 
 export default function(createElement, value, data) {
   const componentsList = Object.keys(data.components)
@@ -9,6 +9,7 @@ export default function(createElement, value, data) {
   const model = formValues
   let isStartInline = false
   const allComponent = componentsList.map((key, index) => {
+    const item = eval(`model${data.name ? `.${data.name}` : ''}`)
     data.components[key].$index = data.$index
     data.components[key].labelWidth = data.components[key].labelWidth || data.labelWidthComponents || '0px'
     if (index === 0) {
@@ -16,11 +17,11 @@ export default function(createElement, value, data) {
     } else if (index === 0 && data.inline) {
       data.components[key].style.marginTop = '22px'
     }
-    if (data.components[key].tag === 'array' && componentsList.length === index + 1) {
+    if (data.components[key].tag == 'array' && componentsList.length === index + 1) {
       data.components[key].isMarginBottom = '0px'
     }
-    this.$set(data.components[key], '$item', eval(`model.${data.name}`))
-    const componentDataCopy = deepClone(data.components[key])
+    this.$set(data.components[key], '$item', item)
+    const componentDataCopy = data.components[key]
     // 复杂组件的情况
     if (typeof componentDataCopy.vif !== 'string') {
       componentDataCopy.vif = data.vifBool
@@ -29,12 +30,12 @@ export default function(createElement, value, data) {
     if (!componentDataCopy.requiredExpression && componentDataCopy.hasOwnProperty('required') && componentDataCopy.isInput && typeof data.vif === 'string') {
       componentDataCopy.required = data.vifBool
     }
-    return Component(createElement, this, `${data.name}.${key}`, componentDataCopy)
+    return Component(createElement, this, `${data.name ? `${data.name}.` : ''}${key}`, componentDataCopy)
   })
   //
   evalTemplateString(data, { model, key: 'title' })
   //
-  const card = list => {
+  const createCard = list => {
     return [
       createElement(
         'div',
@@ -44,7 +45,16 @@ export default function(createElement, value, data) {
             padding: '6px'
           }
         },
-        [CardComponent(createElement, value, data, { marginBottom: `${isStartInline ? '20px' : '20ox'}` }), list]
+        [
+          CardComponent.call(this, createElement, value, data, { marginBottom: `${isStartInline ? '20px' : '20ox'}` }),
+          (typeof data.collapse === 'boolean') ? createElement('el-collapse-transition', [
+            createElement('div', {
+              style: {
+                display: data.collapse ? '' : 'none'
+              }
+            }, list)
+          ]) : list
+        ]
       ),
       data.endDivider ? createElement(
         'el-divider', {
@@ -83,7 +93,7 @@ export default function(createElement, value, data) {
   //
   const types = {
     'divider': () => divider(allComponent),
-    'card': () => card(allComponent),
+    'card': () => createCard(allComponent),
     'fieldset': () => fieldsetComponent(createElement, data, allComponent)
   }
   //

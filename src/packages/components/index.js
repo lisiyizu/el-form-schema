@@ -25,6 +25,11 @@ export const Component = (createElement, vm, key, item) => {
   // 新增 name 属性（目的：为了做给复杂类型(object|array)用来遍历嵌套 el-form-item 的时候设置 prop 值）
   item.name = key
 
+  // 注意：如果存在 skip: true，并且 key 存在 "a.b.c" 的情况，需要取上一个对象 "a.b"，没有则是设置空
+  if (item.skip) {
+    item.name = key.includes('.') ? key.substr(0, key.lastIndexOf('.')) : ''
+  }
+
   // 增加
   if (!item.refreshKey) item.refreshKey = key
 
@@ -177,6 +182,28 @@ export const Component = (createElement, vm, key, item) => {
   // 存储复杂对象的 vif 值
   if (COMPFLEX_COMPONENTS.includes(item.tag)) {
     item.vifBool = vifBool
+  }
+
+  // 处理 rules: [数组] 的情况
+  if (Array.isArray(item.rules)) {
+    if (item.requiredExpression) {
+      if (item.rules.some(r => 'required' in r)) {
+        item.rules.forEach(ruleItem => {
+          if ('required' in ruleItem) ruleItem.required = item.required
+        })
+      } else {
+        item.rules.unshift({ required: item.required, message: '必填' })
+      }
+    } else {
+      item.rules.forEach(ruleItem => {
+        if (typeof ruleItem.required === 'string') {
+          ruleItem.requiredExpression = ruleItem.required
+        }
+        if (ruleItem.requiredExpression) {
+          ruleItem.required = !!compileExpressionString(ruleItem.requiredExpression)
+        }
+      })
+    }
   }
 
   // 收集vif = false的隐藏字段（目的：后续为了用来移除验证）

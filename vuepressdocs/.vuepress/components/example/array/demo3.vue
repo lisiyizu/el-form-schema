@@ -31,6 +31,25 @@ export default {
           required: true,
           type: "card",
           minLimit: 1,
+          maxLimit: 2,
+          title: "数组-$index",
+          labelWidthComponents: "100px",
+          components: {
+            input: {
+              tag: "el-input",
+              label: "输入框",
+              inline: true,
+              required: true
+            },
+          }
+        },
+        arr2: {
+          tag: "array",
+          label: "数组",
+          required: true,
+          type: "card",
+          iconClass: "el-icon-s-platform",
+          minLimit: 1,
           maxLimit: 5,
           title: "数组-$index",
           labelWidthComponents: "100px",

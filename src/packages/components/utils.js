@@ -8,9 +8,14 @@ import SlotComponent from './slot'
 import ElRadioComponent from './el-radio'
 import ElCheckboxComponent from './el-checkbox'
 import ElSelectComponent from './el-select'
+// import DescriptionComponent from './description'
+
+// 复杂组件
+const COMPFLEX_COMPONENTS = ['description', 'object', 'array', 'table']
 
 // 初始化自定义组件
 const CUSTOM_TAGS = {
+  // 'description': DescriptionComponent,
   'text': TextComponent,
   'array': ArrayComponent,
   'object': ObjectComponent,
@@ -21,9 +26,6 @@ const CUSTOM_TAGS = {
   'el-checkbox': ElCheckboxComponent,
   'el-select': ElSelectComponent
 }
-
-// 复杂组件
-const COMPFLEX_COMPONENTS = ['object', 'array', 'table']
 
 // 动态 slot 占位组件
 const slotComponent = function(createElement, value, data) {
@@ -55,17 +57,19 @@ const slotComponent = function(createElement, value, data) {
 }
 
 // 创建 tooltip 提示组件
-const createTipComponent = function(createElement, dataItem) {
+const createTipComponent = (createElement, dataItem) => {
   const tip = Object.assign(
     { content: '', placement: 'top', effect: 'light' },
     typeof dataItem.tip === 'string' ? { content: dataItem.tip } : dataItem.tip
   )
+
   const tipTag = createElement('el-tooltip', { props: { ...tip }}, [
     createElement('i', {
       class: 'el-icon-warning',
-      style: { padding: '0 4px', fontSize: '14px' }
+      style: { padding: '0 6px', fontSize: '15px' }
     })
   ])
+
   return dataItem.tip ? tipTag : null
 }
 
@@ -79,7 +83,7 @@ const createLabelTipComponent = function(createElement, dataItem) {
   const labelTipTag = createElement('el-tooltip', { props: { ...labelTip }}, [
     createElement('i', {
       class: 'el-icon-warning',
-      style: { padding: '0 0 0 2px', fontSize: '14px' }
+      style: { padding: '0 2px', fontSize: '13px' }
     })
   ])
 
@@ -133,8 +137,28 @@ const evalTemplateString = function(component, { model = {}, item = {}, index, k
   }
 }
 
+// 验证规则
+const validatorRules = (rules) => {
+  if (Array.isArray(rules)) {
+    rules.forEach(item => {
+      if (item.pattern) {
+        item.validator = (rule, value, callback) => {
+          if (value && item.pattern.test(value)) {
+            callback()
+          } else if (!value && !item.required) {
+            callback()
+          } else {
+            callback(new Error(item.message))
+          }
+        }
+      }
+    })
+  }
+  return rules
+}
+
 //
-const fieldsetComponent = function(createElement, dataItem, nodes) {
+const fieldsetComponent = (createElement, dataItem, nodes) => {
   return [
     createElement('fieldset', {
       style: { border: '1px solid #dddddd' }
@@ -278,16 +302,6 @@ const delRowForTable = function(data, scope, formValues) {
   }
 }
 
-// data transform base64
-const utoa = function(data) {
-  return btoa(unescape(encodeURIComponent(data)))
-}
-
-// base64 transform data
-const atou = function(base64) {
-  return decodeURIComponent(escape(atob(base64)))
-}
-
 // 获取(el-select/el-radio/el-checkbox)数据
 const getOptionList = function(data) {
   return Array.isArray(data.items) ? data.items.map(item => {
@@ -299,22 +313,23 @@ const getOptionList = function(data) {
 }
 
 export {
-  isEqual,
-  isEmpty,
-  deepClone,
-  genUnique,
-  slotComponent,
-  getObjectByPath,
-  fieldsetComponent,
-  evalTemplateString,
-  createTipComponent,
-  createElementBySlot,
-  createActionButtons,
-  createLabelTipComponent,
   COMPFLEX_COMPONENTS,
   CUSTOM_TAGS,
+  genUnique,
+  deepClone,
+  getObjectByPath,
+  fieldsetComponent,
+  slotComponent,
+  createTipComponent,
+  createLabelTipComponent,
+  evalTemplateString,
+  createElementBySlot,
+  createActionButtons,
+  isEqual,
+  isEmpty,
   addRow,
   delRowForArray,
   delRowForTable,
-  getOptionList
+  getOptionList,
+  validatorRules
 }

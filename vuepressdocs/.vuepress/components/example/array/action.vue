@@ -24,10 +24,10 @@ export default {
           tag: "array",
           label: "数组",
           inline: true,
-          addRowExt: { id: "", disabled: false },
+          addRowExt: { id: "", disabled: true },
           components: {
-            radio: {
-              tag: "el-radio",
+            sel: {
+              tag: "el-select",
               required: true,
               props: { disabled: "$item.disabled" },
               items: [
@@ -37,50 +37,40 @@ export default {
             },
             input: {
               tag: "el-input",
-              required: '$item.radio',
+              required: '$item.sel',
               props: { disabled: "$item.disabled" },
             },
             action: {
               tag: "action",
-              column: { width: "180px", label: "测试" },
+              column: { width: "180px", label: "操作" },
               buttons: [{
                 tag: "el-button",
                 text: "编辑",
-                if: "!scope.row.disabled",
+                if: "scope.row.disabled",
                 props:  { icon: "el-icon-edit" },
                 onClick: (scope) => {
-                  scope.row.disabled = true
+                  scope.row.disabled = false
                 }
               },{
                 tag: "el-button",
                 text: "保存",
-                if: "scope.row.disabled",
+                if: "!scope.row.disabled",
                 props:  { icon: "el-icon-edit", type: "primary" },
                 onClick: (scope) => {
-                  setTimeout(() =>{
-                    scope.row.disabled = false
-                  }, 1000);
+                  scope.row.disabled = true
                 }
               }, {
                 tag: "el-button",
                 disabled: "!scope.row.disabled",
                 props: { icon: "el-icon-delete", type: "danger", circle: true },
                 onClick: (scope) => {
-                  this.$confirm('确定删除?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                  }).then(() => {
-                  scope.row.disabled = false
                   scope.$delRow();
-                  }).catch(() => {});
                 }
               }, {
                 tag: "el-button",
                 disabled: "!scope.row.disabled",
                 props: { icon: "el-icon-plus", circle: true },
                 onClick: (scope) => {
-                  console.log(scope);
                   scope.$addRow();
                 }
               }]
