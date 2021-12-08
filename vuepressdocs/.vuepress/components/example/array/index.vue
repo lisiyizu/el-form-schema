@@ -42,7 +42,7 @@ export default {
             id: "",
           },
           on: {
-            $addRow(scope) {
+            delete(scope) {
               console.log(scope);
               scope.row.disabled = true;
             }

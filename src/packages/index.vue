@@ -541,7 +541,7 @@ export default {
 		*/
     getValidateProps(field) {
       const val = getObjectByPath(this.formValues, field)
-      if (typeof val !== 'object' && !Array.isArray(val)) {
+      if ((typeof val !== 'object' && !Array.isArray(val)) || val === null) {
         return [field]
       } else if (Array.isArray(val)) {
         return val.length === 0 ? [field] : val.map((item, index) => this.getValidateProps(`${field}[${index}]`)).flat(Infinity)

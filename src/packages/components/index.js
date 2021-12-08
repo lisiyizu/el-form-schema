@@ -46,7 +46,14 @@ export const Component = (createElement, vm, key, item) => {
 
   // 组件default如果是动态, 需要重新设置该组件的value
   if (isEmpty(value) && typeof value !== 'boolean' && !isEmpty(item.default)) {
-    eval(`formValues.${name} = item.default`)
+    if (tag === 'el-select') {
+      // 下拉组件，有全部选项，全部值为空且默认值不是全部的问题
+      if (!items.map(selItem => selItem[keys.value]).some(itemVal => itemVal === value)) {
+        eval(`formValues.${name} = item.default`)
+      }
+    } else {
+      eval(`formValues.${name} = item.default`)
+    }
   }
 
   // 合并事件
