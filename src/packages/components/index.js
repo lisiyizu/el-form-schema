@@ -321,7 +321,7 @@ export const Component = (createElement, vm, key, item) => {
         },
         props: {
           rules,
-          required: item.required,
+          required: vifBool ? item.required : false,
           prop: key,
           labelWidth: labelWidth || vm.labelWidth,
           label: item.label

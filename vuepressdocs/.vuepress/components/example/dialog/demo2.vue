@@ -1,7 +1,6 @@
 <template>
   <div>
     <el-button type="primary" @click="add">新增</el-button>
-    <el-button type="warning" @click="edit">编辑</el-button>
     <el-dialog
       :title="`${form.type==='add'?'新增':'编辑'}`"
       :visible.sync="dialogVisible"
@@ -14,7 +13,6 @@
         v-model="form" 
         :inline="false" 
         label-width="100px"
-        v-if="Object.keys(schema).length"
       >
         <el-form-item>
           <el-button @click="dialogVisible=false">取消</el-button>
@@ -30,79 +28,61 @@ export default  {
   data () {
     return {
       dialogVisible: false,
-      schema: {},
-      form: { type: "" }
-    }
-  },
-  methods: {
-    createSchema() {
-      return {
+      schema: {
         id: {
           tag: 'text', 
           label: 'ID',
           vif: "$model.type === 'edit'"
         },
-        input: {
-          tag: 'el-input', 
-          label: '输入框', 
-          required: true,
-          props: { disabled: "$model.type !== 'add'" }  
-        },
-        province: { 
+        a: { 
           tag: 'el-select', 
           inline: true,  
           label: '联动类型', 
-          items: ["A"], 
           required: true,
-          props: { disabled: "$model.type !== 'add'", clearable: true  },
-          slot: { after: ' ' } 
+          items: [{
+            label: "条件1",
+            value: 1,
+          },{
+            label: "条件2",
+            value: 2,
+          }], 
         },
-        city: { 
-          tag: 'el-select', 
-          inline: true, 
-          items: ["B"], 
-          slot: { after: ' ' },
+        b: {
+          tag: "el-input",
+          label: "hello",
           required: true,
-          props: { disabled: "$model.type !== 'add'  || !$model.province", clearable: true }  
+          vif: "$model.a === 1"
         },
-        county: { 
-          tag: 'el-select', 
-          inline: true, 
-          items: ["C"],
+        c: {
+          tag: "el-input",
+          label: "world",
           required: true,
-          props: { disabled: "$model.type !== 'add' || !$model.city" }  
+          vif: "$model.a === 2"
         },
-        daterange: { 
+        d: { 
           tag: 'el-date-picker', 
           label: '日期范围',
           required: true,
+          vif: "$model.a === 2"
         },
-      };
-    },
+      },
+      form: { 
+        type: "",
+      }
+    }
+  },
+  methods: {
     add() {
       this.dialogVisible = true;
       this.form.type = "add";
-      this.schema = this.createSchema();
-    },
-    edit() {
-      this.dialogVisible = true;
-      this.schema = this.createSchema();
-      this.form.type = "edit";
-      Object.assign(this.form, {
-        id: 1,
-        input: "hello",
-        province: "A",
-        city: "B",
-        county: "C",
-        daterange: "2020-02-08"
-      })
     },
     closedDialog() {
-      this.schema = {};
-      this.form = { type: "" };
+      this.$refs.efs.resetFields();
+      console.log('closedDialog', this.form);
     },
     submit() {
-      this.$refs.efs.validate((valid)=>{
+      this.$refs.efs.validate((valid, model)=>{
+        console.log(valid, model);
         if (valid) {
           alert("提交");
         }

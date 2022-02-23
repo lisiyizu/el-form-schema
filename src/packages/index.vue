@@ -531,10 +531,29 @@ export default {
       })
     },
     /**
-		 * @description: 整体表单校验
-		*/
+     *  自动滚动到错误的校验框（细节用户体验）
+     */
+    scrollToError(el, scrollOption = {
+      behavior: 'smooth',
+      block: 'center'
+    }) {
+      const validaErrDoms = el.getElementsByClassName('is-error') || []
+      validaErrDoms.length && validaErrDoms[0].scrollIntoView(scrollOption)
+    },
+    /**
+		 *  @description 整体表单校验
+		 */
     validate(cb) {
-      return this.$refs[this.refName].validate(cb)
+      const vm = this
+      return this.$refs[this.refName].validate(async function() {
+        cb.apply(this, arguments)
+        await vm.$nextTick()
+        try {
+          vm.scrollToError(vm.$refs[vm.refName].$el)
+        } catch (ex) {
+          console.error('catch scrollToError error：', ex)
+        }
+      })
     },
     /**
 		 * @description: 获取节点的所有字段域

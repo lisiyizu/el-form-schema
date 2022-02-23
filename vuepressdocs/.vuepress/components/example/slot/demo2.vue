@@ -173,12 +173,12 @@ export default {
           slot: { append: "123" },
           required: true
         },
-        input4: {
-          tag: "el-input-number",
-          label: "计数器",
-          props: { min: 1, max: 100 },
-          tip: "测试123123"
-        },
+        // input4: {
+        //   tag: "el-input-number",
+        //   label: "计数器",
+        //   props: { min: 1, max: 100 },
+        //   // tip: "测试123123"
+        // },
         input5: {
           tag: "el-input",
           label: "input + select",

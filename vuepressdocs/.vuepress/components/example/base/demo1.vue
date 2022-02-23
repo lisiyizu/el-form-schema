@@ -33,7 +33,6 @@ export default {
         input2: {
           tag: "el-input",
           label: "输入框",
-          initValue: "hello",
           slot: { append: "测试" }
         },
         input3: {
