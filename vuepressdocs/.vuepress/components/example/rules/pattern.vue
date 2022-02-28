@@ -38,6 +38,49 @@ export default {
             message: "必须是正数字"
           }]
         },
+        a: { 
+          tag: 'el-select', 
+          inline: true,  
+          label: '联动类型', 
+          required: true,
+          items: [{
+            label: "条件1",
+            value: 1,
+          },{
+            label: "条件2",
+            value: 2,
+          }], 
+        },
+        b: {
+          tag: "el-input",
+          label: "hello",
+          required: true,
+          vif: "$model.a === 1"
+        },
+        c: {
+          tag: "el-input",
+          label: "world",
+          required: true,
+          vif: "$model.a === 2"
+        },
+        d: { 
+          tag: 'el-input', 
+          label: '正整数',
+          rules: [{
+            required: true,
+            message: "必填"
+          }, {
+            pattern: /(^[1-9]\d*$)/,
+            message: "必须是正整数",
+          }],
+          vif: "$model.a === 2"
+        },
+        e: { 
+          tag: 'el-input', 
+          label: '正整数',
+          required: true,
+          vif: "$model.a === 2"
+        },
       },
       model: {}
     }

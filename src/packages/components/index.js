@@ -251,8 +251,16 @@ export const Component = (createElement, vm, key, item) => {
     vm.validiteFieldSet.add(name)
     item.rules.required = false
     rules.required = false
-  } else if (item.rules) {
-    item.rules.required = vifBool
+  } else if (item.rules && typeof item.rules === 'object' && !Array.isArray(item.rules)) {
+    if (typeof item.rules.required === 'boolean' && !item.rules.requiredExpression) {
+      item.rules.required = vifBool
+    }
+  } else if (Array.isArray(item.rules)) {
+    item.rules.forEach(r => {
+      if (typeof r.required === 'boolean' && !r.requiredExpression) {
+        r.required = vifBool
+      }
+    })
   }
 
   let nodes = []
