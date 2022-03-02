@@ -467,6 +467,12 @@ export default {
         default:
           this.setExpTpl(schema)
           if (schema.isInput) {
+            // 解构字段初始化
+            if (schema.destruct) {
+              schema.destruct.forEach(field => {
+                values[field] = ''
+              })
+            }
             values[key] = this.setDefaultValue(schema)
             this.setExp(schema)
             // 判断slot的情况

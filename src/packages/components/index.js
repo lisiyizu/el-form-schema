@@ -82,6 +82,14 @@ export const Component = (createElement, vm, key, item) => {
     }
   })
 
+  // 解构字段赋值
+  if (item.destruct) {
+    item.destruct.forEach((field, index) => {
+      field = item.name.includes('.') ? `${item.name.substr(0, item.name.lastIndexOf('.'))}.${field}` : field
+      eval(`formValues.${field} = Array.isArray(value) && value.length ? value[index] : ""`)
+    })
+  }
+
   // 开启debug模式
   if (
     vm.debug &&

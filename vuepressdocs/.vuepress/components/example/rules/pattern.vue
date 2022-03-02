@@ -24,12 +24,13 @@ export default {
         radio: {
           tag: "el-radio",
           label: "输入框",
-          items:  [{label: "必填", value: 1}, {label: "非必填", value: 0}]
+          items:  [{ label: "必填", value: 1 }, { label: "非必填", value: 0 }]
         },
-        input1: {
+        input: {
           tag: "el-input",
           label: "输入框",
           slot: { prepend: "测试" },
+          vif: "$model.radio === 1",
           rules: [{
             required: "$model.radio === 1",
             message: "必填"
@@ -58,16 +59,17 @@ export default {
           vif: "$model.a === 1"
         },
         c: {
-          tag: "el-input",
+          tag: "el-select",
           label: "world",
           required: true,
+          items: [{ label: "必填", value: true }, { label: "非必填", value: false }],
           vif: "$model.a === 2"
         },
         d: { 
           tag: 'el-input', 
           label: '正整数',
           rules: [{
-            required: true,
+            required: "$model.c",
             message: "必填"
           }, {
             pattern: /(^[1-9]\d*$)/,
