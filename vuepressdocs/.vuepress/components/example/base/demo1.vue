@@ -46,6 +46,13 @@ export default {
           keys: { label: 'name', value: 'id' },
           items: "$config.foo"
         },
+        radioButton: {
+          tag: "el-radio",
+          label: "复选框",
+          type: "button",
+          items: ["蛋壳公寓", "原油宝", "优胜教育"],
+          initValue: "蛋壳公寓"
+        },
         bool: {
           tag: "el-checkbox",
           label: "bool单选",
@@ -85,14 +92,32 @@ export default {
         },
         select3: {
           tag: "el-select",
-          label: "下拉框3（bool）",
-          default: "A",
-          items:  []
+          label: "下拉分组🌟",
+          group: { label: 'label', children: 'options' },
+          slot: { after: "注意设置：group: { label: 'label', children: 'options' }" },
+          default: "Shanghai",
+          items:  [{
+            label: '热门城市',
+            options: [{
+              value: 'Shanghai',
+              label: '上海'
+            }, {
+              value: 'Beijing',
+              label: '北京'
+            }]
+          }]
         },
         checkbox: {
           tag: "el-checkbox",
           label: "复选框",
           items: ["蛋壳公寓", "原油宝", "优胜教育"]
+        },
+        checkboxButton: {
+          tag: "el-checkbox",
+          label: "复选框",
+          type: "button",
+          items: ["蛋壳公寓", "原油宝", "优胜教育"],
+          initValue: ["蛋壳公寓"]
         },
         cascader: {
           tag: "el-cascader",

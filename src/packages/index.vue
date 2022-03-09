@@ -1,5 +1,6 @@
 <script>
 import { Component } from './components/index'
+import diffData from './components/diff'
 import { getObjectByPath, isEqual, isEmpty, genUnique } from './components/utils'
 export default {
   model: {
@@ -113,9 +114,10 @@ export default {
       configData: {},
       expandAll: this.isExpand,
       isWatching: false,
-      validiteFieldSet: new Set(),
+      validateFieldSet: new Set(),
       enterFormValues: {},
-      formValues: {}
+      formValues: {},
+      initValues: {}
     }
   },
   computed: {
@@ -164,7 +166,7 @@ export default {
   },
   updated() {
     // 如果vif值为false，去掉该字段的验证
-    Array.from(this.validiteFieldSet).forEach(field => {
+    Array.from(this.validateFieldSet).forEach(field => {
       this.clearValidate(field)
     })
     // 这是为了根据设置 class = el-form-item-inline，来实现类似于 el-form 的 inline 效果
@@ -201,7 +203,7 @@ export default {
     /**
 		 * @description: 初始化解析schema
 		*/
-    initSchemas() {
+    async initSchemas() {
       const values = {}
       const lastKey = Object.keys(this.schema).pop()
       for (const key in this.schema) {
@@ -217,6 +219,28 @@ export default {
       this.schemaValues = JSON.parse(JSON.stringify(values))
       this.formValues = { ...values, ...customData }
       this.$emit('input', { ...this.formValues, ...this.model })
+      await this.$nextTick()
+      this.diffDataByInitValues(this.initValues, this.formValues)
+    },
+    /**
+		 *  通过 diff 最短路径去更新组件初始化值
+		*/
+    diffDataByInitValues(current, previous) {
+      const diffResult = diffData(current, previous)
+      const getModelByPath = (arrPath) => arrPath.reduce((cur, prev) => cur[prev], previous)
+      Object.keys(diffResult).map(path => {
+        const arrPath = path.substr(0, path.lastIndexOf('.')).split('.').filter(Boolean)
+        const targetKey = path.substr(path.lastIndexOf('.') + 1)
+        const prevModel = arrPath.length > 0 ? getModelByPath(arrPath) : previous
+        if (diffResult[path] && !prevModel[targetKey]) {
+          if (targetKey.includes('[')) {
+            const [key, index] = targetKey.replace(']', '').split('[')
+            this.$set(prevModel[key], index, diffResult[path])
+          } else {
+            this.$set(prevModel, targetKey, diffResult[path])
+          }
+        }
+      })
     },
     /**
 		 *  label/title/slot 模版字符串
@@ -427,7 +451,10 @@ export default {
         case 'object':
           if (schema.components) {
             schema.skip = !schema.hasOwnProperty('skip') ? false : schema.skip
-            if (!schema.skip) values[key] = {}
+            if (!schema.skip) {
+              values[key] = {}
+              this.initValues[key] = {}
+            }
             schema.isMarginBottom = false
             schema.vifBool = true
             schema.componentWidth = schema.componentWidth || this.componentWidth
@@ -435,8 +462,15 @@ export default {
             if (schema.type === 'card' && !schema.hasOwnProperty('border')) schema.border = true
             for (const _key in schema.components) {
               schema.components[_key].isMarginBottom = true
+              //
               this.setExpTpl(schema.components[_key])
+              //
               if (!schema.skip) {
+                // 设置组件初始化值
+                if (schema.components[_key].initValue) {
+                  this.initValues[key][_key] = schema.components[_key].initValue
+                  delete schema.components[_key].initValue
+                }
                 this.setValueKey(values[key], _key, schema.components[_key])
               } else {
                 this.setValueKey(values, _key, schema.components[_key])
@@ -472,6 +506,10 @@ export default {
               schema.destruct.forEach(field => {
                 values[field] = ''
               })
+            }
+            // 收集初始化值
+            if (schema.initValue) {
+              this.initValues[key] = schema.initValue
             }
             values[key] = this.setDefaultValue(schema)
             this.setExp(schema)
@@ -611,7 +649,7 @@ export default {
     resetFields() {
       try {
         // 清楚隐藏字段的数据
-        this.validiteFieldSet.clear()
+        this.validateFieldSet.clear()
         // 表单重置
         this.$refs[this.refName].resetFields()
       } catch (ex) {

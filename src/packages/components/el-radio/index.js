@@ -29,7 +29,7 @@ export default function(createElement, value, data) {
       },
       (items || []).map(option => {
         return createElement(
-          'el-radio',
+          data.type === 'button' ? 'el-radio-button' : 'el-radio',
           {
             style: { lineHeight: '32px' },
             props: {

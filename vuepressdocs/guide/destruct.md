@@ -1,8 +1,7 @@
 # 字段解构🌟🌟🌟
 
-## 演示
+## 解构 (destruct)
   
-
 <demo-block>
 <example-destruct-demo slot="source"/>
  <<< @/vuepressdocs/.vuepress/components/example/destruct/demo.vue

@@ -85,7 +85,7 @@ export default function(createElement, value, data) {
       },
       (items || []).map(option => {
         return createElement(
-          'el-checkbox',
+          data.type === 'button' ? 'el-checkbox-button' : 'el-checkbox',
           {
             props: {
               key: option.value,

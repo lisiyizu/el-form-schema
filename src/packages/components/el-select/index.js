@@ -12,6 +12,23 @@ export default function(createElement, value, data) {
 
   const items = getOptionList(data)
 
+  const createOption = (list) => {
+    return (list || []).map(option => createElement(
+      'el-option',
+      {
+        style: { minWidth: style.width },
+        props: {
+          key: option.value,
+          disabled: option.disabled,
+          label: keys ? option[keys['label']] : option['label'],
+          value: keys ? option[keys['value']] : option['value']
+        },
+        scopedSlots: typeof scopedSlots === 'function' ? scopedSlots(createElement, option) : null
+      },
+      null
+    ))
+  }
+
   const nodes = [
     createElementBySlot.call(this, createElement, data, 'before'),
     createElement(
@@ -26,22 +43,13 @@ export default function(createElement, value, data) {
         style: { ...style },
         on: { ...on }
       },
-      (items || []).map(option => {
-        return createElement(
-          'el-option',
-          {
-            style: { minWidth: style.width },
-            props: {
-              key: option.value,
-              disabled: option.disabled,
-              label: keys ? option[keys['label']] : option['label'],
-              value: keys ? option[keys['value']] : option['value']
-            },
-            scopedSlots: typeof scopedSlots === 'function' ? scopedSlots(createElement, option) : null
-          },
-          null
-        )
-      })
+      data.group ? items.map(option => createElement(
+        'el-option-group', {
+          props: {
+            label: option[data.group.label || 'label']
+          }
+        }, createOption(option[data.group.children || 'options'])
+      )) : createOption(items)
     ),
     createElementBySlot.call(this, createElement, data, 'after'),
     createTipComponent(createElement, data)

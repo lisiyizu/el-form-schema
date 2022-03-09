@@ -24,7 +24,7 @@ export default {
         date: {
           tag: "el-date-picker",
           label: "日期时间范围",
-          props: { type: "datetimerange" },
+          props: { type: "daterange" },
           destruct: ["startDate", "endDate"],
           required: true
         },
@@ -38,7 +38,7 @@ export default {
             date: { 
               tag: "el-date-picker", 
               inline: true,  
-              props: { type: "datetimerange" },
+              props: { type: "daterange" },
               required: true,
               destruct: ["startDate", "endDate"],
             },
@@ -46,7 +46,7 @@ export default {
         },
         arr: {
           tag: "array",
-          label: "对象",
+          label: "数组",
           inline: true,
           labelWidthComponents: '60px',
           components: {
@@ -54,22 +54,22 @@ export default {
             date: { 
               tag: "el-date-picker", 
               inline: true,  
-              props: { type: "datetimerange" },
+              props: { type: "daterange" },
               required: true,
-              destructField: ["startDate", "endDate"],
+              destruct: ["startDate", "endDate"],
             },
           }
         },
       },
       model: {
-        date: [ "2022-03-01 00:00:00", "2022-03-11 23:59:59" ],
+        date: [ "2022-03-01", "2022-03-11" ],
         obj: {
           input: "123",
-          date: [ "2022-03-01 00:00:00", "2022-03-11 23:59:59" ],
+          date: [ "2022-03-01", "2022-03-11" ],
         },
         arr: [{
           input: "123",
-          date: [ "2022-03-01 00:00:00", "2022-03-11 23:59:59" ],
+          date: [ "2022-03-01", "2022-03-11" ],
         }]
       }
     };

@@ -42,7 +42,7 @@ export const Component = (createElement, vm, key, item) => {
   const { formValues, model } = vm
 
   // 获取value
-  const value = eval(`formValues.${key}`)
+  const value = eval(`formValues.${name}`)
 
   // 组件default如果是动态, 需要重新设置该组件的value
   if (isEmpty(value) && typeof value !== 'boolean' && !isEmpty(item.default)) {
@@ -223,11 +223,11 @@ export const Component = (createElement, vm, key, item) => {
 
   // 收集vif = false的隐藏字段（目的：后续为了用来移除验证）
   if (vifBool) {
-    vm.validiteFieldSet.delete(name)
+    vm.validateFieldSet.delete(name)
   } else if (!COMPFLEX_COMPONENTS.includes(item.tag)) {
     // 修复联动 vif = false，清空重置组件（注意：el-input-number 组件默认值0，需要单独处理);
     eval(`formValues.${name} = item.default || (item.tag === 'el-input-number' ? item.props.min || 0 : '')`)
-    vm.validiteFieldSet.add(name)
+    vm.validateFieldSet.add(name)
     vm.$refs[vm.refName] && vm.$refs[vm.refName].clearValidate(key)
   } else if (COMPFLEX_COMPONENTS.includes(item.tag)) {
     // 支持 object/array/table 复杂联动 vif = false，清空数值
@@ -256,7 +256,7 @@ export const Component = (createElement, vm, key, item) => {
   if (typeof item.required === 'boolean' && !item.required) {
     item.rules = item.rules || {}
     rules = rules || {}
-    vm.validiteFieldSet.add(name)
+    vm.validateFieldSet.add(name)
     item.rules.required = false
     rules.required = false
   } else if (item.rules && typeof item.rules === 'object' && !Array.isArray(item.rules)) {
