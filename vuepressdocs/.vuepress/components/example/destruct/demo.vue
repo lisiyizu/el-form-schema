@@ -7,7 +7,6 @@
       :inline="false"
       ref="efs"
       label-width="120px"
-      :api-config="getApiConfig"
     >
     <el-form-item>
         <el-button type="primary" @click="submit">提交</el-button>
