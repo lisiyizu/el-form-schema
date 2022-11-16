@@ -27,8 +27,9 @@ export default {
           default: "hello world!"
         },
         input1: {
-          tag: "el-input",
-          label: "输入框"
+          tag: "el-input-num",
+          label: "数字组件",
+          tip: "限制只能输入数字"
         },
         input2: {
           tag: "el-input",
@@ -106,6 +107,11 @@ export default {
               label: '北京'
             }]
           }]
+        },
+        checkBool: {
+          tag: "el-checkbox",
+          label: "是否阅读",
+          type: "bool"
         },
         checkbox: {
           tag: "el-checkbox",
@@ -215,11 +221,6 @@ export default {
       });
       return { foo, bar };
     }
-  },
-  mounted() {
-    setTimeout(()=> { 
-      this.schema.select3.items = ["A", "B", "C"];
-    }, 5000)
   }
 };
 </script>

@@ -8,6 +8,14 @@
  <<< @/vuepressdocs/.vuepress/components/example/templateString/label.vue
 </demo-block>
 
+## input 模板字符串 🌟
+支持 slot: { prepend: "模板字符串", append: "模板字符串" } 
+
+<demo-block>
+<example-templateString-input slot="source"/>
+ <<< @/vuepressdocs/.vuepress/components/example/templateString/input.vue
+</demo-block>
+
 ## slot 模板字符串 🌟🌟
 支持 slot: { after: "模板字符串" } 和 slot: "模板字符串"
 

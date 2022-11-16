@@ -246,11 +246,18 @@ export default {
 		 *  label/title/slot 模版字符串
 		*/
     setExpTpl(component) {
-      // slot: { after: "模版字符串" } 或 slot: "模版字符串"
+      // slot: { after: "模版字符串", prepend: "模版字符串", append: "模版字符串" } 或 slot: "模版字符串"
       if (typeof component.slot === 'string' && /\$\{.+?\}/g.test(component.slot)) {
         component['slot_template_string'] = component.slot
-      } else if (typeof component.slot === 'object' && /\$\{.+?\}/g.test(component.slot.after)) {
+      }
+      if (typeof component.slot === 'object' && /\$\{.+?\}/g.test(component.slot.after)) {
         component['slot_after_template_string'] = component.slot.after
+      }
+      if (typeof component.slot === 'object' && /\$\{.+?\}/g.test(component.slot.prepend)) {
+        component['slot_prepend_template_string'] = component.slot.prepend
+      }
+      if (typeof component.slot === 'object' && /\$\{.+?\}/g.test(component.slot.append)) {
+        component['slot_append_template_string'] = component.slot.append
       }
       // title/label 模版字符串
       ['title', 'label'].forEach(key => {
@@ -398,7 +405,7 @@ export default {
           component.props.placeholder = component.props.placeholder || `请输入${/\$\{.+?\}/g.test(component.label) ? '' : component.label}`
           component.keys = Object.assign({ label: 'label', value: 'value' }, component.keys || {})
           if (component.tag === 'el-checkbox') {
-            component.default = component.default || []
+            component.default = component.default || (component.type === 'bool' ? false : [])
             component.checkAll = component.checkAll || []
             component.checkAllDisabled = component.checkAllDisabled || false
           }

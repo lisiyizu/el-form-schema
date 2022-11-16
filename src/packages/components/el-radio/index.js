@@ -9,7 +9,7 @@ export default function(createElement, value, data) {
     keys = null
   } = data
 
-  const items = getOptionList(data)
+  const items = getOptionList.call(this, data)
 
   if (!this.inline) style.width = ''
 

@@ -1,4 +1,6 @@
 import elFormSchema from './packages/index.vue'
+import elInputNumber from './packages/components/el-input.number/index.vue'
+
 const install = function(Vue, opts = {}) {
   Vue.prototype.$EFS = {
     size: opts.size || 'small',
@@ -13,6 +15,7 @@ const install = function(Vue, opts = {}) {
   if (!Vue.prototype.$ELEMENT) {
     throw new Error('请先安装element-ui')
   }
+  Vue.component('el-input-num', elInputNumber)
   Vue.component('el-form-schema', elFormSchema)
   install.installed = true
 }

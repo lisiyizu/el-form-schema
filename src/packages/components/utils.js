@@ -304,9 +304,12 @@ const delRowForTable = function(data, scope, formValues) {
 
 // 获取(el-select/el-radio/el-checkbox)数据
 const getOptionList = function(data) {
+  const { formValues } = this
+  const { $item } = data
   return Array.isArray(data.items) ? data.items.map(item => {
-    return (typeof item === 'string') ? { label: item, value: item } : item
-  }) : typeof data.items === 'object' ? Object.keys(data.items).reduce((prev, next) => {
+    const vifBool = item.vif ? eval(item.vif.replace(/\$model/g, 'formValues')) : true
+    return (typeof item === 'string') ? { label: item, value: item } : vifBool ? item : null
+  }).filter(Boolean) : typeof data.items === 'object' ? Object.keys(data.items).reduce((prev, next) => {
     prev.push({ label: data.items[next], value: next })
     return prev
   }, []) : []

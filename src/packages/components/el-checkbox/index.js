@@ -14,7 +14,7 @@ export default function(createElement, value, data) {
     render = { before: null, after: null }
   } = data
 
-  const items = getOptionList(data)
+  const items = getOptionList.call(this, data)
 
   data.checkAll = data.checkAll || []
   data.checkAllDisabled = data.checkAllDisabled || false
@@ -33,7 +33,19 @@ export default function(createElement, value, data) {
 
   const nodes = [
     createElementBySlot.call(this, createElement, data, 'before'),
-    createElement(
+    data.type === 'bool' ? createElement(
+      'el-checkbox',
+      {
+        style: { display: data.inline ? 'inline-flex' : '', ...style },
+        props: {
+          value,
+          ...attrs,
+          ...props
+        },
+        on: {
+          ...on
+        }
+      }) : createElement(
       'el-checkbox-group',
       {
         style: { display: data.inline ? 'inline-flex' : '', ...style },

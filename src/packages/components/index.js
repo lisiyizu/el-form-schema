@@ -193,6 +193,14 @@ export const Component = (createElement, vm, key, item) => {
   if (item['slot_after_template_string']) {
     item.slot.after = evalTemplateString(item, { model, item: item.$item, retNow: true, key: 'slot_after' })
   }
+  // 编译 slot_prepend_template_string  表达式
+  if (item['slot_prepend_template_string']) {
+    item.slot.prepend = evalTemplateString(item, { model, item: item.$item, retNow: true, key: 'slot_prepend' })
+  }
+  // 编译 slot_append_template_string  表达式
+  if (item['slot_append_template_string']) {
+    item.slot.append = evalTemplateString(item, { model, item: item.$item, retNow: true, key: 'slot_append' })
+  }
 
   // 存储复杂对象的 vif 值
   if (COMPFLEX_COMPONENTS.includes(item.tag)) {
@@ -224,7 +232,7 @@ export const Component = (createElement, vm, key, item) => {
   // 收集vif = false的隐藏字段（目的：后续为了用来移除验证）
   if (vifBool) {
     vm.validateFieldSet.delete(name)
-  } else if (!COMPFLEX_COMPONENTS.includes(item.tag)) {
+  } else if (!COMPFLEX_COMPONENTS.includes(item.tag) && item.isInput) {
     // 修复联动 vif = false，清空重置组件（注意：el-input-number 组件默认值0，需要单独处理);
     eval(`formValues.${name} = item.default || (item.tag === 'el-input-number' ? item.props.min || 0 : '')`)
     vm.validateFieldSet.add(name)

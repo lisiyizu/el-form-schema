@@ -32,7 +32,7 @@ module.exports = {
         {
           title: "指南",
           collapsable: false,
-          children: ["", "feature", "base", "initValueAndDefault", "destruct", "rules", "tip", "layout",  "dialog", "expression", "data", "templateString",  "watchModel", "apiConfig", "object", "array", "table", "slot", "showcase"]
+          children: ["", "feature", "base", "initValueAndDefault", "destruct", "rules", "tip", "layout",  "dialog", "expression", "data", "templateString",  "watchModel", "apiConfig", "elInputNum", "object", "array", "table", "slot", "showcase"]
         }
       ]
     }

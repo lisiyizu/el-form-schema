@@ -1,4 +1,4 @@
-import { createElementBySlot, createTipComponent, getOptionList } from '../utils'
+import { createElementBySlot, createTipComponent, getOptionList, getObjectByPath } from '../utils'
 
 export default function(createElement, value, data) {
   const {
@@ -10,7 +10,14 @@ export default function(createElement, value, data) {
     scopedSlots = null
   } = data
 
-  const items = getOptionList(data)
+  // 数据中是否选项值唯一互斥
+  let parentArrValues = []
+  if (data.isUnique && data.$item) {
+    const keyName = data.name.substr(data.name.lastIndexOf('.') + 1)
+    parentArrValues = getObjectByPath(this.formValues, data.$parentName).map(item => item[keyName])
+  }
+
+  const items = getOptionList.call(this, data)
 
   const createOption = (list) => {
     return (list || []).map(option => createElement(
@@ -19,7 +26,7 @@ export default function(createElement, value, data) {
         style: { minWidth: style.width },
         props: {
           key: option.value,
-          disabled: option.disabled,
+          disabled: option.disabled || (data.isUnique && parentArrValues.includes(option[keys['value']])),
           label: keys ? option[keys['label']] : option['label'],
           value: keys ? option[keys['value']] : option['value']
         },
